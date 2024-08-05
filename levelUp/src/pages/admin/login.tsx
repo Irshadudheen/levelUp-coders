@@ -1,43 +1,56 @@
 import React,{useEffect,useState} from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { adminLogin } from '../../Api/admin';
+
+import {useNavigate} from 'react-router-dom';
+import useGetAdmin from '../../hook/useGetAdmin';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../../redux/userSlice';
 const Login: React.FC = () => {
+  const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(true);
   const [email,setEmail]=useState('')
   const [password,setPassword]=useState('')
+  const navigate = useNavigate()
+  const currentUser= useGetAdmin()
   useEffect(() => {
+    
+   if(currentUser){
+    navigate('/admin/home')
+   }
     const img = new Image();
     img.src = "https://raw.githubusercontent.com/tj-webdev/admin-login-form/main/image.jpg";
     img.onload = () => {
       setIsLoading(false);
     };
-  }, []);
+  });
   const handler = async(e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault()
     console.log(email,password)
     const response = await adminLogin(email,password)
     console.log(response,'33333333333333333333333')
-    if(response.user){
+    if(response.admin){
       
       
       localStorage.setItem('accesToken',response.accesToken)
       localStorage.setItem('refreshToken',response.refreshToken)
       localStorage.setItem('role',response.role)
+      console.log(response,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
       dispatch(setUser({
-        role:response.role,
-        name:response.user.name,
-        email:response.user.email,
-        id:response.user._id,
-        blocked:response.user.blocked,
+        role:response.admin.role,
+        name:response.admin.name,
+        email:response.admin.email,
+        id:response.admin._id,
+        blocked:response.admin.blocked,
         
       }
       ))
       
       
-      navigate('/dashboard')
+      navigate('/admin/home')
     }else{
-      const{message}=response.response?.data
-      toast.error(message)
+      // const{message}=response.response?.data
+      // toast.error(message)
 
     }
 

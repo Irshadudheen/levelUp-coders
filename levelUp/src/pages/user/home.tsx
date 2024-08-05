@@ -1,12 +1,27 @@
 import React, { useState, useEffect } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
+import { logout } from '../../Api/user';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { clearUser } from '../../utils/clearUser';
 
 const HomePage = () => {
+  const dispatch = useDispatch()
   const [courses, setCourses] = useState([]);
   const [home, setHome] = useState('');
+  const navigate = useNavigate()
+  const handleLogout =async ()=>{
+    const response =await logout()
+    if(response.succuss){
+      
+      clearUser(dispatch)
+      navigate('/')
 
+    }
+  }
   useEffect(() => {
+    
     setTimeout(() => {
       setCourses([
         { id: 1, title: 'Learn JavaScript for Free!', description: 'Learn JavaScript for free with our interactive lessons and quizzes.', imgSrc: 'path/to/js-logo.png' },
@@ -20,7 +35,13 @@ const HomePage = () => {
 
   return (
     <div className="bg-gray-900 min-h-screen py-8 px-4">
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto ">
+    <div className="flex">
+
+        <button onClick={handleLogout} className="ml-auto bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-2  rounded transform transition-transform duration-200 ease-in-out hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50">
+  Log out
+</button>
+    </div>
         <h1 className="text-4xl font-bold text-center text-white mb-8">
           {home || <Skeleton width={200} baseColor="#1F2937" highlightColor="#374151" />}
         </h1>

@@ -26,17 +26,17 @@ Api.interceptors.request.use(
         if(verifyToken){
             config.headers['x-verify-token']= verifyToken;
         }
-        console.log(config,'ppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppppp')
+        
         return config;
     },
     (error) => {
-        console.log('hjhjhjhhjhjhjhhjkjhjhjhjhjhjhjhjh')
+    
         return Promise.reject(error);
     }
 )
 Api.interceptors.response.use(
     response => {
-        console.log(response,'-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=')
+      
         return response;
     },
     (error) => {

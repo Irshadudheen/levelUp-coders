@@ -1,5 +1,5 @@
 import { Route,Routes } from 'react-router-dom';
-import Login from "../components/login"
+import Login from "../pages/user/login"
 import Register from '../components/register'
 import ForgotPassword from '../components/forgotPassword';
 import OtpPage from '../components/otpPage';

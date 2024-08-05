@@ -1,17 +1,18 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import{ useNavigate } from "react-router-dom";
-import { login,userGoogleLogin } from '../Api/user';
+import { login,userGoogleLogin } from '../../Api/user';
 import { useSelector,useDispatch } from 'react-redux';
 import { GoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
 // import GitHubLogin from 'react-github-login';
 // import { validateEmail, validatePassword } from '../../utils/validation';
 // import toast, { Toaster } from 'react-hot-toast';
-import { setUser } from '../redux/userSlice';
+import { setUser } from '../../redux/userSlice';
 
-import { currentUser } from '../@types/currentUser';
+import { currentUser } from '../../@types/currentUser';
 import { toast } from 'react-toastify';
+import useGetUser from '../../hook/useGetUser';
 
 const Login:React.FC = () => {
   const dispatch = useDispatch()
@@ -19,6 +20,12 @@ const Login:React.FC = () => {
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const currentUser= useGetUser()
+  useEffect(()=>{
+    if(currentUser){
+      navigate('/dashboard')
+    }
+  })
   const googleSubmit= async(credentialResponse:any)=>{
      
       const decoded:any= jwtDecode(credentialResponse.credential)

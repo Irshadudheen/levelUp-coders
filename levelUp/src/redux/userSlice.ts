@@ -22,6 +22,7 @@ const userSlice = createSlice({
         },
         setUser:(state,action)=>{
             const {role,name,email,id,blocked}=action.payload;
+            console.log(action.payload,'action paylaod')
             state.role=role
             state.name=name
             state.email=email

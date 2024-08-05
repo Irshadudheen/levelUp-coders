@@ -17,9 +17,7 @@ const App = () => {
   const dispatch = useDispatch()
   console.log(currentUser,'hai')
 useEffect(()=>{
-  if(!currentUser){
-    navigate('/')
-  }
+
 
 })
   return (

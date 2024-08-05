@@ -5,9 +5,17 @@ export const adminLogin = async (email:string,password:string)=>{
 try {
     const response = await Api.post(adminRoute.login,{email,password})
     console.log(response,'adf')
-    console.log(response,'qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
+   
     return response.data
 } catch (error:any) {
     return error
 }
+}
+export const logout = async ()=>{
+    try {
+        const response = await Api.post(adminRoute.logout)
+        return response.data
+    } catch (error:any) {
+        return error
+    }
 }

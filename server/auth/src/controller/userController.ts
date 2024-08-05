@@ -1,7 +1,8 @@
 import { Req,Res,Next } from "../framework/types/serverPakageTypes";
 import {IuserUseCase } from '../usecases/interface/usecase/userUseCase'
-import { accessTokenOptions } from "../framework/webServer/middleware/Tokens";
+import { accessTokenOptions, refreshTokenOptions } from "../framework/webServer/middleware/Tokens";
 import ErrorHandler from "../usecases/middlewares/errorHandler";
+import { Error } from "mongoose";
 
 export class UserController{
     private userUseCase:IuserUseCase
@@ -113,6 +114,16 @@ export class UserController{
         }
         } catch (error:any) {
             return next(new ErrorHandler(error.status,error.message))
+        }
+    }
+    async logout(req:Req,res:Res,next:Next){
+        try {
+           res.clearCookie('accessToken',accessTokenOptions)
+           res.clearCookie('refreshToken',refreshTokenOptions)
+           res.status(200).json({succuss:true,message:'logout success'})
+        } catch (error:any) {
+            return next(new ErrorHandler(error.status,error.message))
+            
         }
     }
 }

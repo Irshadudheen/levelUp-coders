@@ -1,4 +1,5 @@
  const adminRoute = {
-    login:'/admin/login'
+    login:'/admin/login',
+    logout:'/admin/logout'
 }
 export default adminRoute

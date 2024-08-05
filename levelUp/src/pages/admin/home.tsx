@@ -1,6 +1,29 @@
-import React from 'react'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
+import useGetAdmin from '../../hook/useGetAdmin'
+import { logout } from '../../Api/admin'
+import { useDispatch } from 'react-redux'
+import { clearUser } from '../../utils/clearUser'
 
 const Home:React.FC = () => {
+  const dispatch = useDispatch()
+
+  const navigate = useNavigate()
+  const currentuser = useGetAdmin()
+  useEffect(()=>{
+    console.log(currentuser,'current user')
+    if(!currentuser){
+        navigate('/admin')
+    }
+  })
+  const handleLogout = async()=>{
+    const resonse = await logout()
+    console.log(resonse,'reponse')
+    if(resonse.succuss){
+    clearUser(dispatch)  
+      navigate('/admin')
+    }
+  }
   return (
     <div className="flex h-screen bg-white text-white">
     {/* Sidebar */}
@@ -25,8 +48,11 @@ const Home:React.FC = () => {
         </div>
       </div>
       <div className="mt-auto flex items-center text-white space-x-2">
-        <span className="material-icons">logout</span>
+        <button>
+        <span className="material-icons" onClick={handleLogout}>logout</span>
         <span>Log out</span>
+        </button>
+       
       </div>
     </div>
 

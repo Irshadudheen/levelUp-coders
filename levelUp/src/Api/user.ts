@@ -50,6 +50,31 @@ export const userGoogleLogin = async (loginData:object)=>{
     try {
         const response = await Api.post(userRoutes.googleLogin,loginData)
         return response.data
+    } catch (error:any) {
+        return error
+    }
+}
+export const logout = async ()=>{
+    try {
+        const response = await Api.post(userRoutes.logout)
+        return response.data
+    } catch (error:any) {
+        return error
+    }
+}
+export const newPassword = async (password:string)=>{
+    try {
+        const response = await Api.patch(userRoutes.newPassword,password)
+        return response.data
+    } catch (error:any) {
+        return error
+        
+    }
+}
+export const verifyEmail = async (email:string,otp:string)=>{
+    try {
+        const response = await Api.post(userRoutes.verifyEmail,{email,otp})
+        return response.data
     } catch (error) {
         return error
     }

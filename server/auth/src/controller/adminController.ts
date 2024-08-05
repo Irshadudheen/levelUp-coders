@@ -1,7 +1,7 @@
 import { Next, Req, Res } from "../framework/types/serverPakageTypes";
 import { IadminUseCase } from "../usecases/interface/usecase/adminUseCase";
 import ErrorHandler from "../usecases/middlewares/errorHandler";
-import { accessTokenOptions } from "../framework/webServer/middleware/Tokens";
+import { accessTokenOptions, refreshTokenOptions } from "../framework/webServer/middleware/Tokens";
 export class AdminController {
     constructor(private adminUseCase:IadminUseCase){}
 
@@ -17,6 +17,16 @@ export class AdminController {
             }
         } catch (error:any) {
             next(new ErrorHandler(error.status,error.message))
+        }
+    }
+    async logout(req:Req,res:Res,next:Next){
+        try {
+           res.clearCookie('accessToken',accessTokenOptions)
+           res.clearCookie('refreshToken',refreshTokenOptions)
+           res.status(200).json({succuss:true,message:'logout success'})
+        } catch (error:any) {
+            return next(new ErrorHandler(error.status,error.message))
+            
         }
     }
 }
