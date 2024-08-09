@@ -19,3 +19,14 @@ export const logout = async ()=>{
         return error
     }
 }
+export const addSubject = async (subject)=>{
+    try {
+       const response = await Api.post(adminRoute.addSubject,subject,{
+        headers: {
+          'Content-Type': 'multipart/form-data', // Specify the content type
+        }}) 
+       return response
+    } catch (error) {
+        
+    }
+}

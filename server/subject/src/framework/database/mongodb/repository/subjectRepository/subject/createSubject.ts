@@ -3,7 +3,7 @@ import subjectModel from "../../../model/subject";
 
 export const addSubject = async (newSubject:Isubject,subjectModels:typeof subjectModel) : Promise<Isubject>=>{
 try {
-    const subject = await subjectModel.create(newSubject)
+    const subject = await subjectModels.create(newSubject)
     return subject
 } catch (error) {
     throw error

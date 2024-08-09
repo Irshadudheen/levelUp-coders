@@ -23,7 +23,7 @@ const Login:React.FC = () => {
   const currentUser= useGetUser()
   useEffect(()=>{
     if(currentUser){
-      navigate('/dashboard')
+      navigate('/home')
     }
   })
   const googleSubmit= async(credentialResponse:any)=>{
@@ -47,7 +47,7 @@ const Login:React.FC = () => {
           ))
           
           
-          navigate('/dashboard')
+          navigate('/home')
         }
 
   }

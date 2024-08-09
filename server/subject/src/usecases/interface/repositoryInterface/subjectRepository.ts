@@ -1,9 +1,10 @@
 import { Isubject } from "../../../entities/subject";
+import { Next } from "../../../framework/types/serverPakageTypes";
 
 export interface IsubjectRepository{
     addSubject(subject:Isubject):Promise <Isubject>
-    findByName(name:string):Promise <Isubject|void>
+    findById(subjectId:string):Promise <Isubject|void>
     blockSubject(id:string):Promise<object>
-    getSubject(id:string):Promise<Isubject|void>
+    getSubject():Promise<Isubject[]|void>
     editSubject(id:string):Promise<Isubject|void>
 }

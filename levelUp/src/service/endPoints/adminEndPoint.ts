@@ -1,5 +1,6 @@
  const adminRoute = {
-    login:'/admin/login',
-    logout:'/admin/logout'
+    login:'/auth/admin/login',
+    logout:'/auth/admin/logout',
+    addSubject:'/subject/subjectRouter/addSubject'
 }
 export default adminRoute

@@ -17,7 +17,7 @@ const UserRouter = () => {
         <Route path='/forgotPassword' element={<ForgotPassword/>}/>
         <Route path='/otp/:id' element={<OtpPage/>}/>
         <Route path='/newPassword' element={<NewPassword/>}/>
-        <Route path='/dashboard' element={<Home/>}/>
+        <Route path='/home' element={<Home/>}/>
         <Route path='/level' element={<Level/>}/>
         <Route path='/video' element={<VideoPlayer/>}/>
         <Route path='/quiz' element={<Quiz/>}/>

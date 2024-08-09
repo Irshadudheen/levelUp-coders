@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { signup } from "../Api/user";
 import React, { useState } from 'react';
 import { toast } from "react-toastify";
+import { validateEmail, validatePassword, validateUsername } from "../utils/validation";
+import {useForm} from 'react-hook-form'
 const Register:React.FC = () => {
   type User = {
     name: string;
@@ -10,7 +12,12 @@ const Register:React.FC = () => {
     password: string;
     confirm_password: string;
   };
-  
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+  const [showPassword, setShowPassword] = useState(false);
+  const [confirmError, setConfirmError] = useState(false);
+  const { register, handleSubmit, formState: { errors }, watch } = useForm();
   const [name,setName]=useState('')
   const [email,setEmail]=useState('')
   const [password,setPassword]=useState('')
@@ -38,11 +45,16 @@ const Register:React.FC = () => {
   
       }
     };
-    const handleFormSubmit = (e:React.FormEvent<HTMLFormElement>)=>{
+    const handleFormSubmit = ()=>{
       try {
-        e.preventDefault()
+       
         console.log(name,email,password)
-      
+        console.log(password,confirm_password,password==confirm_password)
+        if(password!==confirm_password){
+          setConfirmError(true)
+          return  toast.error('password and confirm password should be same')
+        }
+        setConfirmError(false)
         const user = {
           name: name || '',
           email: email || '',
@@ -60,48 +72,88 @@ const Register:React.FC = () => {
         <div className="flex items-center justify-center min-h-screen bg-gray-900">
       <div className="bg-customBlue text-white p-8 rounded-xl shadow-lg max-w-sm w-full">
         <h2 className="text-2xl font-bold mb-6 text-center">Create Your Account</h2>
-        <form onSubmit={handleFormSubmit}>
+        <form onSubmit={handleSubmit(handleFormSubmit)}>
           <div className="mb-4">
             <input
               type="text"
-              id="username"
-              name="username"
+              id="name"
+              
               placeholder="Username"
+              {...register('name', { validate: { validUsername: (value) => validateUsername(value) } })}
               onChange={(e)=>setName(e.target.value)}
               required
-              className="w-full p-3 bg-gray-800 rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full p-3 bg-gray-800 rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.name?.message?'border-red-500 focus:ring-red-500':''}`}
             />
+            <p className="text-red-500">{`${errors.name?.message?errors.name.message:''}`}</p>
           </div>
           <div className="mb-4">
             <input
               type="email"
               id="email"
-              name="email"
+             
+              {...register('email', { validate: { validateEmail: (value) => validateEmail(value) } })}
               onChange={(e)=>setEmail(e.target.value)}
               placeholder="Email"
               required
-              className="w-full p-3 bg-gray-800 rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full p-3 bg-gray-800 rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 ${errors.email?.message?'border-red-500 focus:ring-red-500':''}`}
             />
+            <p className="text-red-500">{`${errors.email?.message?errors.email.message:''}`}</p>
           </div>
           <div className="mb-4">
-            <input
-              type="password"
-              id="password"
-              name="password"
+      <div className="relative">
+        <input
+          id="hs-toggle-password"
+          type={showPassword ? "text" : "password"}
+          {...register('password', { validate: { validatePassword: (value) => validatePassword(value) } })}
               onChange={(e)=>setPassword(e.target.value)}
-              placeholder="Password"
-              required
-              className="w-full p-3 bg-gray-800 rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            />
-          </div>
+          className={`w-full p-3 bg-gray-800 rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500  ${errors.password?.message?'border-red-500 focus:ring-red-500':''}`}
+          placeholder="Enter password"
+          
+        />
+        <button
+          type="button"
+          onClick={togglePasswordVisibility}
+          className="absolute inset-y-0 end-0 flex items-center z-20 px-3 cursor-pointer text-gray-400 rounded-e-md focus:outline-none focus:text-blue-600 dark:text-neutral-600 dark:focus:text-blue-500"
+        >
+          <svg
+            className="shrink-0 size-3.5"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          >
+            {showPassword ? (
+              <>
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
+                <circle cx="12" cy="12" r="3"></circle>
+              </>
+            ) : (
+              <>
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"></path>
+                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"></path>
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"></path>
+                <line x1="2" x2="22" y1="2" y2="22"></line>
+              </>
+            )}
+          </svg>
+        </button>
+      </div>
+      <p className="text-red-500">{`${errors.password?.message?errors.password.message:''}`}</p>
+    </div>
+         
           <div className="mb-4">
             <input
               type="password"
               id="confirm-password"
               name="confirm-password"
               placeholder="Confirm Password"
+              onChange={e=>setConfirmPassword(e.target.value)}
               required
-              className="w-full p-3 bg-gray-800 rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className={`w-full p-3 ${confirmError?'text-red-700 border-red-500 focus:ring-red-500':''} bg-gray-800 rounded border border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
           </div>
           <div className="mb-6 text-center">

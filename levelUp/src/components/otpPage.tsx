@@ -34,6 +34,8 @@ const {id}=useParams()
       toast.error(response.response.data.message)
 
       
+    }else{
+      toast.error('Please enter 6 dight')
     }
   }
 

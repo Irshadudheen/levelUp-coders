@@ -1,12 +1,12 @@
 const userRoutes={
-    signup : '/user/register',
-    verifyOTP:'/user/createUser',
-    login:'/user/login',
-    forgotPassword:'/user/forgotPassword',
-    googleLogin:'/user/googleLogin',
-    logout:'/user/logout',
-    newPassword:'/user/newPassword',
-    verifyEmail:'/user/createNewPassword',
+    signup : '/auth/user/register',
+    verifyOTP:'/auth/user/createUser',
+    login:'/auth/user/login',
+    forgotPassword:'/auth/user/forgotPassword',
+    googleLogin:'/auth/user/googleLogin',
+    logout:'/auth/user/logout',
+    newPassword:'/auth/user/newPassword',
+    verifyEmail:'/auth/user/createNewPassword',
    
 }
     export default userRoutes
