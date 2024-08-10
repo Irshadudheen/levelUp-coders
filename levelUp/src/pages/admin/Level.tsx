@@ -1,35 +1,34 @@
 import React, { useEffect, useState } from 'react'
 import HeaderAdmin from '../../components/headerAdmin'
 import AdminSideBar from '../../components/adminSideBar'
-import { getAllSubject } from '../../Api/subject'
-import { useNavigate } from 'react-router-dom'
+import { getLevel } from '../../Api/subject'
+import { useNavigate, useParams } from 'react-router-dom'
 
-const CourseList = () => {
-  const [subjects, setSubject]: any = useState([])
-  const navigate = useNavigate()
-  useEffect(() => {
-    const fetchCource = async () => {
-      try {
-
-        const res: any = await getAllSubject()
-        console.log('response of api:', res.data)
-        setSubject(res.data)
-        console.log('state subject', subjects)
-      } catch (error: any) {
-        console.error(error.message)
-      }
-    }
-    fetchCource()
-  }, [])
-  useEffect(() => {
-    console.log('state subjects:', subjects);
-  }, [subjects]);
+const Level = () => {
+    const [level,setLevel]=useState([])
+    const {id}=useParams()
+    const navigate = useNavigate()
+    useEffect(()=>{
+        const fetchLevel = async()=>{
+            try {
+                const res:any= await getLevel(id as string)
+                console.log(res)
+                setLevel(res.data)
+            } catch (error:any) {
+                console.log(error)
+            }
+        }
+        fetchLevel()
+    },[])
+    useEffect(() => {
+        console.log('state level:', level);
+      }, [level]);
   return (
-    <div>
-      <HeaderAdmin />
-      <div className="flex flex-1 h-ful">
-        <AdminSideBar />
-        <div className="flex-1 p-10 shadow-md rounded-lg">
+    <div className='text-black'>
+   <HeaderAdmin/>
+   <div className="flex flex-1">
+    <AdminSideBar/>
+    <div className="flex-1 p-10 shadow-md rounded-lg">
           <h2 className="text-3xl font-bold  text-gray-800">Welcome to Admin</h2>
           <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
@@ -53,35 +52,35 @@ const CourseList = () => {
                 </tr>
               </thead>
               <tbody>
-                {subjects.map((subject, i) => (
+                {level.map((subject, i) => (
 
                   <tr className={i % 2 == 0 ? ` bg-gray-50 border-b  ` : 'bg-gray-100 border-b'}>
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                       {subject.name}
                     </th>
                     <td className="px-6 py-4">
-                      {subject.description}
+                      {subject.videoDescription}
                     </td>
                     <td className="px-6 py-4">
                       <img src={subject.image} width={50} height={50} alt={subject.name} />
                     </td>
-                    <td className="px-6 py-4">
-                      {subject.level.length}
-                    </td>
+                    
 
                     <td>
                       <button onClick={() => navigate(`/admin/listLevel/${subject._id}`)} type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">list level</button>
                     </td>
                   </tr>
                 ))}
+               
 
               </tbody>
             </table>
           </div>
+            <button onClick={() => navigate(`/admin/addlevel/${id}`)} type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">Add Level</button>
         </div>
-      </div>
+   </div>
     </div>
   )
 }
 
-export default CourseList
+export default Level

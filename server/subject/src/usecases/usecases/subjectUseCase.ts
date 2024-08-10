@@ -2,7 +2,7 @@ import { Isubject } from "../../entities/subject";
 import { Icloudinary } from "../../framework/service/cloudinary";
 import { Next } from "../../framework/types/serverPakageTypes";
 import { IsubjectRepository } from "../interface/repositoryInterface/subjectRepository";
-import { IsubjectUseCase } from "../interface/subjectUseCase";
+import { IsubjectUseCase } from "../interface/usecase/subjectUseCase";
 import { addSubject,findSubject ,getAllSubject} from "./subject/index";
 export class SubjectUseCase implements IsubjectUseCase{
     constructor(

@@ -19,7 +19,7 @@ export const logout = async ()=>{
         return error
     }
 }
-export const addSubject = async (subject)=>{
+export const addSubject = async (subject:any)=>{
     try {
        const response = await Api.post(adminRoute.addSubject,subject,{
         headers: {

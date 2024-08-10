@@ -31,37 +31,27 @@ const HomePage = () => {
   }, [setCourses]);
 
   return (
-    <>
+    <div className='relative'>
       <UserHeader />
       <div className="bg-gray-900 min-h-screen py-8 px-4">
         <div className="max-w-2xl mx-auto ">
           
          
           <div className="space-y-6">
-            {courses.length>0 ? (
+            {
               courses.map((course) => (
-                <div key={course._id} className="bg-customBlue rounded-xl shadow-lg overflow-hidden">
-                  <img src={course.image} alt={course.name} className="w-1/2 h-48 object-fill" />
-                  <div className="p-4">
-                    <h2 className="text-2xl font-bold text-white mb-2">{course.name}</h2>
-                    <p className="text-gray-400 mb-4">{course.description}</p>
-                    <button className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                      Let's Start!
-                    </button>
-                  </div>
+                <div key={course._id} className="bg-customBlue rounded-xl shadow-lg overflow-hidden animate-fall z-10">
+                <img src={course.image} alt={course.name} className="w-full h-48 object-cover" />
+                <div className="p-4">
+                  <h2 className="text-2xl font-bold text-white mb-2">{course.name}</h2>
+                  <p className="text-gray-400 mb-4">{course.description}</p>
+                  <button onClick={()=>navigate(`/level/${course._id}`)} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                    Let's Start!
+                  </button>
                 </div>
-              ))
-            ) : (
-              Array(3).fill().map((_, index) => (
-                <div key={index} className="bg-customBlue rounded-xl shadow-lg overflow-hidden">
-                  <Skeleton height={192} width={340} baseColor="#1F2937" highlightColor="#374151" />
-                  <div className="p-4">
-                    <Skeleton count={2} baseColor="#1F2937" highlightColor="#374151" />
-                    <Skeleton width={100} baseColor="#1F2937" highlightColor="#374151" />
-                  </div>
-                </div>
-              ))
-            )}
+              </div>
+              )
+            ) }
           </div>
         </div>
       </div>
@@ -91,7 +81,7 @@ const HomePage = () => {
   </ul>
 </nav>
       <UserFooter/>
-    </>
+    </div>
   );
 };
 

@@ -1,6 +1,6 @@
 
 import { Next, Req, Res } from "../framework/types/serverPakageTypes";
-import { IsubjectUseCase } from "../usecases/interface/subjectUseCase";
+import { IsubjectUseCase } from "../usecases/interface/usecase/subjectUseCase";
 import cloudinary from "../framework/service/cloudinary";
 
 export class SubjectController{
@@ -12,7 +12,7 @@ export class SubjectController{
         try {
             const allSubject = await this.subjectUseCase.getAllSubject(next)
             if(allSubject){
-                res.json(allSubject)
+                res.json(allSubject).status(201)
             }
         } catch (error) {
             
@@ -25,7 +25,7 @@ export class SubjectController{
             console.log(subject)
             if(subject){
 
-                return res.json(subject)
+                return res.json(subject).status(201)
             }
         } catch (error:any) {
             console.log(error.message)
@@ -47,5 +47,6 @@ export class SubjectController{
             
         }
     }
+   
     
 }
