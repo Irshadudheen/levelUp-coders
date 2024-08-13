@@ -1,6 +1,6 @@
 import {Next,Req,Res,Route} from '../../types/serverPakageTypes'
 import {userController} from './injections/injection'
-
+import { isUser } from '../middleware/roleAuth'
 export function UserRoute(router:Route){
     
     router.post('/register',async (req:Req,res:Res,next:Next)=>{
@@ -31,7 +31,7 @@ export function UserRoute(router:Route){
         console.log('comming in google login')
         userController.googleLogin(req,res,next);
     })
-    router.post('/logout',async(req:Req,res:Res,next:Next)=>{
+    router.post('/logout',isUser, async(req:Req,res:Res,next:Next)=>{
         console.log('comming into logout')
         userController.logout(req,res,next)
     })

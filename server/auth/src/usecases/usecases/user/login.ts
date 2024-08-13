@@ -10,13 +10,17 @@ try {
     const user = await userRepository.findByEmail(email);
     console.log('the checked',user)
     if(!user) return next(new ErrorHandler(400,'invalid email id'))
-        if(user?.blocked){
+        console.log(user.blocked,'the status of block user')
+        if(user.blocked==true){
             return next(new ErrorHandler(400,'acces is denied by admin'))
         }
         const comparePassword = await hashPassword.compareHashPassword(password,user.password)
         if(!comparePassword) return next(new ErrorHandler(400,'password incorrect'))
+          
+            if(user.blocked) return next(new ErrorHandler(400,'admin blocked you'))
             const token:any = await jwt.createAccessAndRefreashToken(user._id as string)
         token.role='user'
+        
         return {user,token}
 } catch (error) {
     throw error

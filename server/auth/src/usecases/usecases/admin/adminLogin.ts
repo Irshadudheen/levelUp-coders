@@ -14,7 +14,6 @@ try {
     const id= admin._id
     const token:any = await jwt.createAccessAndRefreashToken(id as string)
     token.role='admin'
-    console.log('token created ',token)
     return {admin,token}
 } catch (error) {
     throw error

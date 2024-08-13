@@ -22,7 +22,7 @@ const userrepository = new UserRepository(userModel)
 const adminRepository = new AdminRepository(adminModel)
 const userusecase = new UserUseCase(userrepository,jwttoken,otpGenerate,otprepository,sentemail,bycryptsurvice)
 const  userController = new UserController(userusecase)
-const adminusecase = new AdminUseCase(adminRepository,bycryptsurvice,jwttoken)
+const adminusecase = new AdminUseCase(adminRepository,bycryptsurvice,jwttoken,userrepository)
 const adminController = new AdminController(adminusecase)
 
 export {userController,adminController}

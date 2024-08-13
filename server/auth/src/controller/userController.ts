@@ -53,13 +53,14 @@ export class UserController{
     }
     async login(req:Req,res:Res,next:Next){
         try {
+            console.log(req.body,'user login')
             const user = await this.userUseCase.login(req.body.email,req.body.password,next)
             console.log(user,'user in controller')
             
             if(user){
                 console.log(user.token,'user token')
-
-                res.cookie('accesToken',user.token.accessToken,accessTokenOptions)
+                console.log(accessTokenOptions,'the access token option')
+                res.cookie('accesToken',user.token.accessToken,accessTokenOptions).json(user)
                 
             }
         } catch (error:any) {

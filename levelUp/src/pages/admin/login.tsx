@@ -6,7 +6,9 @@ import {useNavigate} from 'react-router-dom';
 import useGetAdmin from '../../hook/useGetAdmin';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/userSlice';
+
 const Login: React.FC = () => {
+
   const dispatch = useDispatch()
   const [isLoading, setIsLoading] = useState(true);
   const [email,setEmail]=useState('')

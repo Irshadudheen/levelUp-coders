@@ -1,13 +1,13 @@
 import { Iuser } from "../../../../../entities/user";
 import { IuserRepository } from "../../../../../usecases/interface/repositoryInterface/userRepository";
 import userModel from "../../model/userModel";
-import { createUser, editUserData, findbyEmail, getUser ,updateUserPassword} from './user/index';
+import { block, createUser, editUserData, findbyEmail, getAllUser, getUser ,updateUserPassword} from './user/index';
 
 export class UserRepository implements IuserRepository {
     constructor(private userModels: typeof userModel) {}
 
-    blockUser(id: string): Promise<any> {
-        throw new Error("Method not implemented.");
+  async  blockUser(id: string): Promise<Iuser|void> {
+      return await block(id,this.userModels)
     }
 
     async createUser(newUser: Iuser): Promise<Iuser> {
@@ -22,7 +22,9 @@ export class UserRepository implements IuserRepository {
         return "jiii";
     }
 
-   
+   async getAllUser():Promise<Iuser[]|void>{
+    return await getAllUser(this.userModels)
+   }
 
     async getUser(id: string): Promise<Iuser | undefined> {
         return await getUser(this.userModels, id);

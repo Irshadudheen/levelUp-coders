@@ -29,4 +29,25 @@ export class AdminController {
             
         }
     }
+    async getUserData(req:Req,res:Res,next:Next){
+        try {
+            const users= await this.adminUseCase.getUserData(next)
+            if(users){
+                res.json(users).status(201)
+            }
+        } catch (error:any) {
+            return next(new ErrorHandler(error.status,error.message))
+        }
+    }
+    async blockUser(req:Req,res:Res,next:Next){
+        try {
+            const user= await this.adminUseCase.blockUser(req.body.userId,next)
+            console.log(user)
+            if(user){
+                res.json({message:'the blocked User',succus:true})
+            }
+        } catch (error:any) {
+            return next(new ErrorHandler(error.status,error.message))
+        }
+    }
 }

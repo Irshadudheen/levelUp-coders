@@ -1,27 +1,70 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import{ useNavigate } from "react-router-dom";
 import { login,userGoogleLogin } from '../../Api/user';
-import { useSelector,useDispatch } from 'react-redux';
-import { GoogleLogin } from '@react-oauth/google';
+import { useSelector,useDispatch, Provider } from 'react-redux';
+import { GoogleLogin, useGoogleLogin } from '@react-oauth/google';
 import { jwtDecode } from 'jwt-decode';
-// import GitHubLogin from 'react-github-login';
-// import { validateEmail, validatePassword } from '../../utils/validation';
-// import toast, { Toaster } from 'react-hot-toast';
+
 import { setUser } from '../../redux/userSlice';
 
 import { currentUser } from '../../@types/currentUser';
 import { toast } from 'react-toastify';
 import useGetUser from '../../hook/useGetUser';
+import { GithubAuthProvider, signInWithPopup } from 'firebase/auth';
+import { auth } from '../../service/clientLoginGithub';
 
 const Login:React.FC = () => {
+
+  const [user,setUses]=useState(null)
   const dispatch = useDispatch()
+  const signInWithGithub = async () => {
+    try {
+      const provider =new GithubAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      // This gives you a GitHub Access Token. You can use it to access the GitHub API.
+      const credential = GithubAuthProvider.credentialFromResult(result);
+      const token = credential?.accessToken;
+  
+      // The signed-in user info.
+      const user = result.user;
+      console.log('User:', user);
+
+      console.log('Token:', token);
+      const res:any = await userGoogleLogin({name:user.displayName,email:user.email,password:user.email})
+     
+      if(res.user){
+        localStorage.setItem('accesToken',res.token.accesToken)
+        localStorage.setItem('refreshToken',res.token.refreshToken)
+        localStorage.setItem('role',res.token.role)
+        dispatch(setUser({
+          role:res.token.role,
+          name:res.user.name,
+          email:res.user.email,
+          id:res.user._id,
+          blocked:res.user.blocked,
+          
+        }
+        ))
+    }else{
+      const{message}=response.response?.data
+      toast.error(message)
+    }
+   }catch (error) {
+      // Handle Errors here.
+      console.error('Error during sign-in:', error);
+    }
+  };
+
+
+   
   useSelector((state: currentUser) => state)
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const currentUser= useGetUser()
   useEffect(()=>{
+    console.log(currentUser,"current user in login")
     if(currentUser){
       navigate('/home')
     }
@@ -31,13 +74,13 @@ const Login:React.FC = () => {
       const decoded:any= jwtDecode(credentialResponse.credential)
         console.log(decoded);
        const response = await userGoogleLogin({name:decoded.name,email:decoded.email,password:decoded.sub})
-        console.log(response);
+        console.log(response.user);
         if(response.user){
-          localStorage.setItem('accesToken',response.accesToken)
-          localStorage.setItem('refreshToken',response.refreshToken)
-          localStorage.setItem('role',response.role)
+          localStorage.setItem('accesToken',response.token.accesToken)
+          localStorage.setItem('refreshToken',response.token.refreshToken)
+          localStorage.setItem('role',response.token.role)
           dispatch(setUser({
-            role:response.role,
+            role:response.token.role,
             name:response.user.name,
             email:response.user.email,
             id:response.user._id,
@@ -48,6 +91,9 @@ const Login:React.FC = () => {
           
           
           navigate('/home')
+        }else{
+          const{message}=response.response?.data
+          toast.error(message)
         }
 
   }
@@ -55,15 +101,15 @@ const Login:React.FC = () => {
 
     e.preventDefault();
     const response = await login({email,password})
-    
+     
     if(response.user){
       
-      
-      localStorage.setItem('accesToken',response.accesToken)
-      localStorage.setItem('refreshToken',response.refreshToken)
-      localStorage.setItem('role',response.role)
+      console.log(response.token.role,'response of login my form submit')
+      localStorage.setItem('accesToken',response.token.accesToken)
+      localStorage.setItem('refreshToken',response.token.refreshToken)
+      localStorage.setItem('role',response.token.role)
       dispatch(setUser({
-        role:response.role,
+        role:response.token.role,
         name:response.user.name,
         email:response.user.email,
         id:response.user._id,
@@ -73,7 +119,7 @@ const Login:React.FC = () => {
       ))
       
       
-      navigate('/dashboard')
+      navigate('/home')
     }else{
       const{message}=response.response?.data
       toast.error(message)
@@ -136,7 +182,7 @@ const Login:React.FC = () => {
     onFailure={onFailure=>{
       console.log(onFailure)
     }}/> */}
-            <a href="#" className="text-gray-400 hover:text-white">
+            <a onClick={signInWithGithub} className="text-gray-400 hover:text-white">
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M12 .297c-6.63 0-12 5.373-12 12 0 5.302 4.438 9.688 10.125 10.575.75.138 1.025-.325 1.025-.725 0-.362-.012-1.322-.019-2.594-4.136.9-5.03-1.985-5.03-1.985-.682-1.725-1.665-2.187-1.665-2.187-1.363-.932.104-.914.104-.914 1.507.105 2.3 1.55 2.3 1.55 1.34 2.294 3.515 1.632 4.37 1.248.137-.968.522-1.632.95-2.007-3.3-.375-6.77-1.65-6.77-7.342 0-1.623.578-2.947 1.522-3.984-.153-.374-.662-1.88.146-3.915 0 0 1.25-.4 4.1 1.528 1.19-.33 2.47-.496 3.74-.502 1.27.006 2.55.172 3.74.502 2.85-1.928 4.1-1.528 4.1-1.528.808 2.034.3 3.541.146 3.915.944 1.037 1.522 2.361 1.522 3.984 0 5.71-3.47 6.965-6.77 7.335.537.462 1.012 1.378 1.012 2.785 0 2.008-.019 3.628-.019 4.124 0 .4.275.875 1.025.725C19.563 21.985 24 17.6 24 12.297c0-6.627-5.373-12-12-12"
@@ -158,6 +204,7 @@ const Login:React.FC = () => {
           
         </form>
       </div>
+   {/* <button onClick={checkUser}>toCheck</button> */}
     </div>
     </>
   );

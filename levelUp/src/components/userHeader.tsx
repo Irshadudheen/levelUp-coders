@@ -3,6 +3,7 @@ import { logout } from '../Api/user'
 import { clearUser } from '../utils/clearUser'
 import { useDispatch } from 'react-redux'
 import { useLocation, useNavigate, useParams } from 'react-router-dom'
+
 const UserHeader: React.FC = () => {
     const dispatch =useDispatch()
     const {pathname} = useLocation()
@@ -11,7 +12,8 @@ const UserHeader: React.FC = () => {
     const handleLogout = async () => {
         const response = await logout()
         if (response.succuss) {
-    
+          
+
           clearUser(dispatch)
           navigate('/')
     

@@ -1,23 +1,28 @@
 import React, { useState, useEffect } from 'react';
-import Skeleton from 'react-loading-skeleton';
+
 import 'react-loading-skeleton/dist/skeleton.css';
-import { logout } from '../../Api/user';
-import { useDispatch } from 'react-redux';
+
+
 import { useNavigate } from 'react-router-dom';
 
 import UserHeader from '../../components/userHeader';
 import UserFooter from '../../components/userFooter';
-import Api from '../../service/axios';
-import { getAllSubject } from '../../Api/subject';
 
-const HomePage = () => {
-  const dispatch = useDispatch()
+import { getAllSubject } from '../../Api/subject';
+import useGetUser from '../../hook/useGetUser';
+
+const HomePage:React.FC= () => {
+
   const [courses, setCourses] = useState([]);
 
   const navigate = useNavigate()
- 
+ const currentUser = useGetUser()
   useEffect( 
     () => {
+      console.log(currentUser,'current user')
+      if(!currentUser){
+        navigate('/');
+      }
       const fetchSubject= async ()=>{
 
         const res:any= await getAllSubject()
@@ -28,7 +33,7 @@ const HomePage = () => {
       fetchSubject()
    
     
-  }, [setCourses]);
+  }, [setCourses,currentUser]);
 
   return (
     <div className='relative'>
@@ -38,7 +43,7 @@ const HomePage = () => {
           
          
           <div className="space-y-6">
-            {
+            {courses?
               courses.map((course) => (
                 <div key={course._id} className="bg-customBlue rounded-xl shadow-lg overflow-hidden animate-fall z-10">
                 <img src={course.image} alt={course.name} className="w-full h-48 object-cover" />
@@ -51,7 +56,7 @@ const HomePage = () => {
                 </div>
               </div>
               )
-            ) }
+            ) :''}
           </div>
         </div>
       </div>

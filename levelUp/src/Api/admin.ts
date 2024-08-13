@@ -1,6 +1,6 @@
 import adminRoute from '../service/endPoints/adminEndPoint'
 import Api from "../service/axios"
-
+import user from '../@types/user'
 export const adminLogin = async (email:string,password:string)=>{
 try {
     const response = await Api.post(adminRoute.login,{email,password})
@@ -28,5 +28,22 @@ export const addSubject = async (subject:any)=>{
        return response
     } catch (error) {
         
+    }
+}
+export const getAllUserData = async ()=>{
+    try {
+        const res = await Api.get(adminRoute.getAllUser)
+        return res.data
+    } catch (error:any) {
+      return error
+        
+    }
+}
+export const userBlock= async(userId:string)=>{
+    try {
+        const res = await Api.post(adminRoute.blockUser,{userId})
+        return res.data
+    } catch (error) {
+        return error
     }
 }
