@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import 'react-loading-skeleton/dist/skeleton.css';
-
+import image from '/file (1).png'
 
 import { useNavigate } from 'react-router-dom';
 
@@ -10,82 +10,57 @@ import UserFooter from '../../components/userFooter';
 
 import { getAllSubject } from '../../Api/subject';
 import useGetUser from '../../hook/useGetUser';
+import CourseGrid from '../../components/CourseGrid';
 
-const HomePage:React.FC= () => {
+const HomePage: React.FC = () => {
 
   const [courses, setCourses] = useState([]);
 
   const navigate = useNavigate()
- const currentUser = useGetUser()
-  useEffect( 
+  const currentUser = useGetUser()
+  useEffect(
     () => {
-      console.log(currentUser,'current user')
-      if(!currentUser){
+      console.log(currentUser, 'current user')
+      if (!currentUser) {
         navigate('/');
       }
-      const fetchSubject= async ()=>{
+      const fetchSubject = async () => {
 
-        const res:any= await getAllSubject()
+        const res: any = await getAllSubject()
         console.log(res.data)
         setCourses(res.data);
         console.log(courses)
       }
       fetchSubject()
-   
-    
-  }, [setCourses,currentUser]);
+
+
+    }, [setCourses, currentUser]);
 
   return (
     <div className='relative'>
       <UserHeader />
       <div className="bg-gray-900 min-h-screen py-8 px-4">
-        <div className="max-w-2xl mx-auto ">
-          
-         
-          <div className="space-y-6">
-            {courses?
-              courses.map((course) => (
-                <div key={course._id} className="bg-customBlue rounded-xl shadow-lg overflow-hidden animate-fall z-10">
-                <img src={course.image} alt={course.name} className="w-full h-48 object-cover" />
-                <div className="p-4">
-                  <h2 className="text-2xl font-bold text-white mb-2">{course.name}</h2>
-                  <p className="text-gray-400 mb-4">{course.description}</p>
-                  <button onClick={()=>navigate(`/level/${course._id}`)} className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                    Let's Start!
-                  </button>
-                </div>
-              </div>
-              )
-            ) :''}
+        <div className="flex flex-col md:flex-row">
+          <div className="w-full md:w-1/2">
+            <img src={image} alt="" className="object-contain w-full h-auto" />
+          </div>
+          <div className="w-full md:w-1/2 text-center md:text-left">
+            <h1 className="text-4xl font-bold text-white mt-8 md:mt-52">Welcome!</h1>
+            <p className="text-lg text-gray-300 mt-4 px-4 md:px-0">
+              LevelUp is your interactive learning platform that turns coding into a game.
+              Enhance your JavaScript skills by progressing through engaging levels designed
+              to make learning fun and effective. Start your journey with us today!
+            </p>
           </div>
         </div>
+        <h1 className='text-4xl font-bold'>Study plan</h1>
+        <div className="max-w-2xl mx-auto ">
+
+          <CourseGrid courses={courses}/>
+        </div>
       </div>
-      <nav aria-label="Page navigation example">
-  <ul className="inline-flex -space-x-px text-base h-10">
-    <li>
-      <a href="#" className="flex items-center justify-center px-4 h-10 ms-0 leading-tight text-gray-500 bg-white border border-e-0 border-gray-300 rounded-s-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Previous</a>
-    </li>
-    <li>
-      <a href="#" className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">1</a>
-    </li>
-    <li>
-      <a href="#" className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">2</a>
-    </li>
-    <li>
-      <a href="#" aria-current="page" className="flex items-center justify-center px-4 h-10 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700 dark:border-gray-700 dark:bg-gray-700 dark:text-white">3</a>
-    </li>
-    <li>
-      <a href="#" className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">4</a>
-    </li>
-    <li>
-      <a href="#" className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">5</a>
-    </li>
-    <li>
-      <a href="#" className="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-white">Next</a>
-    </li>
-  </ul>
-</nav>
-      <UserFooter/>
+
+      <UserFooter />
     </div>
   );
 };

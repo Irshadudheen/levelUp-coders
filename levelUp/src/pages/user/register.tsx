@@ -1,9 +1,9 @@
 
 import { useNavigate } from "react-router-dom";
-import { signup } from "../Api/user";
+import { signup } from "../../Api/user";
 import React, { useState } from 'react';
 import { toast } from "react-toastify";
-import { validateEmail, validatePassword, validateUsername } from "../utils/validation";
+import { validateEmail, validatePassword, validateUsername } from "../../utils/validation";
 import {useForm} from 'react-hook-form'
 const Register:React.FC = () => {
   type User = {
@@ -184,7 +184,7 @@ const Register:React.FC = () => {
             </a>
           </div>
           <div className="text-center mt-4">
-            <p className="text-gray-400">Already have an account? <a href="#" className="text-blue-400 hover:text-blue-300">Login here</a></p>
+            <p className="text-gray-400">Already have an account? <a onClick={()=>navigate('/')} className="text-blue-400 hover:text-blue-300">Login here</a></p>
           </div>
         </form>
       </div>

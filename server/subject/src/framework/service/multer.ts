@@ -1,12 +1,9 @@
 import multer, { StorageEngine } from 'multer';
 import path from 'path';
-import { fileURLToPath } from 'url';
+
 import fs from 'fs';
-import { Request, RequestHandler } from 'express';
+import { RequestHandler } from 'express';
 import { Req } from '../types/serverPakageTypes';
-
-// Get the current module's file path
-
 
 // Directory to save the uploaded files
 const uploadDir = 'uploads/';
@@ -27,25 +24,25 @@ const storage: StorageEngine = multer.diskStorage({
   },
 });
 
-// Function to check the file type
+// Function to check the file type for images and videos
 function checkFileType(file: Express.Multer.File, cb: multer.FileFilterCallback) {
-  const filetypes = /jpg|jpeg|png|gif|bmp|tiff|webp/;
+  const filetypes = /jpg|jpeg|png|gif|bmp|tiff|webp|mp4|avi|mov|wmv|mkv/;
   const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = filetypes.test(file.mimetype);
 
   if (extname && mimetype) {
     cb(null, true);
   } else {
-    cb(new Error('Images only!'));
+    cb(new Error('Only images and videos are allowed!'));
   }
 }
 
-// Multer upload setup
+// Multer upload setup for both images and videos
 const upload: RequestHandler = multer({
   storage,
-  fileFilter: (req:Req, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
+  fileFilter: (req: Req, file: Express.Multer.File, cb: multer.FileFilterCallback) => {
     checkFileType(file, cb);
   },
-}).single('image'); // Specify `.single('image')` if handling a single file upload
+}).single('image'); // Specify `.single('media')` to handle a single file upload of either type
 
 export default upload;

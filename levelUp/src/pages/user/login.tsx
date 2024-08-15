@@ -47,7 +47,7 @@ const Login:React.FC = () => {
         }
         ))
     }else{
-      const{message}=response.response?.data
+      const{message}=res.response?.data
       toast.error(message)
     }
    }catch (error) {
@@ -56,9 +56,8 @@ const Login:React.FC = () => {
     }
   };
 
-
    
-  useSelector((state: currentUser) => state)
+
   const navigate = useNavigate();
   const [email, setEmail] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");

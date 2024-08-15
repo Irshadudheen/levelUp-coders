@@ -9,4 +9,5 @@ const userRoutes={
     verifyEmail:'/auth/user/createNewPassword',
    
 }
+
     export default userRoutes

@@ -21,4 +21,13 @@ export function subjectRoute(router:Route){
     router.get('/getLevel',(req:Req,res:Res,next:Next)=>{
         levelController.getLevel(req,res,next)
     })
+    router.post('/uploadVideo',upload,(req:Req,res:Res,next:Next)=>{
+       console.log(req.body,req.file)
+        levelController.upladVideo(req,res,next)
+    })
+    router.get('/getVideo',(req:Req,res:Res,next:Next)=>{
+        console.log(req.query)
+        levelController.getVideo(req,res,next)
+
+    })
 }

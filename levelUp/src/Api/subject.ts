@@ -33,3 +33,23 @@ export const addLevel = async (level:any)=>{
         return error;
     }
 }
+export const uploadVideo = async(data:any)=>{
+    try {
+        const res = await Api.post(subjectRoutes.UploadVideo,data,{
+            headers:{
+                'Content-Type':"multipart/from-data"
+            }
+        })
+        return res.data
+    } catch (error) {
+        return error
+    }
+}
+export const findVideo = async (levelId: string) => {
+    try {
+        const res = await Api.get(`${subjectRoutes.getVideo}?levelId=${levelId}`);
+        return res.data;
+    } catch (error) {
+        return error;
+    }
+}

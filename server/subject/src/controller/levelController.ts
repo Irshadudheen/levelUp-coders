@@ -1,3 +1,4 @@
+import cloudinary from "../framework/service/cloudinary";
 import { Next, Req, Res } from "../framework/types/serverPakageTypes";
 import { IlevelUseCase } from "../usecases/interface/usecase/levelUseCase";
 
@@ -32,4 +33,30 @@ export class LevelController{
             console.log(error.message)
         }
     }
+    async upladVideo(req:Req,res:Res,next:Next){
+        try {
+            const{name,videoDescription,levelId}=req.body
+            const filePath= req.file?.path
+            if(filePath){
+          
+                
+           const video =await this.levelUseCase.uploadVideo({name,videoDescription,levelId},filePath,next)
+           console.log(video,'video in controller after all work')
+           res.json(video).status(201)
+            }
+        } catch (error:any) {
+            console.log(error.message)
+        }
+    }
+    async getVideo (req:Req,res:Res,next:Next){
+        try {
+            const{levelId}=req.query
+            const video = await this.levelUseCase.getVideo(levelId as string,next)
+            if(video){
+                res.json(video).status(201)
+            }
+        } catch (error:any) {
+            console.log(error.message)
+        }
+        }
 }
