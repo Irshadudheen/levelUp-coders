@@ -27,7 +27,7 @@ const CourseList = () => {
   return (
     <div>
       <HeaderAdmin />
-      <div className="flex flex-1 h-ful">
+      <div className="flex flex-1 h-full">
         <AdminSideBar />
         <div className="flex-1 p-10 shadow-md rounded-lg">
           <h2 className="text-3xl font-bold  text-gray-800">Welcome to Admin</h2>

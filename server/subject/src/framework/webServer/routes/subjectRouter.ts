@@ -30,4 +30,11 @@ export function subjectRoute(router:Route){
         levelController.getVideo(req,res,next)
 
     })
+    router.post('/addQuiz',(req:Req,res:Res,next:Next)=>{
+        console.log(req.body)
+        levelController.addQuiz(req,res,next)
+    })
+    router.get('/getQuiz',(req:Req,res:Res,next:Next)=>{
+        levelController.getQuiz(req,res,next)
+    })
 }

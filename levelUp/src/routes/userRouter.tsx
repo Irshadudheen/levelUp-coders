@@ -26,6 +26,7 @@ const UserRouter = () => {
         <Route path='/premium' element={<Premium/>}/>
         <Route path='/loader' element={<BrickLoader/>}/>
         <Route path='/profile' element={<UserProfile/>}/>
+        
         </Routes>
   )
 }

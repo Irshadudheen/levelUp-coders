@@ -10,7 +10,6 @@ export class LevelController{
             const{name,video,videoDescription,subjectId}=req.body
             const filePath:any=req.file?.path          
             const image:any=req.file?.filename
-            console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq')
             const level = await this.levelUseCase.createLevel({name,video,image,videoDescription,subjectId},filePath,next)
             console.log(level,'added level')
             res.json({...level,succuss:true}).status(201)
@@ -59,4 +58,21 @@ export class LevelController{
             console.log(error.message)
         }
         }
+    async addQuiz(req:Req,res:Res,next:Next){
+        try {
+            const{questoinTitle,question,levelId,options}=req.body
+        
+            const quiz = await this.levelUseCase.addQuiz({questoinTitle,question,options,levelId},next)
+            res.json(quiz).status(201);
+        } catch (error:any) {
+            console.log(error.message)
+        }
+    }
+    async getQuiz(req:Req,res:Res,next:Next){
+        const{levelId}=req.body;
+        const quiz = await this.levelUseCase.getQuiz(levelId as string,next)
+        if(quiz){
+            res.json(quiz).status(201)
+        }
+    }
 }

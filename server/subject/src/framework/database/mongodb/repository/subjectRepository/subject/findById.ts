@@ -6,10 +6,6 @@ export const findById=async (productId:string,subjectModels:typeof subjectModel)
       if(subject){
         return subject
       }
-    
-        
-      
-
     } catch (error:any) {
         throw error
     }

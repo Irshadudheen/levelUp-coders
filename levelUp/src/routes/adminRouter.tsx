@@ -7,6 +7,7 @@ import Level from "../pages/admin/Level"
 import AddLevel from "../pages/admin/AddLevel"
 import User_mangent from "../pages/admin/user_mangent"
 import UploadVideo from "../pages/admin/uploadVideo"
+import Quiz from "../pages/admin/quiz"
 
 const adminRouter:React.FC = () => {
   return (
@@ -20,6 +21,7 @@ const adminRouter:React.FC = () => {
       <Route path='/addlevel/:id' element={<AddLevel/>}/>
       <Route path='/alUser' element={<User_mangent/>}/>
       <Route path="/upladVideo/:id" element={<UploadVideo/>}/>
+      <Route path='/addQuiz/:id' element={<Quiz/>}/>
     </Routes>
   )
 }

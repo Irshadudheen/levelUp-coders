@@ -20,7 +20,7 @@ const UploadVideo:React.FC = () => {
     const res= await uploadVideo(formData)
     console.log(res)
     if(res._id){
-        navigate(`/admin/listLevel/${id}`)
+        navigate(-1)
     }
     }
     return (
