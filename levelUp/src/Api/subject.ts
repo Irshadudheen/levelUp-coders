@@ -53,3 +53,20 @@ export const findVideo = async (levelId: string) => {
         return error;
     }
 }
+export const addQuiz = async(options:object,questionTitle:string,question:string,levelId:string)=>{
+    try {
+        const res = await Api.post(subjectRoutes.addQuiz,{options,questionTitle,question,levelId})
+        return res.data
+    } catch (error) {
+        return error
+    }
+
+}
+export const getQuiz = async(levelId:string)=>{
+    try {
+        const res = await Api.get(`${subjectRoutes.getQuiz}?levelId=${levelId}`)
+        return res.data
+    } catch (error) {
+        
+    }
+}

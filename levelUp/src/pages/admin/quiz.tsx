@@ -1,21 +1,50 @@
 import React, { useState } from 'react';
-import { Form } from 'react-router-dom';
+import { Form, useNavigate, useParams } from 'react-router-dom';
 import HeaderAdmin from '../../components/headerAdmin';
+import { addQuiz } from '../../Api/subject';
 
 const Quiz: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
-
+  const [questionTitle,setQuestionTitile]=useState('')
+  const [question,setQuestion]=useState('')
+  const [option1,setOption1]=useState('')
+  const [option2,setOption2]=useState('')
+  const [option3,setOption3]=useState('')
+  const [option4,setOption4]=useState('')
+  const {id}=useParams()
+  const navigate = useNavigate()
   const handleOptionChange = (option: string) => {
     setSelectedOption(option === selectedOption ? null : option);
     
   };
+  const handleSubmit=async(e)=>{
+    try {
+      e.preventDefault()
+      console.log(selectedOption)
+      const options = [option1, option2, option3, option4];
+      const data:any = {};
+
+      options.forEach((option, index) => {
+        data[option] = `option${index + 1}` === selectedOption;
+      });
+
+console.log(data);
+const res = await addQuiz(data,questionTitle,question,id)
+console.log(res,"data")
+if(res.succuss){
+  navigate(-1)
+}
+    } catch (error) {
+      
+    }
+  }
 
   return (
     <>
     <HeaderAdmin/>
     <div className="max-w-md mx-auto p-6 text-black bg-white rounded-lg shadow-lg">
       <h2 className="text-2xl font-bold mb-4 text-center">Create a New Quiz</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-gray-700 font-semibold mb-2" htmlFor="quiz-title">
             Quiz Title
@@ -25,6 +54,7 @@ const Quiz: React.FC = () => {
             id="quiz-title"
             className="w-full p-2 border border-gray-300 rounded-md"
             placeholder="Enter quiz title"
+            onChange={e=>setQuestionTitile(e.target.value)}
           />
         </div>
 
@@ -37,6 +67,8 @@ const Quiz: React.FC = () => {
             id="quiz-question"
             className="w-full p-2 border border-gray-300 rounded-md"
             placeholder="Enter question"
+            onChange={e=>setQuestion(e.target.value)}
+
           />
         </div>
 
@@ -51,6 +83,7 @@ const Quiz: React.FC = () => {
               checked={selectedOption === 'option1'}
               onChange={() => handleOptionChange('option1')}
               className="mr-2"
+
               
             />
             <input
@@ -58,6 +91,8 @@ const Quiz: React.FC = () => {
               id="option1-text"
               className="w-full p-2 border border-gray-300 rounded-md"
               placeholder="Enter option 1"
+              onChange={e=>setOption1(e.target.value)}
+
              required
             />
           </div>
@@ -76,6 +111,8 @@ const Quiz: React.FC = () => {
               className="w-full p-2 border border-gray-300 rounded-md"
               placeholder="Enter option 2"
               required
+              onChange={e=>setOption2(e.target.value)}
+
             />
           </div>
           <div className="flex items-center mb-2">
@@ -92,6 +129,8 @@ const Quiz: React.FC = () => {
               id="option3-text"
               className="w-full p-2 border border-gray-300 rounded-md"
               placeholder="Enter option 3"
+              onChange={e=>setOption3(e.target.value)}
+            required
               
             />
           </div>
@@ -109,7 +148,9 @@ const Quiz: React.FC = () => {
               id="option4-text"
               className="w-full p-2 border border-gray-300 rounded-md"
               placeholder="Enter option 4"
-              
+              required
+            onChange={e=>setOption4(e.target.value)}
+
             />
           </div>
         </div>

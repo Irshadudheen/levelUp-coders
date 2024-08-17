@@ -60,16 +60,16 @@ export class LevelController{
         }
     async addQuiz(req:Req,res:Res,next:Next){
         try {
-            const{questoinTitle,question,levelId,options}=req.body
+            const{questionTitle,question,levelId,options}=req.body
         
-            const quiz = await this.levelUseCase.addQuiz({questoinTitle,question,options,levelId},next)
-            res.json(quiz).status(201);
+            const quiz = await this.levelUseCase.addQuiz({questionTitle,question,options,levelId},next)
+            res.json({...quiz,succuss:true}).status(201);
         } catch (error:any) {
             console.log(error.message)
         }
     }
     async getQuiz(req:Req,res:Res,next:Next){
-        const{levelId}=req.body;
+        const{levelId}=req.query;
         const quiz = await this.levelUseCase.getQuiz(levelId as string,next)
         if(quiz){
             res.json(quiz).status(201)

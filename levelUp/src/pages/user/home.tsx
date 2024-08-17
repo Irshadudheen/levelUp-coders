@@ -48,7 +48,7 @@ const HomePage: React.FC = () => {
             <h1 className="text-4xl font-bold text-white mt-8 md:mt-52">Welcome!</h1>
             <p className="text-lg text-gray-300 mt-4 px-4 md:px-0">
               LevelUp is your interactive learning platform that turns coding into a game.
-              Enhance your JavaScript skills by progressing through engaging levels designed
+              Enhance your Coding skills by progressing through engaging levels designed
               to make learning fun and effective. Start your journey with us today!
             </p>
           </div>
