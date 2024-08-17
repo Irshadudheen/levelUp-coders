@@ -1,25 +1,25 @@
 import React, { useEffect, useState, useRef } from 'react';
 import UserHeader from '../../components/userHeader';
 import UserFooter from '../../components/userFooter';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { findVideo } from '../../Api/subject';
 
 const VideoPlayer: React.FC = () => {
-  const { id } = useParams();
+  const { levelId } = useParams();
   const [video, setVideo] = useState<{ videoUrl: string } | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-
+  const navigate= useNavigate()
   useEffect(() => {
     const fetchVideo = async () => {
       try {
-        const res = await findVideo(id);
+        const res = await findVideo(levelId);
         setVideo(res);
       } catch (error) {
         console.error(error);
       }
     };
     fetchVideo();
-  }, [id]);
+  }, [levelId]);
 
   const handleFullScreen = () => {
     if (videoRef.current) {
@@ -36,10 +36,7 @@ const VideoPlayer: React.FC = () => {
   };
 
   const handleSkip = () => {
-    if (videoRef.current) {
-      // Skip 10 seconds ahead, or to the end if less than 10 seconds remain
-      videoRef.current.currentTime = Math.min(videoRef.current.currentTime + 10, videoRef.current.duration);
-    }
+    navigate(`/quiz/${levelId}`)
   };
 
   return (

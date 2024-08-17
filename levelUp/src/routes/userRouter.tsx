@@ -11,6 +11,7 @@ import Quiz from '../pages/user/quiz';
 import Premium from '../pages/user/premium';
 import BrickLoader from '../components/brickLoader';
 import UserProfile from '../pages/user/userProfile';
+import Compailer from '../pages/user/compailer';
 const UserRouter = () => {
   return (
     <Routes>
@@ -21,12 +22,12 @@ const UserRouter = () => {
         <Route path='/newPassword' element={<NewPassword/>}/>
         <Route path='/home' element={<Home/>}/>
         <Route path='/level/:id' element={<Level/>}/>
-        <Route path='/video/:id' element={<VideoPlayer/>}/>
-        <Route path='/quiz' element={<Quiz/>}/>
+        <Route path='/video/:levelId' element={<VideoPlayer/>}/>
+        <Route path='/quiz/:levelId' element={<Quiz/>}/>
         <Route path='/premium' element={<Premium/>}/>
         <Route path='/loader' element={<BrickLoader/>}/>
         <Route path='/profile' element={<UserProfile/>}/>
-        
+        <Route path='/compiler/:levelId' element={<Compailer/>}/>
         </Routes>
   )
 }

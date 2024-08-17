@@ -35,6 +35,7 @@ export function subjectRoute(router:Route){
         levelController.addQuiz(req,res,next)
     })
     router.get('/getQuiz',(req:Req,res:Res,next:Next)=>{
+        console.log(req.query)
         levelController.getQuiz(req,res,next)
     })
 }

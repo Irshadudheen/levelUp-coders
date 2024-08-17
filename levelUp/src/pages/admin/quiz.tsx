@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Form, useParams } from 'react-router-dom';
+import { Form, useNavigate, useParams } from 'react-router-dom';
 import HeaderAdmin from '../../components/headerAdmin';
 import { addQuiz } from '../../Api/subject';
 
@@ -12,6 +12,7 @@ const Quiz: React.FC = () => {
   const [option3,setOption3]=useState('')
   const [option4,setOption4]=useState('')
   const {id}=useParams()
+  const navigate = useNavigate()
   const handleOptionChange = (option: string) => {
     setSelectedOption(option === selectedOption ? null : option);
     
@@ -30,6 +31,9 @@ const Quiz: React.FC = () => {
 console.log(data);
 const res = await addQuiz(data,questionTitle,question,id)
 console.log(res,"data")
+if(res.succuss){
+  navigate(-1)
+}
     } catch (error) {
       
     }
