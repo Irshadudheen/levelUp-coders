@@ -49,6 +49,9 @@ const Level = () => {
                   <th scope="col" className="px-6 py-3">
                     add quiz
                   </th>
+                  <th scope="col" className="px-6 py-3">
+                    add compiler
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -71,6 +74,9 @@ const Level = () => {
                     </td>
                     <td>
                       <button onClick={() => navigate(`/admin/addQuiz/${subject._id}`)} type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">add quiz</button>
+                    </td>
+                    <td>
+                      <button onClick={() => navigate(`/admin/addCompiler/${subject._id}`)} type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">add compiler</button>
                     </td>
                   </tr>
                 ))}
