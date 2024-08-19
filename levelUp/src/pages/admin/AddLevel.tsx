@@ -8,9 +8,9 @@ import { Form } from 'react-bootstrap';
 import { addLevel } from '../../Api/subject';
 const AddLevel:React.FC = () => {
     const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onTouched' });
+    const {id}=useParams()
     const navigate = useNavigate();
     const currentuser = useGetAdmin();
-    const {id}=useParams()
     useEffect(() => {
         console.log(currentuser, 'current user');
         if (!currentuser) {

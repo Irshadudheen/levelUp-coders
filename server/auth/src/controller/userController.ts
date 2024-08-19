@@ -127,4 +127,15 @@ export class UserController{
             
         }
     }
+    async updateProfile(req:Req,res:Res,next:Next){
+        try {
+            const{name,userId}=req.body
+            const user = await this.userUseCase.editUserProfile(name,userId,next)
+            if(user){
+            res.json({...user,succuss:true}).status(201)
+            }
+        } catch (error:any) {
+            return next(new ErrorHandler(error.status,error.message))
+        }
+    }
 }

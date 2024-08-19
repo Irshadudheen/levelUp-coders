@@ -3,10 +3,18 @@ import HeaderAdmin from '../../components/headerAdmin'
 import AdminSideBar from '../../components/adminSideBar'
 import { getAllSubject } from '../../Api/subject'
 import { useNavigate } from 'react-router-dom'
+import useGetAdmin from '../../hook/useGetAdmin'
 
 const CourseList = () => {
   const [subjects, setSubject]: any = useState([])
   const navigate = useNavigate()
+  const currentuser = useGetAdmin();
+  useEffect(() => {
+      console.log(currentuser, 'current user');
+      if (!currentuser) {
+          navigate('/admin');
+      }
+  }, [currentuser, navigate]);
   useEffect(() => {
     const fetchCource = async () => {
       try {
@@ -44,11 +52,9 @@ const CourseList = () => {
                   <th scope="col" className="px-6 py-3">
                     image
                   </th>
+                  
                   <th scope="col" className="px-6 py-3">
-                    level Count
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Add Level
+                     Level
                   </th>
                 </tr>
               </thead>
@@ -65,10 +71,7 @@ const CourseList = () => {
                     <td className="px-6 py-4">
                       <img src={subject.image} width={50} height={50} alt={subject.name} />
                     </td>
-                    <td className="px-6 py-4">
-                      {subject.level.length}
-                    </td>
-
+                   
                     <td>
                       <button onClick={() => navigate(`/admin/listLevel/${subject._id}`)} type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">list level</button>
                     </td>
@@ -77,6 +80,7 @@ const CourseList = () => {
 
               </tbody>
             </table>
+            <button onClick={() => navigate(`/admin/addCourse`)} type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">add Course</button>
           </div>
         </div>
       </div>

@@ -33,6 +33,10 @@ export function UserRoute(router:Route){
     })
     router.post('/logout',isUser, async(req:Req,res:Res,next:Next)=>{
         console.log('comming into logout')
-        userController.logout(req,res,next)
+        userController.logout(req,res,next);
     })
+    router.patch('/updateProfile',isUser,async(req:Req,res:Res,next:Next)=>{
+        console.log('comming into update profile')
+        userController.updateProfile(req,res,next)
+})
 }

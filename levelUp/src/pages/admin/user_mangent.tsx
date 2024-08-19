@@ -3,8 +3,18 @@ import { getAllUserData, userBlock } from '../../Api/admin'
 
 import HeaderAdmin from '../../components/headerAdmin'
 import AdminSideBar from '../../components/adminSideBar'
+import { useNavigate } from 'react-router-dom'
+import useGetAdmin from '../../hook/useGetAdmin'
 
 const User_mangent:React.FC = () => {
+  const navigate = useNavigate();
+  const currentuser = useGetAdmin();
+  useEffect(() => {
+      console.log(currentuser, 'current user');
+      if (!currentuser) {
+          navigate('/admin');
+      }
+  }, [currentuser, navigate]);
   const [users, setUser] = useState([])
   useEffect(() => {
     const fetchUser = async () => {

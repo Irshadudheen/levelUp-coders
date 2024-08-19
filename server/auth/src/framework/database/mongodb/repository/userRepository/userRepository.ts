@@ -1,10 +1,13 @@
 import { Iuser } from "../../../../../entities/user";
 import { IuserRepository } from "../../../../../usecases/interface/repositoryInterface/userRepository";
 import userModel from "../../model/userModel";
-import { block, createUser, editUserData, findbyEmail, getAllUser, getUser ,updateUserPassword} from './user/index';
+import { block, createUser, editProfile, findbyEmail, getAllUser, getUser ,updateUserPassword} from './user/index';
 
 export class UserRepository implements IuserRepository {
     constructor(private userModels: typeof userModel) {}
+    async updateProfile(name: string, userId: string): Promise<Iuser | void|null> {
+        return await editProfile(name,userId,this.userModels)
+    }
 
   async  blockUser(id: string): Promise<Iuser|void> {
       return await block(id,this.userModels)
@@ -30,9 +33,7 @@ export class UserRepository implements IuserRepository {
         return await getUser(this.userModels, id);
     }
 
-    async editUserData(id: string, phoneNumber: string, name: string): Promise<Iuser | undefined> {
-        return await editUserData(this.userModels, id, phoneNumber, name);
-    }
+  
 
     async changePassword(email: string, passsword: string): Promise<void> {
       const data=  await updateUserPassword(this.userModels,email,passsword)

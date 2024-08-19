@@ -1,7 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import HeaderAdmin from '../../components/headerAdmin'
+import { useNavigate } from 'react-router-dom';
+import useGetAdmin from '../../hook/useGetAdmin';
 
 const Compiler: React.FC = () => {
+  const navigate = useNavigate();
+  const currentuser = useGetAdmin();
+  useEffect(() => {
+      console.log(currentuser, 'current user');
+      if (!currentuser) {
+          navigate('/admin');
+      }
+  }, [currentuser, navigate]);
   return (
     <>
       <HeaderAdmin/>

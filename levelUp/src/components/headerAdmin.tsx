@@ -4,11 +4,15 @@ import { useNavigate } from 'react-router-dom'
 import { logout } from '../Api/admin'
 import { useDispatch } from 'react-redux'
 import { clearUser } from '../utils/clearUser'
+import useGetAdmin from '../hook/useGetAdmin'
 
 const HeaderAdmin:React.FC = () => {
     const dispatch = useDispatch()
-
     const navigate = useNavigate()
+    const currentUser = useGetAdmin()
+    if(!currentUser){
+      navigate('/admin')
+    }
     const handleLogout = async()=>{
         const resonse = await logout()
         console.log(resonse,'reponse')

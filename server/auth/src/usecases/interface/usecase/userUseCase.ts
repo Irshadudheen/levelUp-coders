@@ -9,4 +9,5 @@ export interface IuserUseCase{
     emailVerify(email:string,otp:string,next:Next) :Promise <object|void>
     updatePassword(email:string,passsword:string,next:Next):Promise <object|void>
     googleLogin(name:string,email:string,passsword:string,next:Next):Promise<object|void>
+    editUserProfile(name:string,userId:string,next:Next):Promise<Iuser|void|null>
 }

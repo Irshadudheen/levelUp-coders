@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Form, useNavigate, useParams } from 'react-router-dom';
 import HeaderAdmin from '../../components/headerAdmin';
 import { addQuiz } from '../../Api/subject';
+import useGetAdmin from '../../hook/useGetAdmin';
 
 const Quiz: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
@@ -13,6 +14,13 @@ const Quiz: React.FC = () => {
   const [option4,setOption4]=useState('')
   const {id}=useParams()
   const navigate = useNavigate()
+  const currentuser = useGetAdmin();
+  useEffect(() => {
+      console.log(currentuser, 'current user');
+      if (!currentuser) {
+          navigate('/admin');
+      }
+  }, [currentuser, navigate]);
   const handleOptionChange = (option: string) => {
     setSelectedOption(option === selectedOption ? null : option);
     

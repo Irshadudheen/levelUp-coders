@@ -8,8 +8,8 @@ import { Form } from 'react-bootstrap';
 import { addSubject } from '../../Api/admin';
 
 const Subject: React.FC = () => {
-    const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onTouched' });
     const navigate = useNavigate();
+    const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onTouched' });
     const currentuser = useGetAdmin();
 
     useEffect(() => {

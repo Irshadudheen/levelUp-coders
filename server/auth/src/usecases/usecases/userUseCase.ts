@@ -1,7 +1,7 @@
 import { Req,Res,Next } from "../../framework/types/serverPakageTypes";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { Iuser } from "../../entities/user";
-import {userSignup,createUser,login,forgotPassword,emailVerify,updateUserPassword,googleLogin} from './user/index'
+import {userSignup,createUser,login,forgotPassword,emailVerify,updateUserPassword,googleLogin, editProfile} from './user/index'
 import { Ijwt, IToken } from "../interface/service/jwt";
 import { catchError } from "../middlewares/catchError";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -18,6 +18,9 @@ export class UserUseCase implements IuserUseCase{
         private sentEmail:IsentEmail,
         private hashPassword:IhashPassword,
     ) {}
+    async editUserProfile(name: string, userId: string, next: Next): Promise<Iuser | void|null> {
+        return await editProfile(name,userId,this.userRepository,next);
+    }
     async userSignup(user: Iuser, next: Next): Promise<string | void> {
         try {
             console.log('coming in userSignup in userUseCase')

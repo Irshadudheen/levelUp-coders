@@ -1,15 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import HeaderAdmin from '../../components/headerAdmin'
 import AdminSideBar from '../../components/adminSideBar'
 import { useForm } from 'react-hook-form';
 import { Form } from 'react-bootstrap';
 import { uploadVideo } from '../../Api/subject';
 import { useNavigate, useParams } from 'react-router-dom';
+import useGetAdmin from '../../hook/useGetAdmin';
 
 const UploadVideo:React.FC = () => {
+    const navigate = useNavigate()
+    const currentuser = useGetAdmin();
+    useEffect(() => {
+        console.log(currentuser, 'current user');
+        if (!currentuser) {
+            navigate('/admin');
+        }
+    }, [currentuser, navigate]);
     const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onTouched' });
     const {id}=useParams()
-   const navigate = useNavigate()
     const  onSubmit=async(data:any)=>{
         const formData = new FormData()
         formData.append('image',data.image[0])

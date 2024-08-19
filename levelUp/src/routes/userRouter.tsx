@@ -12,6 +12,7 @@ import Premium from '../pages/user/premium';
 import BrickLoader from '../components/brickLoader';
 import UserProfile from '../pages/user/userProfile';
 import Compailer from '../pages/user/compailer';
+import EditUserProfile from '../components/editUserProfile';
 const UserRouter = () => {
   return (
     <Routes>
@@ -28,6 +29,7 @@ const UserRouter = () => {
         <Route path='/loader' element={<BrickLoader/>}/>
         <Route path='/profile' element={<UserProfile/>}/>
         <Route path='/compiler/:levelId' element={<Compailer/>}/>
+        <Route path='/EditProfile' element={<EditUserProfile/>}/>
         </Routes>
   )
 }

@@ -79,3 +79,11 @@ export const verifyEmail = async (email:string,otp:string)=>{
         return error
     }
 }
+export const updateUserProfile=async(userData:Object)=>{
+    try {
+        const response = await Api.patch(userRoutes.updateProfile,userData);
+        return response.data
+    } catch (error) {
+        return error
+    }
+}

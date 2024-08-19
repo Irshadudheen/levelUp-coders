@@ -92,7 +92,7 @@ const CourseGrid = ({ courses }: any) => {
             <img src={course.image} alt={course.name} className="w-full h-48 object-cover" />
             <div className="p-4">
               <h2 className="text-2xl font-bold text-white mb-2">{course.name}</h2>
-              <p className="text-gray-400 mb-4">{course.description}</p>
+              <p className="text-gray-400 mb-4 truncate">{course.description}</p>
               <button
                 onClick={() => navigate(`/level/${course._id}`)}
                 className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

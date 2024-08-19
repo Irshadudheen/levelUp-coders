@@ -3,11 +3,19 @@ import HeaderAdmin from '../../components/headerAdmin'
 import AdminSideBar from '../../components/adminSideBar'
 import { getLevel } from '../../Api/subject'
 import { useNavigate, useParams } from 'react-router-dom'
+import useGetAdmin from '../../hook/useGetAdmin'
 
 const Level = () => {
     const [level,setLevel]=useState([])
     const {id}=useParams()
     const navigate = useNavigate()
+    const currentuser = useGetAdmin();
+    useEffect(() => {
+        console.log(currentuser, 'current user');
+        if (!currentuser) {
+            navigate('/admin');
+        }
+    }, [currentuser, navigate]);
     useEffect(()=>{
         const fetchLevel = async()=>{
             try {

@@ -99,6 +99,9 @@ const Login:React.FC = () => {
   const handleSubmit = async(e:React.FormEvent<HTMLFormElement>)=>{
 
     e.preventDefault();
+    if(!/[A-Za-z0-9._%+-]+@gmail.com/.test(email)){
+    return  toast.error('give proper structure to email')
+    }
     const response = await login({email,password})
      
     if(response.user){

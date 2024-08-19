@@ -7,6 +7,7 @@ const userRoutes={
     logout:'/auth/user/logout',
     newPassword:'/auth/user/newPassword',
     verifyEmail:'/auth/user/createNewPassword',
+    updateProfile:'/auth/user/updateProfile'
    
 }
 
