@@ -10,16 +10,12 @@ import 'react-toastify/dist/ReactToastify.css';
 import AdminRouter from './routes/adminRouter'
 import { useEffect } from 'react'
 const App = () => {
-  const navigate = useNavigate()
-
-  const currentUser = useGetUser()
-  useSelector((state:currentUser)=>state)
-  const dispatch = useDispatch()
-  console.log(currentUser,'hai')
-useEffect(()=>{
+ 
 
 
-})
+  
+  
+
   return (
     <>
     <ToastContainer/>

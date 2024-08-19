@@ -3,8 +3,8 @@ import { Route,Next,Req,Res } from "../../types/serverPakageTypes"
 import {  } from "./injections/injections"
 export function subjectRoute(router:Route){
    
-    router.post('/addQuestion',(req:Req,res:Res,next:Next)=>{
-       console.log('comming in router of add subject')
+    router.post('/runCompiler',(req:Req,res:Res,next:Next)=>{
+      
         subjectController.addSubject(req,res,next)
     })
     router.post('/getSubject',(req:Req,res:Res,next:Next)=>{

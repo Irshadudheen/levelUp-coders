@@ -10,6 +10,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import CodeIcon from '@mui/icons-material/Code';
+import axios from 'axios';
 
 const CompilerUI = () => {
   const [code, setCode] = useState('// Write your code here');
@@ -21,10 +22,20 @@ const CompilerUI = () => {
     console.log('Compiling code...');
   };
 
-  const handleRun = () => {
-    setOutput('Running code...');
-    // Logic for running the code
-    console.log('Running code...');
+  const handleRun = async() => {
+    try {
+      
+      setOutput('Running code...');
+      // Logic for running the code
+      console.log(code)
+      
+      const res = await axios.post('http://localhost:4001/compiler/compile', { code,language:'javascript' });
+      console.log(res,'jadfkdfjlkasdfjlkdfjlk')
+      setOutput(res.data.output)
+      console.log('Running code...');
+    } catch (error:any) {
+      console.log(error.message)
+    }
   };
 
   const handleClear = () => {
