@@ -4,7 +4,7 @@ import quizModel from "../../model/quiz";
 import { createQuiz, findById } from "./quiz/index";
 export class QuizRepository implements IquizRepository{
     constructor(private quizModels:typeof quizModel){}
-    async findByLevelId(levelId: string): Promise<Iquiz | void|null> {
+    async findByLevelId(levelId: string): Promise<Iquiz[] | void|null> {
         try {
             return await findById(levelId,this.quizModels)
         } catch (error) {

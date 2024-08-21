@@ -22,7 +22,8 @@ export const getLevel = async (subjectId: string) => {
 export const addLevel = async (level:any)=>{
     try {
         console.log(level.image,'image of upload')
-        const res = await Api.post(subjectRoutes.addLevel,{name:level.name,image:level.image,videoDescription:level.videoDescription,subjectId:level.subjectId,video:'the video'},
+        console.log(level,'level in api')
+        const res = await Api.post(subjectRoutes.addLevel,{name:level.name,image:level.image,videoDescription:level.videoDescription,subjectId:level.subjectId,premium:level.premium},
             {
                 headers: {
                   'Content-Type': 'multipart/form-data', // Specify the content type

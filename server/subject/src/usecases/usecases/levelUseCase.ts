@@ -15,7 +15,7 @@ export class LevelUseCase implements IlevelUseCase{
         private videoRepository:IvideoRepository,
         private quizRepository:IquizRepository
     ){}
-    async getQuiz(levelId: string, next: Next): Promise<Iquiz | void|null> {
+    async getQuiz(levelId: string, next: Next): Promise<Iquiz[] | void|null> {
         return await getQuiz(levelId,this.quizRepository,next)
     }
     async getVideo(levelId: string, next: Next): Promise<Ivideo | null> {

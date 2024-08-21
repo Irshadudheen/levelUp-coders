@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { model, Model, Schema } from "mongoose";
 import { Icompiler } from "../../../../entities/compiler";
 
 const CompilerSchema:Schema<Icompiler>= new Schema({
@@ -8,6 +8,9 @@ const CompilerSchema:Schema<Icompiler>= new Schema({
     output_format:{type:String,required:true},
     sample_input:{type:String,required:true},
     sample_output:{type:String,required:true},
-    difficulty_level:{type:String,required:true,enum:['easy','medium','hard']},
+    difficulty_level:{type:String,required:true,enum:['easy','medium','hard'],default:'easy'},
     levelId:{type:Schema.ObjectId,required:true}
 })
+
+const compilerModel:Model<Icompiler>=model('compiler',CompilerSchema)
+export default compilerModel

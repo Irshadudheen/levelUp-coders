@@ -6,11 +6,11 @@ export class LevelController{
     constructor(private levelUseCase:IlevelUseCase){}
     async addLevel(req:Req,res:Res,next:Next){
         try {
-            console.log(req.body)
-            const{name,video,videoDescription,subjectId}=req.body
+            console.log(req.body,'the adding level data in controller')
+            const{name,subjectId,premium}=req.body
             const filePath:any=req.file?.path          
             const image:any=req.file?.filename
-            const level = await this.levelUseCase.createLevel({name,video,image,videoDescription,subjectId},filePath,next)
+            const level = await this.levelUseCase.createLevel({name,image,subjectId,premium},filePath,next)
             console.log(level,'added level')
             res.json({...level,succuss:true}).status(201)
         } catch (error:any) {
@@ -71,6 +71,7 @@ export class LevelController{
     async getQuiz(req:Req,res:Res,next:Next){
         const{levelId}=req.query;
         const quiz = await this.levelUseCase.getQuiz(levelId as string,next)
+        console.log(quiz,'quiz data')
         if(quiz){
             res.json(quiz).status(201)
         }

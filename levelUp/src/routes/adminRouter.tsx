@@ -9,6 +9,7 @@ import User_mangent from "../pages/admin/user_mangent"
 import UploadVideo from "../pages/admin/uploadVideo"
 import Quiz from "../pages/admin/quiz"
 import Compiler from "../pages/admin/Compiler"
+import ListQuiz from "../pages/admin/ListQuiz"
 
 const adminRouter:React.FC = () => {
   return (
@@ -24,6 +25,7 @@ const adminRouter:React.FC = () => {
       <Route path="/upladVideo/:id" element={<UploadVideo/>}/>
       <Route path='/addQuiz/:id' element={<Quiz/>}/>
       <Route path="/addCompiler/:id" element={<Compiler/>}/>
+      <Route path="/listQuiz/:id" element={<ListQuiz/>}/>
     </Routes>
   )
 }

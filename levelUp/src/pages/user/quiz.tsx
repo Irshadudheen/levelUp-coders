@@ -18,34 +18,40 @@ const Quiz: React.FC = () => {
 
   useEffect(() => {
     let isMounted = true;
-
+  
     const fetchQuiz = async () => {
       try {
         const res = await getQuiz(levelId as string);
-        if (isMounted && res?._id) {
-          const options: string[] = Object.keys(res.options);
-          const answer = options.findIndex((option) => res.options[option]);
-          const formattedQuestion = {
-            question: res.question,
-            options: options.map((option) =>
-              option.charAt(0).toUpperCase() + option.slice(1)
-            ),
-            answer: answer,
-          };
-          setQuestions([formattedQuestion]);
-          setQuiz(res);
+        if (isMounted && res.length > 0) {
+          const formattedQuestions = res.map((quiz) => {
+            const options: string[] = Object.keys(quiz.options);
+            const answer = options.findIndex((option) => quiz.options[option]);
+            return {
+              question: quiz.question,
+              options: options.map(
+                (option) => option.charAt(0).toUpperCase() + option.slice(1)
+              ),
+              answer: answer,
+            };
+          });
+  
+          if (isMounted) { // Double-check if component is still mounted
+            setQuestions(formattedQuestions);
+            setQuiz(res);
+          }
         }
       } catch (error) {
         console.error('Failed to fetch quiz:', error);
       }
     };
-
+  
     fetchQuiz();
-
+  
     return () => {
       isMounted = false;
     };
   }, [levelId]);
+  
 
   const handleOptionClick = (index: number) => {
     setSelectedOption(index);

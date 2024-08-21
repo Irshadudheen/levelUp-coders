@@ -7,6 +7,6 @@ export interface Icompiler{
     output_format:string;
     sample_input:string;
     sample_output:string;
-    difficulty_level: 'easy' | 'medium' | 'hard';
+    difficulty_level?: 'easy' | 'medium' | 'hard';
     levelId:ObjectId
 }

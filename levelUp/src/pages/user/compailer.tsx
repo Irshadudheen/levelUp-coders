@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Controlled as ControlledEditor } from 'react-codemirror2';
-import 'codemirror/lib/codemirror.css';
-import 'codemirror/theme/material.css';
-import 'codemirror/mode/javascript/javascript';
+
 import UserHeader from '../../components/userHeader';
 import UserFooter from '../../components/userFooter';
 import Button from '@mui/material/Button';
@@ -12,59 +10,62 @@ import PlayArrowIcon from '@mui/icons-material/PlayArrow';
 import CodeIcon from '@mui/icons-material/Code';
 import axios from 'axios';
 
-const CompilerUI = () => {
-  const [code, setCode] = useState('// Write your code here');
-  const [output, setOutput] = useState('Output will be displayed here.');
+const CompilerUI: React.FC = () => {
+  const defaultCode: string = `/**
+   * @param {number[]} nums
+   * @return {number}
+   */
+  var thirdMax = function(nums) {
+      // Your code here
+  };`;
 
-  const handleCompile = () => {
+  const [code, setCode] = useState<string>(defaultCode);
+  const [output, setOutput] = useState<string>('Output will be displayed here.');
+
+  const handleCompile = (): void => {
     setOutput('Compiling code...');
     // Logic for compiling the code
     console.log('Compiling code...');
   };
 
-  const handleRun = async() => {
+  const handleRun = async (): Promise<void> => {
     try {
-      
       setOutput('Running code...');
-      // Logic for running the code
-      console.log(code)
-      
-      const res = await axios.post('http://localhost:4001/compiler/compile', { code,language:'javascript' });
-      console.log(res,'jadfkdfjlkasdfjlkdfjlk')
-      setOutput(res.data.output)
+      const res = await axios.post<{ output: string }>('http://localhost:4001/compiler/compile', { code, language: 'javascript' });
+      setOutput(res.data.output);
       console.log('Running code...');
-    } catch (error:any) {
-      console.log(error.message)
+    } catch (error: any) {
+      console.error(error.message);
+      setOutput('Error: ' + error.message);
     }
   };
 
-  const handleClear = () => {
-    setCode('// Write your code here');
+  const handleClear = (): void => {
+    setCode(defaultCode);
     setOutput('Output cleared.');
   };
 
-  const handleCopy = () => {
+  const handleCopy = (): void => {
     navigator.clipboard.writeText(code);
     setOutput('Code copied to clipboard.');
   };
-
+  const handleCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCode(event.target.value);
+  };
   return (
     <>
       <UserHeader />
       <div className="flex mt-14 flex-col items-center justify-center min-h-screen bg-gray-900 p-4">
         <div className="w-full max-w-4xl bg-gray-800 rounded-lg shadow-lg">
-          <div className="p-4 border-b border-gray-700">
-            <ControlledEditor
-              value={code}
-              onBeforeChange={(editor, data, value) => setCode(value)}
-              options={{
-                mode: 'javascript',
-                theme: 'material',
-                lineNumbers: true,
-              }}
-              className="bg-gray-900 rounded-lg"
-            />
-          </div>
+        <div className="p-4 border-b border-gray-700 bg-gray-800 rounded-lg">
+  <textarea 
+    value={code}
+    onChange={handleCodeChange}
+    className="w-full p-4 border text-white bg-gray-900 border-gray-700 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    rows={10} // Adjust the number of rows as needed
+    placeholder="Write your code here..."
+  />
+</div>
           <div className="flex justify-between p-4 space-x-4">
             <div>
               <Button

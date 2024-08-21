@@ -7,6 +7,7 @@ export const createLevel=async(level:Ilevel,filePath:string,cloudinary:Icloudina
     try {
         const res= await cloudinary.v2.uploader.upload(filePath)
         level.image=res.secure_url
+        console.log('the level in mondel',level)
         return await levelRepository.addLevel(level)
         
     } catch (error:any) {

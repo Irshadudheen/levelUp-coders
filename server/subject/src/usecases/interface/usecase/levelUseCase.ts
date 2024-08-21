@@ -9,5 +9,5 @@ export interface IlevelUseCase{
     uploadVideo(videoData:Ivideo,filePath:string,next:Next):Promise<Ivideo|void>
     getVideo(levelId:string,next:Next):Promise <Ivideo|null>
     addQuiz(quiz:Iquiz,next:Next):Promise<Iquiz|void>
-    getQuiz(levelId:string,next:Next):Promise<Iquiz|void|null>
+    getQuiz(levelId:string,next:Next):Promise<Iquiz[]|void|null>
 }

@@ -6,6 +6,7 @@ import {useNavigate} from 'react-router-dom';
 import useGetAdmin from '../../hook/useGetAdmin';
 import { useDispatch } from 'react-redux';
 import { setUser } from '../../redux/userSlice';
+import { toast } from 'react-toastify';
 
 const Login: React.FC = () => {
 
@@ -29,6 +30,9 @@ const Login: React.FC = () => {
   const handler = async(e:React.FormEvent<HTMLFormElement>)=>{
     e.preventDefault()
     console.log(email,password)
+    if(!/[A-Za-z0-9._%+-]+@gmail.com/.test(email)){
+    return  toast.error('give proper strcuture to email')
+    }
     const response = await adminLogin(email,password)
     console.log(response,'33333333333333333333333')
     if(response.admin){
@@ -51,8 +55,8 @@ const Login: React.FC = () => {
       
       navigate('/admin/home')
     }else{
-      // const{message}=response.response?.data
-      // toast.error(message)
+      const{message}=response.response?.data
+      toast.error(message)
 
     }
 
