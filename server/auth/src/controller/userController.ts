@@ -44,6 +44,7 @@ export class UserController{
             const user = await this.userUseCase.createUser(token as string,req.body.otp, next)
             console.log("at the end of the uer", user)
             if(user){
+                // const active = await this.userUseCase.createActiveDays({userId:user._id,days:[{data:,isActive:true}]})
                 res.clearCookie("verificationToken").send(user)
             }
         }catch(error:any){
@@ -138,4 +139,5 @@ export class UserController{
             return next(new ErrorHandler(error.status,error.message))
         }
     }
+
 }

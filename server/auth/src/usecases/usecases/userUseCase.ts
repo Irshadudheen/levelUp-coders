@@ -1,7 +1,7 @@
 import { Req,Res,Next } from "../../framework/types/serverPakageTypes";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { Iuser } from "../../entities/user";
-import {userSignup,createUser,login,forgotPassword,emailVerify,updateUserPassword,googleLogin, editProfile} from './user/index'
+import {userSignup,createUser,login,forgotPassword,emailVerify,updateUserPassword,googleLogin, editProfile, createActiveDays} from './user/index'
 import { Ijwt, IToken } from "../interface/service/jwt";
 import { catchError } from "../middlewares/catchError";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";
@@ -9,6 +9,8 @@ import { IotpGenerate } from "../interface/service/otpGenerate";
 import { IhashPassword } from "../interface/service/hashPassword";
 import { IotpRepository } from "../interface/repositoryInterface/otpRepository";
 import { IsentEmail } from "../interface/service/sentEmail";
+import { Iactive } from "../../entities/activeDays";
+import { IactiveRepository } from "../interface/repositoryInterface/activeRepository";
 export class UserUseCase implements IuserUseCase{
     constructor(
         private userRepository:IuserRepository,
@@ -17,7 +19,11 @@ export class UserUseCase implements IuserUseCase{
         private otpRepository:IotpRepository,
         private sentEmail:IsentEmail,
         private hashPassword:IhashPassword,
+        // private activeRepository:IactiveRepository
     ) {}
+    // async createActiveDays(userId:Iactive, next: Next): Promise<Iactive | void | null> {
+    //     return await createActiveDays(userId,this.activeRepository,next)
+    // }
     async editUserProfile(name: string, userId: string, next: Next): Promise<Iuser | void|null> {
         return await editProfile(name,userId,this.userRepository,next);
     }

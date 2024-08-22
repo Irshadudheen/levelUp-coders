@@ -9,10 +9,10 @@ export function adminRouter(router:Route){
         router.post('/logout',(req:Req,res:Res,next:Next)=>{
             adminController.logout(req,res,next);
         })
-        router.get('/userData',isAdmin,(req:Req,res:Res,next:Next)=>{
+        router.get('/userData',(req:Req,res:Res,next:Next)=>{
             adminController.getUserData(req,res,next);
         })
-        router.post('/blockUser',isAdmin,(req:Req,res:Res,next:Next)=>{
+        router.post('/blockUser',(req:Req,res:Res,next:Next)=>{
             adminController.blockUser(req,res,next);
         })
 }
