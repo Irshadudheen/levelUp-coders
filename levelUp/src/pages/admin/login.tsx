@@ -38,9 +38,9 @@ const Login: React.FC = () => {
     if(response.admin){
       
       
-      localStorage.setItem('accesToken',response.accesToken)
-      localStorage.setItem('refreshToken',response.refreshToken)
-      localStorage.setItem('role',response.role)
+      localStorage.setItem('accesToken',response.token.accesToken)
+      localStorage.setItem('refreshToken',response.token.refreshToken)
+      localStorage.setItem('role',response.token.role)
       console.log(response,'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa')
       dispatch(setUser({
         role:response.admin.role,

@@ -16,12 +16,12 @@ import EditUserProfile from '../components/editUserProfile';
 const UserRouter = () => {
   return (
     <Routes>
-        <Route path='/' element={<Login/>}/>
+        <Route path='/login' element={<Login/>}/>
         <Route path='/register' element={<Register/>}/>
         <Route path='/forgotPassword' element={<ForgotPassword/>}/>
         <Route path='/otp/:id' element={<OtpPage/>}/>
         <Route path='/newPassword' element={<NewPassword/>}/>
-        <Route path='/home' element={<Home/>}/>
+        <Route path='/' element={<Home/>}/>
         <Route path='/level/:id' element={<Level/>}/>
         <Route path='/video/:levelId' element={<VideoPlayer/>}/>
         <Route path='/quiz/:levelId' element={<Quiz/>}/>

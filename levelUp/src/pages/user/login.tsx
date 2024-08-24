@@ -192,13 +192,13 @@ const Login:React.FC = () => {
                 />
               </svg>
             </a>
-            <a  className="text-gray-400 hover:text-white">
+            {/* <a  className="text-gray-400 hover:text-white">
               <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
                 <path
                   d="M12 10.74v3.26h5.452c-.218 1.09-1.46 3.192-5.452 3.192-3.278 0-5.941-2.719-5.941-6.07s2.663-6.07 5.941-6.07c1.874 0 3.138.798 3.865 1.492l2.822-2.734C16.993 2.794 14.63 2 12 2 6.486 2 2 6.486 2 12s4.486 10 10 10c5.88 0 9.792-4.17 9.792-10 0-.633-.07-1.268-.194-1.884H12z"
                 />
               </svg>
-            </a>
+            </a> */}
 
           </div>
           <div className="text-center mt-4">

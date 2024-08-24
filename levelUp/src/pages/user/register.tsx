@@ -184,7 +184,7 @@ const Register:React.FC = () => {
             </a>
           </div>
           <div className="text-center mt-4">
-            <p className="text-gray-400">Already have an account? <a onClick={()=>navigate('/')} className="text-blue-400 hover:text-blue-300">Login here</a></p>
+            <p className="text-gray-400">Already have an account? <a onClick={()=>navigate('/login')} className="text-blue-400 hover:text-blue-300">Login here</a></p>
           </div>
         </form>
       </div>
