@@ -65,7 +65,7 @@ const Login:React.FC = () => {
   useEffect(()=>{
     console.log(currentUser,"current user in login")
     if(currentUser){
-      navigate('/home')
+      navigate('/')
     }
   })
   const googleSubmit= async(credentialResponse:any)=>{
@@ -90,7 +90,7 @@ const Login:React.FC = () => {
           ))
           
           
-          navigate('/home')
+          navigate('/')
         }else{
           const{message}=response.response?.data
           toast.error(message)
@@ -122,7 +122,7 @@ const Login:React.FC = () => {
       ))
       
       
-      navigate('/home')
+      navigate('/')
     }else{
       const{message}=response.response?.data
       toast.error(message)

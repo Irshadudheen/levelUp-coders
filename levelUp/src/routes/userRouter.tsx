@@ -1,4 +1,4 @@
-import { Route,Routes } from 'react-router-dom';
+import { Navigate, Route,Routes, useNavigate } from 'react-router-dom';
 import Login from "../pages/user/login"
 import Register from '../pages/user/register'
 import ForgotPassword from '../components/forgotPassword';
@@ -13,7 +13,10 @@ import BrickLoader from '../components/brickLoader';
 import UserProfile from '../pages/user/userProfile';
 import Compailer from '../pages/user/compailer';
 import EditUserProfile from '../components/editUserProfile';
+import useGetUser from '../hook/useGetUser';
 const UserRouter = () => {
+  const currentUser = useGetUser()
+
   return (
     <Routes>
         <Route path='/login' element={<Login/>}/>
@@ -22,14 +25,14 @@ const UserRouter = () => {
         <Route path='/otp/:id' element={<OtpPage/>}/>
         <Route path='/newPassword' element={<NewPassword/>}/>
         <Route path='/' element={<Home/>}/>
-        <Route path='/level/:id' element={<Level/>}/>
-        <Route path='/video/:levelId' element={<VideoPlayer/>}/>
-        <Route path='/quiz/:levelId' element={<Quiz/>}/>
-        <Route path='/premium' element={<Premium/>}/>
+        <Route path='/level/:id' element={currentUser?<Level/>:<Navigate to={'/login'}/>}/>
+        <Route path='/video/:levelId' element={currentUser?<VideoPlayer/>:<Navigate to={'/login'}/>}/>
+        <Route path='/quiz/:levelId' element={currentUser?<Quiz/>:<Navigate to={'/login'}/>}/>
+        <Route path='/premium' element={currentUser?<Premium/>:<Navigate to={'/login'}/>}/>
         <Route path='/loader' element={<BrickLoader/>}/>
-        <Route path='/profile' element={<UserProfile/>}/>
-        <Route path='/compiler/:levelId' element={<Compailer/>}/>
-        <Route path='/EditProfile' element={<EditUserProfile/>}/>
+        <Route path='/profile' element={currentUser?<UserProfile/>:<Navigate to={'/login'}/>}/>
+        <Route path='/compiler/:levelId' element={currentUser?<Compailer/>:<Navigate to={'/login'}/>}/>
+        <Route path='/EditProfile' element={currentUser?<EditUserProfile/>:<Navigate to={'/login'}/>}/>
         </Routes>
   )
 }
