@@ -22,7 +22,7 @@ export class SubjectController{
         try {
             console.log('get subject controller',req.body)
             const subject =await this.subjectUseCase.getSubject(req.body.subjectId,next)
-            console.log(subject)
+           
             if(subject){
 
                 return res.json(subject).status(201)
@@ -38,7 +38,7 @@ export class SubjectController{
             const filePath:any=req.file?.path          
             const image:any=req.file?.filename
             const subject = await this.subjectUseCase.addSubject({name,description,image,level:[]},filePath,next)
-            console.log(subject)
+          
             if(subject){
                 res.json({...subject,succuss:true}).status(201);
             }

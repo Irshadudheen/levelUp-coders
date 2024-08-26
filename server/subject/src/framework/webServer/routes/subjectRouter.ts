@@ -1,9 +1,10 @@
 import upload from "../../service/multer"
 import { Route,Next,Req,Res } from "../../types/serverPakageTypes"
+import { isAdmin } from "../middleware/roleAuth"
 import { levelController, subjectController } from "./injections/injections"
 export function subjectRoute(router:Route){
    
-    router.post('/addSubject',upload,(req:Req,res:Res,next:Next)=>{
+    router.post('/addSubject',isAdmin,upload,(req:Req,res:Res,next:Next)=>{
        console.log('comming in router of add subject')
         subjectController.addSubject(req,res,next)
     })
@@ -14,14 +15,14 @@ export function subjectRoute(router:Route){
     router.post('/getAllSubject',(req:Req,res:Res,next:Next)=>{
         subjectController.getAllSubject(req,res,next)
     })
-    router.post('/addLevel',upload,(req:Req,res:Res,next:Next)=>{
+    router.post('/addLevel',isAdmin,upload,(req:Req,res:Res,next:Next)=>{
         console.log("akdjfasdkljsdf")
         levelController.addLevel(req,res,next)
     })
     router.get('/getLevel',(req:Req,res:Res,next:Next)=>{
         levelController.getLevel(req,res,next)
     })
-    router.post('/uploadVideo',upload,(req:Req,res:Res,next:Next)=>{
+    router.post('/uploadVideo',isAdmin,upload,(req:Req,res:Res,next:Next)=>{
        console.log(req.body,req.file)
         levelController.upladVideo(req,res,next)
     })
@@ -30,7 +31,7 @@ export function subjectRoute(router:Route){
         levelController.getVideo(req,res,next)
 
     })
-    router.post('/addQuiz',(req:Req,res:Res,next:Next)=>{
+    router.post('/addQuiz',isAdmin,(req:Req,res:Res,next:Next)=>{
         console.log(req.body)
         levelController.addQuiz(req,res,next)
     })

@@ -10,15 +10,15 @@ const Quiz: React.FC = () => {
   const [showResult, setShowResult] = useState(false);
   const [quiz, setQuiz] = useState<any>(null);
   const { levelId } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [questions, setQuestions] = useState<
     { question: string; options: string[]; answer: number }[]
   >([]);
-  const [score, setScore] = useState(0);  // State to track score
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
     let isMounted = true;
-  
+
     const fetchQuiz = async () => {
       try {
         const res = await getQuiz(levelId as string);
@@ -34,8 +34,8 @@ const Quiz: React.FC = () => {
               answer: answer,
             };
           });
-  
-          if (isMounted) { // Double-check if component is still mounted
+
+          if (isMounted) {
             setQuestions(formattedQuestions);
             setQuiz(res);
           }
@@ -44,35 +44,37 @@ const Quiz: React.FC = () => {
         console.error('Failed to fetch quiz:', error);
       }
     };
-  
+
     fetchQuiz();
-  
+
     return () => {
       isMounted = false;
     };
   }, [levelId]);
-  
 
   const handleOptionClick = (index: number) => {
     setSelectedOption(index);
-  };
 
-  const handleNextQuestion = () => {
-    if (selectedOption === questions[currentQuestion].answer) {
-      setScore(score + 1); // Increment score on correct answer
+    // Update score if the selected option is correct
+    if (index === questions[currentQuestion].answer) {
+      setScore(score + 1);
     }
-    setSelectedOption(null);
-    if (currentQuestion < questions.length - 1) {
-      setCurrentQuestion(currentQuestion + 1);
-    } else {
-      setShowResult(true);
-    }
+
+    // Automatically move to the next question after a brief delay
+    setTimeout(() => {
+      setSelectedOption(null);
+      if (currentQuestion < questions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+      } else {
+        setShowResult(true);
+      }
+    }, 1000);
   };
 
   const handleRetry = () => {
     setCurrentQuestion(0);
     setSelectedOption(null);
-    setScore(0);  // Reset score on retry
+    setScore(0);
     setShowResult(false);
   };
 
@@ -98,17 +100,21 @@ const Quiz: React.FC = () => {
             <div className="text-center">
               <h2 className="text-2xl font-bold text-gray-800 mb-4">Quiz Completed!</h2>
               <p className="text-gray-600">Your score: {score} / {questions.length}</p>
-             {
-              score!==questions.length?
-              <button
-                onClick={handleRetry}
-                className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-500 transition"
-              >
-                Retry
-              </button>:<button
-               className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-500 transition"
-              onClick={()=>navigate(`/compiler/${levelId}`)}>Next Compailer</button>
-             }
+              {score !== questions.length ? (
+                <button
+                  onClick={handleRetry}
+                  className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-500 transition"
+                >
+                  Retry
+                </button>
+              ) : (
+                <button
+                  className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-500 transition"
+                  onClick={() => navigate(`/compiler/${levelId}`)}
+                >
+                  Next Compiler
+                </button>
+              )}
             </div>
           ) : (
             <>
@@ -123,6 +129,7 @@ const Quiz: React.FC = () => {
                   <li key={index}>
                     <button
                       onClick={() => handleOptionClick(index)}
+                      disabled={selectedOption !== null}  // Disable buttons if an option is selected
                       className={`w-full text-left px-4 py-2 rounded-lg border transition ${
                         selectedOption === index
                           ? selectedOption === questions[currentQuestion].answer
@@ -136,13 +143,6 @@ const Quiz: React.FC = () => {
                   </li>
                 ))}
               </ul>
-              <button
-                onClick={handleNextQuestion}
-                className="mt-6 w-full bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-500 transition"
-                disabled={selectedOption === null}
-              >
-                {currentQuestion < questions.length - 1 ? 'Next Question' : 'Finish Quiz'}
-              </button>
             </>
           )}
         </div>

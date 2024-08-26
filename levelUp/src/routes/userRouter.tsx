@@ -14,6 +14,8 @@ import UserProfile from '../pages/user/userProfile';
 import Compailer from '../pages/user/compailer';
 import EditUserProfile from '../components/editUserProfile';
 import useGetUser from '../hook/useGetUser';
+import CourseList from '../pages/user/courseLIst';
+import NotFound from '../components/notFound';
 const UserRouter = () => {
   const currentUser = useGetUser()
 
@@ -33,6 +35,8 @@ const UserRouter = () => {
         <Route path='/profile' element={currentUser?<UserProfile/>:<Navigate to={'/login'}/>}/>
         <Route path='/compiler/:levelId' element={currentUser?<Compailer/>:<Navigate to={'/login'}/>}/>
         <Route path='/EditProfile' element={currentUser?<EditUserProfile/>:<Navigate to={'/login'}/>}/>
+        <Route path='/courses' element={<CourseList/>}/>
+        <Route path='/*' element={<NotFound/>}/>
         </Routes>
   )
 }
