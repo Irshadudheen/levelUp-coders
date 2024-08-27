@@ -5,5 +5,6 @@ export interface IsubjectUseCase{
     addSubject(subject:Isubject,path:string,next:Next):Promise<Isubject|void>
     getSubject(productId:string,next:Next):Promise<Isubject|void>
     getAllSubject(next:Next):Promise<Isubject[]|void>
+    editSubject(subject:Object,next:Next):Promise<object|void>
     
 }

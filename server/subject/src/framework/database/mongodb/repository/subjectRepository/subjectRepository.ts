@@ -1,9 +1,12 @@
 import { Isubject } from "../../../../../entities/subject";
 import { IsubjectRepository } from "../../../../../usecases/interface/repositoryInterface/subjectRepository";
 import subjectModel from "../../model/subject";
-import {addSubject,findById,getSubject} from './subject/index'
+import {addSubject,findById,getSubject,editSubject} from './subject/index'
 export class SubjectRepositroy implements IsubjectRepository {
     constructor(private subjectModels:typeof subjectModel){}
+   async editSubject(subject: object): Promise<Isubject | void|object> {
+        return await editSubject(subject,this.subjectModels)
+    }
     // async findById(subjectId: string): Promise<Isubject> {
         
     //       return  await findById(subjectId,this.subjectModels)
@@ -29,8 +32,5 @@ export class SubjectRepositroy implements IsubjectRepository {
         return await getSubject(this.subjectModels)
         
     }
-    editSubject(id: string): Promise<Isubject | void> {
-        throw new Error("Method not implemented.");
-    }
-    
+  
 }

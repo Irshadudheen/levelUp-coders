@@ -76,4 +76,16 @@ export class LevelController{
             res.json(quiz).status(201)
         }
     }
+    async editLevel(req:Req,res:Res,next:Next){
+        try {
+            const{levelId,name,premium}=req.body
+            const level = await this.levelUseCase.editLevel({levelId,name,premium},next)
+            if(level){
+                res.json(level).status(201)
+            }
+        } catch (error) {
+            
+        }
+    }
+    
 }

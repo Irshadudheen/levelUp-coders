@@ -1,7 +1,7 @@
 import upload from "../../service/multer"
 import { Route,Next,Req,Res } from "../../types/serverPakageTypes"
 import { isAdmin } from "../middleware/roleAuth"
-import { levelController, subjectController } from "./injections/injections"
+import { categoryController, levelController, subjectController } from "./injections/injections"
 export function subjectRoute(router:Route){
    
     router.post('/addSubject',isAdmin,upload,(req:Req,res:Res,next:Next)=>{
@@ -39,4 +39,25 @@ export function subjectRoute(router:Route){
         console.log(req.query)
         levelController.getQuiz(req,res,next)
     })
+    router.put('/editSubject',(req:Req,res:Res,next:Next)=>{
+        console.log(req.body)
+        subjectController.editSubject(req,res,next)
+    })
+    router.put('/editlevel',(req:Req,res:Res,next:Next)=>{
+        console.log(req.body)
+        levelController.editLevel(req,res,next)
+    })
+    router.post('/addCategory',(req:Req,res:Res,next:Next)=>{
+        console.log(req.body)
+        categoryController.creatCategory(req,res,next)
+
+    })
+    router.get('/getCategory',(req:Req,res:Res,next:Next)=>{
+        console.log(req.params)
+        categoryController.getCategory(req,res,next)
+    })
+    router.get('/getAllCategory',(req:Req,res:Res,next:Next)=>{
+        categoryController.allCategory(req,res,next)
+    })
+    
 }

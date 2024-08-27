@@ -6,5 +6,5 @@ export interface IsubjectRepository{
     findById(subjectId:string):Promise <Isubject|void>
     blockSubject(id:string):Promise<object>
     getSubject():Promise<Isubject[]|void>
-    editSubject(id:string):Promise<Isubject|void>
+    editSubject(subject:object):Promise<object|void>
 }

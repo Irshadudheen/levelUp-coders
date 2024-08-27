@@ -23,18 +23,22 @@ export default {
           '0%': { transform: 'translateX(100%)', opacity: '0' },
           '100%': { transform: 'translateX(0)', opacity: '1' },
         },
-        // Add the brick-wave keyframes
         wave: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-10px)' },
+        },
+        ripple: {
+          '0%': { transform: 'scale(0.5)', opacity: '0' },
+          '25%': { opacity: '1' },
+          '100%': { transform: 'scale(2.5)', opacity: '0' },
         },
       },
       animation: {
         fall: 'fall 0.5s ease-out forwards',
         slideInLeft: 'slideInLeft 0.5s ease-out forwards',
         slideInRight: 'slideInRight 0.5s ease-out forwards',
-        // Add the brick-wave animation
         'brick-wave': 'wave 1s infinite',
+        ripple: 'ripple 3s infinite',
       },
     },
   },

@@ -7,7 +7,7 @@ import { IlevelRepository } from "../interface/repositoryInterface/levelReposito
 import { IquizRepository } from "../interface/repositoryInterface/quizRepository";
 import { IvideoRepository } from "../interface/repositoryInterface/videoRepository";
 import { IlevelUseCase } from "../interface/usecase/levelUseCase";
-import { addQuiz, createLevel, getLevel ,getQuiz,getVideo,upload} from "./level/index";
+import { addQuiz, createLevel, getLevel ,getQuiz,getVideo,upload,editLevel} from "./level/index";
 
 export class LevelUseCase implements IlevelUseCase{
     constructor(private levelRepository:IlevelRepository,
@@ -15,6 +15,9 @@ export class LevelUseCase implements IlevelUseCase{
         private videoRepository:IvideoRepository,
         private quizRepository:IquizRepository
     ){}
+   async editLevel(level: object, next: Next): Promise<object | void> {
+        return await editLevel(level,this.levelRepository,next);
+    }
     async getQuiz(levelId: string, next: Next): Promise<Iquiz[] | void|null> {
         return await getQuiz(levelId,this.quizRepository,next)
     }

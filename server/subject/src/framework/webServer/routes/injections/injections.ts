@@ -10,8 +10,15 @@ import { LevelRepository } from "../../../database/mongodb/repository/LevelRepos
 import { QuizRepository } from "../../../database/mongodb/repository/quizRepository/quizRepository";
 import { SubjectRepositroy } from "../../../database/mongodb/repository/subjectRepository/subjectRepository";
 import { VideoRepository } from "../../../database/mongodb/repository/videoRepository";
+import { CategoryController } from "../../../../controller/categoryController";
 import cloudinary from "../../../service/cloudinary";
+import { CategoryRepository } from "../../../database/mongodb/repository/categoryRepository";
+import categoryModel from "../../../database/mongodb/model/category";
+import { CategoryUseCase} from "../../../../usecases/usecases/categoryUseCase";
 
+const categoryRepository=new CategoryRepository(categoryModel)
+const categoryUseCase=new CategoryUseCase(categoryRepository)
+const categoryController=new CategoryController(categoryUseCase)
 const subjectRepository = new SubjectRepositroy(subjectModel)
 const subjectUseCase = new SubjectUseCase(subjectRepository,cloudinary)
 const subjectController = new SubjectController(subjectUseCase)
@@ -22,4 +29,4 @@ const quizRepository = new QuizRepository(quizModel)
 const levelUseCase = new LevelUseCase(levelRepository,cloudinary,videoRepository,quizRepository) 
 const levelController= new LevelController(levelUseCase)
 
-export {subjectController,levelController}
+export {subjectController,levelController,categoryController}

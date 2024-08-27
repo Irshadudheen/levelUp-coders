@@ -1,4 +1,5 @@
 import { addSubject } from "./createSubject";
 import { findSubject } from "./findSubject";
 import { getAllSubject } from "./getAllSubject";
-export {addSubject,findSubject,getAllSubject}
+import {editSubject} from './editSubject'
+export {addSubject,findSubject,getAllSubject,editSubject}

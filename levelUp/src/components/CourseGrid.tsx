@@ -15,13 +15,16 @@ const CourseGrid = ({ courses }: { courses: any[] }) => {
 
   useEffect(() => {
     // Initialize filteredCourses with all courses
+console.log(courses)
     setFilteredCourses(courses);
-  }, [courses]);
-  console.log(filteredCourses,':courses')
+    console.log(filteredCourses,':courses')
+  },[filteredCourses,courses]);
 
   useEffect(() => {
     // Update visible courses when currentIndex or filteredCourses change
     const updateVisibleCourses = () => {
+     
+      console.log(currentIndex,':currentIndex')
       const startIndex = currentIndex;
       const endIndex = startIndex + coursesPerPage;
       setVisibleCourses(filteredCourses.slice(startIndex, endIndex));

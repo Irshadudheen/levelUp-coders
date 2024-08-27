@@ -1,12 +1,21 @@
 
 import { Next, Req, Res } from "../framework/types/serverPakageTypes";
 import { IsubjectUseCase } from "../usecases/interface/usecase/subjectUseCase";
-import cloudinary from "../framework/service/cloudinary";
+
 
 export class SubjectController{
     
     constructor(private subjectUseCase:IsubjectUseCase){
        
+    }
+    async editSubject(req:Req,res:Res,next:Next){
+        try {
+            const {subjectId,name,description}=req.body;
+            const subject = await this.subjectUseCase.editSubject({subjectId,name,description},next);
+            res.json(subject).status(201);
+        } catch (error:any) {
+                console.log(error.message)           
+        }
     }
     async getAllSubject(req:Req,res:Res,next:Next){
         try {

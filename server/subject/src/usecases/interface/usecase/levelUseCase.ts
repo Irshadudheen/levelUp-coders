@@ -10,4 +10,5 @@ export interface IlevelUseCase{
     getVideo(levelId:string,next:Next):Promise <Ivideo|null>
     addQuiz(quiz:Iquiz,next:Next):Promise<Iquiz|void>
     getQuiz(levelId:string,next:Next):Promise<Iquiz[]|void|null>
+    editLevel(level:object,next:Next):Promise<object|void>
 }
