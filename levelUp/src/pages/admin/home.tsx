@@ -4,8 +4,8 @@ import useGetAdmin from '../../hook/useGetAdmin'
 import { logout } from '../../Api/admin'
 import { useDispatch } from 'react-redux'
 import { clearUser } from '../../utils/clearUser'
-import HeaderAdmin from '../../components/headerAdmin'
-import AdminSideBar from '../../components/adminSideBar'
+import HeaderAdmin from '../../Admincomponents/headerAdmin'
+import AdminSideBar from '../../Admincomponents/adminSideBar'
 
 const Home: React.FC = () => {
   const dispatch = useDispatch()

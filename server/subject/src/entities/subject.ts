@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 
 export interface Isubject {
     _id?:string;
@@ -5,5 +6,6 @@ export interface Isubject {
     description:string;
     image:string;
     is_blocked?:boolean;
-    level:[];
+   
+    categoryId:ObjectId
 }

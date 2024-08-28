@@ -5,6 +5,9 @@ const subjectRoute ={
     UploadVideo:'/subject/subjectRouter/uploadVideo',
     getVideo:'/subject/subjectRouter/getVideo',
     addQuiz:'/subject/subjectRouter/addQuiz',
-    getQuiz:'/subject/subjectRouter/getQuiz'
+    getQuiz:'/subject/subjectRouter/getQuiz',
+    getAllCategory:'/subject/subjectRouter/getAllCategory',
+    addCategory:'/subject/subjectRouter/addCategory'
+
 }
 export default subjectRoute

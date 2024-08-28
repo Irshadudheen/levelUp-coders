@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import HeaderAdmin from '../../components/headerAdmin'
-import AdminSideBar from '../../components/adminSideBar'
-import { getAllSubject } from '../../Api/subject'
+import HeaderAdmin from './headerAdmin'
+import AdminSideBar from './adminSideBar'
+import { getAllSubject } from '../Api/subject'
 import { useNavigate } from 'react-router-dom'
-import useGetAdmin from '../../hook/useGetAdmin'
+import useGetAdmin from '../hook/useGetAdmin'
 
 const CourseList = () => {
   const [subjects, setSubject]: any = useState([])
@@ -47,12 +47,12 @@ const CourseList = () => {
                     Subject name
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    description
+                    Description
                   </th>
                   <th scope="col" className="px-6 py-3">
-                    image
+                    Image
                   </th>
-                  
+                  <th>Category</th>
                   <th scope="col" className="px-6 py-3">
                      Level
                   </th>
@@ -71,7 +71,7 @@ const CourseList = () => {
                     <td className="px-6 py-4">
                       <img src={subject.image} width={50} height={50} alt={subject.name} />
                     </td>
-                   
+                   <td className='px-6 py-4'>{subject?.categoryId?.name}</td>
                     <td>
                       <button onClick={() => navigate(`/admin/listLevel/${subject._id}`)} type="button" className="text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2">list level</button>
                     </td>

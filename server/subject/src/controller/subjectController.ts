@@ -43,10 +43,10 @@ export class SubjectController{
     async addSubject(req:Req,res:Res,next:Next){
         try {
             console.log(req.body)
-            const{name,description}=req.body
+            const{name,description,categoryId}=req.body
             const filePath:any=req.file?.path          
             const image:any=req.file?.filename
-            const subject = await this.subjectUseCase.addSubject({name,description,image,level:[]},filePath,next)
+            const subject = await this.subjectUseCase.addSubject({categoryId,name,description,image},filePath,next)
           
             if(subject){
                 res.json({...subject,succuss:true}).status(201);

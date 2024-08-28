@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import UserHeader from '../../components/userHeader';
+import UserHeader from './userHeader';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getQuiz } from '../../Api/subject';
+import { getQuiz } from '../Api/subject';
 import Skeleton from 'react-loading-skeleton';
 
 const Quiz: React.FC = () => {

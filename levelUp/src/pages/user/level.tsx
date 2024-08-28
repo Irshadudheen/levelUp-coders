@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getLevel } from "../../Api/subject";
 import { useNavigate, useParams } from "react-router-dom";
-import UserHeader from "../../components/userHeader";
+import UserHeader from "../../Usercomponents/userHeader";
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 
 const ImageGrid: React.FC = () => {

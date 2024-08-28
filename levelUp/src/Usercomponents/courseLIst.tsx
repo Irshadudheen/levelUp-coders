@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import UserHeader from '../../components/userHeader';
-import UserFooter from '../../components/userFooter';
-import { getAllSubject } from '../../Api/subject';
-import CourseDescription from '../../components/CourseDescription';
+import UserHeader from './userHeader';
+import UserFooter from './userFooter';
+import { getAllSubject } from '../Api/subject';
+import CourseDescription from './CourseDescription';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css'; // Import the skeleton CSS for styling
 import { Navigate, useNavigate } from 'react-router-dom';

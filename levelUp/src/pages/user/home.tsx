@@ -5,12 +5,12 @@ import image from '/file (1).png'
 
 import { useNavigate } from 'react-router-dom';
 
-import UserHeader from '../../components/userHeader';
-import UserFooter from '../../components/userFooter';
+import UserHeader from '../../Usercomponents/userHeader';
+import UserFooter from '../../Usercomponents/userFooter';
 
 import { getAllSubject } from '../../Api/subject';
 import useGetUser from '../../hook/useGetUser';
-import CourseGrid from '../../components/CourseGrid';
+import CourseGrid from '../../Usercomponents/CourseGrid';
 
 const HomePage: React.FC = () => {
 

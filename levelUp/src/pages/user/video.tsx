@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
-import UserHeader from '../../components/userHeader';
-import UserFooter from '../../components/userFooter';
+import UserHeader from '../../Usercomponents/userHeader';
+import UserFooter from '../../Usercomponents/userFooter';
 import { useNavigate, useParams } from 'react-router-dom';
 import { findVideo } from '../../Api/subject';
 

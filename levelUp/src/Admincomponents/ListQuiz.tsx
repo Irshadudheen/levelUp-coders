@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import HeaderAdmin from '../../components/headerAdmin'
+import HeaderAdmin from './headerAdmin'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getQuiz } from '../../Api/subject'
+import { getQuiz } from '../Api/subject'
 
 const ListQuiz:React.FC = () => {
     const [quiz,setQuiz]=useState([])

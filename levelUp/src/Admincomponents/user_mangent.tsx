@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { getAllUserData, userBlock } from '../../Api/admin'
+import { getAllUserData, userBlock } from '../Api/admin'
 
-import HeaderAdmin from '../../components/headerAdmin'
-import AdminSideBar from '../../components/adminSideBar'
+import HeaderAdmin from './headerAdmin'
+import AdminSideBar from './adminSideBar'
 import { useNavigate } from 'react-router-dom'
-import useGetAdmin from '../../hook/useGetAdmin'
+import useGetAdmin from '../hook/useGetAdmin'
 
 const User_mangent:React.FC = () => {
   const navigate = useNavigate();

@@ -1,17 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import useGetAdmin from '../../hook/useGetAdmin';
+import useGetAdmin from '../hook/useGetAdmin';
 import { useForm } from 'react-hook-form';
-import HeaderAdmin from '../../components/headerAdmin';
-import AdminSideBar from '../../components/adminSideBar';
+import HeaderAdmin from './headerAdmin';
+import AdminSideBar from './adminSideBar';
 import { Form } from 'react-bootstrap';
-import { addSubject } from '../../Api/admin';
+import { addSubject } from '../Api/admin';
+import { getAllCategory } from '../Api/subject';
 
 const Subject: React.FC = () => {
     const navigate = useNavigate();
     const { register, handleSubmit, formState: { errors } } = useForm({ mode: 'onTouched' });
+    const [categorys, setCategory] = useState([])
+    const [selectedCategory,setSelectedCategory]=useState('')
     const currentuser = useGetAdmin();
 
+    useEffect(() => {
+        const fetchCategory = async () => {
+            const res = await getAllCategory()
+            setCategory(res)
+            setSelectedCategory(res[0]._id)
+            console.log(res)
+        }
+        fetchCategory()
+    }, [])
     useEffect(() => {
         console.log(currentuser, 'current user');
         if (!currentuser) {
@@ -26,7 +38,7 @@ const Subject: React.FC = () => {
             formData.append('name', data.name);
             formData.append('description', data.description);
             formData.append('image', data.image[0]);
-
+            formData.append('categoryId',selectedCategory)
             console.log("FormData object:", formData);
             console.log(data.image);
 
@@ -34,7 +46,7 @@ const Subject: React.FC = () => {
             const res = await addSubject(formData);
             console.log(res?.data)
             if (res?.data.succuss) {
-                navigate('/admin/home')
+                navigate('/admin/course')
             }
         } catch (error) {
             console.error('Error submitting form', error);
@@ -61,6 +73,18 @@ const Subject: React.FC = () => {
                                     <label htmlFor="image" className="block mb-2 text-sm font-medium text-gray-900">Image</label>
                                     <input type="file" id="image" accept='image/*' {...register('image', { required: true })} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required />
                                     {errors.image && <span className="text-red-600">This field is required</span>}
+                                </div>
+                                <div className="mb-5">
+                                    <label htmlFor="category" className='block mb-2 text-sm font-medium text-gray-900'>Category</label>
+                                    <select name="category" onChange={e=>setSelectedCategory(e.target.value)} className="w-32" id="category-select">
+                                        {categorys.length > 0 &&
+                                            categorys.map((category, index) => (
+                                                <option key={category._id} value={category._id}>
+                                                    {category.name}
+                                                </option>
+                                            ))}
+                                          
+                                    </select>
                                 </div>
                                 <div className="mb-5">
                                     <label htmlFor="description" className="block mb-2 text-sm font-medium text-gray-900">Description</label>

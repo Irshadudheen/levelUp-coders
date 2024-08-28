@@ -13,7 +13,7 @@ export class CategoryRepository implements IcategoryRepository{
         return findCategory;
     }
    async createCategory(category: Icategory): Promise<object> {
-       const checkCategory=await this.categoryModels.findOne({name:category.name})
+       const checkCategory=await this.categoryModels.findOne({name: { $regex: new RegExp("^" +category.name + "$", "i") }})
        if(checkCategory){
         return {message:'the category is already added'}
         }

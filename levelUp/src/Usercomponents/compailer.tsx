@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Controlled as ControlledEditor } from 'react-codemirror2';
 
-import UserHeader from '../../components/userHeader';
-import UserFooter from '../../components/userFooter';
+import UserHeader from './userHeader';
+import UserFooter from './userFooter';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ContentCopyIcon from '@mui/icons-material/ContentCopy';

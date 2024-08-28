@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
-import HeaderAdmin from '../../components/headerAdmin'
-import AdminSideBar from '../../components/adminSideBar'
-import { getLevel } from '../../Api/subject'
+import HeaderAdmin from './headerAdmin'
+import AdminSideBar from './adminSideBar'
+import { getLevel } from '../Api/subject'
 import { useNavigate, useParams } from 'react-router-dom'
-import useGetAdmin from '../../hook/useGetAdmin'
+import useGetAdmin from '../hook/useGetAdmin'
 
 const Level = () => {
     const [level,setLevel]=useState([])

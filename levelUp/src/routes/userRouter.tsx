@@ -1,21 +1,21 @@
 import { Navigate, Route,Routes, useNavigate } from 'react-router-dom';
 import Login from "../pages/user/login"
 import Register from '../pages/user/register'
-import ForgotPassword from '../components/forgotPassword';
-import OtpPage from '../components/otpPage';
-import NewPassword from '../components/newPassword';
+import ForgotPassword from '../Usercomponents/forgotPassword';
+import OtpPage from '../Usercomponents/otpPage';
+import NewPassword from '../Usercomponents/newPassword';
 import Home from '../pages/user/home';
 import Level from '../pages/user/level';
 import VideoPlayer from '../pages/user/video';
-import Quiz from '../pages/user/quiz';
-import Premium from '../pages/user/premium';
-import BrickLoader from '../components/brickLoader';
+import Quiz from '../Usercomponents/quiz';
+import Premium from '../Usercomponents/premium';
+import BrickLoader from '../Usercomponents/brickLoader';
 import UserProfile from '../pages/user/userProfile';
-import Compailer from '../pages/user/compailer';
-import EditUserProfile from '../components/editUserProfile';
+import Compailer from '../Usercomponents/compailer';
+import EditUserProfile from '../Usercomponents/editUserProfile';
 import useGetUser from '../hook/useGetUser';
-import CourseList from '../pages/user/courseLIst';
-import NotFound from '../components/notFound';
+import CourseList from '../Usercomponents/courseLIst';
+import NotFound from '../Usercomponents/notFound';
 const UserRouter = () => {
   const currentUser = useGetUser()
 

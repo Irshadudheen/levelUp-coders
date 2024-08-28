@@ -1,15 +1,17 @@
 import { Route, Routes } from "react-router-dom"
 import Login from "../pages/admin/login"
 import Home from "../pages/admin/home"
-import AddCourse from "../pages/admin/subject"
-import CourseList from "../pages/admin/CourseList"
-import Level from "../pages/admin/Level"
-import AddLevel from "../pages/admin/AddLevel"
-import User_mangent from "../pages/admin/user_mangent"
-import UploadVideo from "../pages/admin/uploadVideo"
-import Quiz from "../pages/admin/quiz"
-import Compiler from "../pages/admin/Compiler"
-import ListQuiz from "../pages/admin/ListQuiz"
+import AddCourse from "../Admincomponents/addsubject"
+import CourseList from "../Admincomponents/CourseList"
+import Level from "../Admincomponents/Level"
+import AddLevel from "../Admincomponents/AddLevel"
+import User_mangent from "../Admincomponents/user_mangent"
+import UploadVideo from "../Admincomponents/uploadVideo"
+import Quiz from "../Admincomponents/quiz"
+import Compiler from "../Admincomponents/Compiler"
+import ListQuiz from "../Admincomponents/ListQuiz"
+import Category from "../Admincomponents/category"
+import AddCategory from "../Admincomponents/addCategory"
 
 const adminRouter:React.FC = () => {
   return (
@@ -26,6 +28,8 @@ const adminRouter:React.FC = () => {
       <Route path='/addQuiz/:id' element={<Quiz/>}/>
       <Route path="/addCompiler/:id" element={<Compiler/>}/>
       <Route path="/listQuiz/:id" element={<ListQuiz/>}/>
+      <Route path="/listCategory" element={<Category/>}/>
+      <Route path ='/addCategory' element={<AddCategory/>}/>
     </Routes>
   )
 }

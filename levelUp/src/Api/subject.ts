@@ -1,5 +1,5 @@
 
-import Premium from "../pages/user/premium";
+import Premium from "../Usercomponents/premium";
 import Api from "../service/axios";
 import subjectRoutes from "../service/endPoints/subjectEndPoint";
 
@@ -32,6 +32,14 @@ export const addLevel = async (level:any)=>{
         return res
     } catch (error) {
         return error;
+    }
+}
+export const getAllCategory = async()=>{
+    try {
+        const res = await Api.get(subjectRoutes.getAllCategory)
+        return res.data
+    } catch (error) {
+        
     }
 }
 export const uploadVideo = async(data:any)=>{
@@ -69,5 +77,13 @@ export const getQuiz = async(levelId:string)=>{
         return res.data
     } catch (error) {
         
+    }
+}
+export const createCategory = async(category:any)=>{
+    try {
+        const res = await Api.post(subjectRoutes.addCategory,category)
+        return res.data
+    } catch (error:any) {
+        console.error(error.message)
     }
 }

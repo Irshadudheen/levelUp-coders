@@ -13,25 +13,37 @@ const CourseGrid = ({ courses }: { courses: any[] }) => {
 
   const coursesPerPage = 4; // Number of courses per page
 
+  // Filter and paginate courses when the search term or course list changes
   useEffect(() => {
-    // Initialize filteredCourses with all courses
-console.log(courses)
-    setFilteredCourses(courses);
-    console.log(filteredCourses,':courses')
-  },[filteredCourses,courses]);
+    const lowercasedSearchTerm = searchTerm.toLowerCase();
+    const filtered = courses.filter(course =>
+      course.name.toLowerCase().includes(lowercasedSearchTerm) ||
+      course.description.toLowerCase().includes(lowercasedSearchTerm)
+    );
 
+    setFilteredCourses(filtered);
+    setCurrentIndex(0); // Reset pagination on search or course update
+  }, [searchTerm, courses]);
+
+  // Update the visible courses when the filtered courses or pagination changes
   useEffect(() => {
-    // Update visible courses when currentIndex or filteredCourses change
-    const updateVisibleCourses = () => {
-     
-      console.log(currentIndex,':currentIndex')
-      const startIndex = currentIndex;
-      const endIndex = startIndex + coursesPerPage;
-      setVisibleCourses(filteredCourses.slice(startIndex, endIndex));
-    };
-
-    updateVisibleCourses();
+    const startIndex = currentIndex;
+    const endIndex = startIndex + coursesPerPage;
+    setVisibleCourses(filteredCourses.slice(startIndex, endIndex));
   }, [currentIndex, filteredCourses]);
+
+  // Handle search suggestions with debounce
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      const lowercasedSearchTerm = searchTerm.toLowerCase();
+      const filtered = courses.filter(course =>
+        course.name.toLowerCase().includes(lowercasedSearchTerm)
+      );
+      setSuggestions(filtered);
+    }, 300); // 300ms debounce
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm, courses]);
 
   const handleNextPage = () => {
     if (currentIndex + coursesPerPage < filteredCourses.length) {
@@ -44,30 +56,6 @@ console.log(courses)
       setCurrentIndex(currentIndex - coursesPerPage);
     }
   };
-
-  const handleSearch = () => {
-    const lowercasedSearchTerm = searchTerm.toLowerCase();
-    const filtered = courses.filter(course =>
-      course.name.toLowerCase().includes(lowercasedSearchTerm) ||
-      course.description.toLowerCase().includes(lowercasedSearchTerm)
-    );
-    setFilteredCourses(filtered);
-    setCurrentIndex(0); // Reset pagination on search
-  };
-
-  useEffect(() => {
-    // Debounce search input
-    const timeoutId = setTimeout(() => {
-      handleSearch();
-      const lowercasedSearchTerm = searchTerm.toLowerCase();
-      const filtered = courses.filter(course =>
-        course.name.toLowerCase().includes(lowercasedSearchTerm)
-      );
-      setSuggestions(filtered);
-    }, 300); // 300ms debounce
-
-    return () => clearTimeout(timeoutId);
-  }, [searchTerm]);
 
   const handleSuggestionClick = (courseName: string) => {
     setSearchTerm(courseName);

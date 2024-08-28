@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Form, useNavigate, useParams } from 'react-router-dom';
-import HeaderAdmin from '../../components/headerAdmin';
-import { addQuiz } from '../../Api/subject';
-import useGetAdmin from '../../hook/useGetAdmin';
+import HeaderAdmin from './headerAdmin';
+import { addQuiz } from '../Api/subject';
+import useGetAdmin from '../hook/useGetAdmin';
 
 const Quiz: React.FC = () => {
   const [selectedOption, setSelectedOption] = useState<string | null>(null);
