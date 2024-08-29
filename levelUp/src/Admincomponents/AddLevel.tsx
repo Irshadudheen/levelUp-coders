@@ -47,7 +47,7 @@ const AddLevel:React.FC = () => {
                             <Form onSubmit={handleSubmit(onSubmit)}>
                                 <h2 className="text-3xl font-bold mb-8 text-gray-800">Create Level</h2>
                                 <div className="mb-5">
-                                    <label htmlFor="subject" className="block mb-2 text-sm font-medium text-gray-900">Subject</label>
+                                    <label htmlFor="subject" className="block mb-2 text-sm font-medium text-gray-900">Leve</label>
                                     <input type="text" id="subject" {...register('name', { required: true })} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Subject" required />
                                     {errors.name && <span className="text-red-600">This field is required</span>}
                                 </div>
@@ -67,7 +67,7 @@ const AddLevel:React.FC = () => {
                                    
                                 </div>
                                     
-                                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create new Course</button>
+                                <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Create new Level</button>
                             </Form>
                         </div>
                     </div>

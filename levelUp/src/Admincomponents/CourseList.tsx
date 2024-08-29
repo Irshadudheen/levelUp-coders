@@ -33,12 +33,13 @@ const CourseList = () => {
     console.log('state subjects:', subjects);
   }, [subjects]);
   return (
-    <div>
-      <HeaderAdmin />
-      <div className="flex flex-1 h-full">
-        <AdminSideBar />
-        <div className="flex-1 p-10 shadow-md rounded-lg">
-          <h2 className="text-3xl font-bold  text-gray-800">Welcome to Admin</h2>
+    <div className="flex flex-col h-screen bg-gray-100 text-gray-800">
+        <HeaderAdmin/>
+        <div className="flex flex-1">
+        
+      <AdminSideBar/>
+      <div className="flex-1 p-10 shadow-md rounded-lg">
+          <h2 className="text-3xl font-bold  text-gray-800">Welcome to Course</h2>
           <div className="relative overflow-x-auto">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 ">
               <thead className="text-xs text-gray-700 uppercase bg-gray-200  ">
