@@ -5,10 +5,11 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { findVideo } from '../../Api/subject';
 
 const VideoPlayer: React.FC = () => {
-  const { levelId } = useParams();
   const [video, setVideo] = useState<{ videoUrl: string } | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
-  const navigate= useNavigate()
+  const { levelId } = useParams();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchVideo = async () => {
       try {
@@ -20,6 +21,58 @@ const VideoPlayer: React.FC = () => {
     };
     fetchVideo();
   }, [levelId]);
+
+  useEffect(() => {
+    const handleLoadedMetadata = () => {
+      const savedTime = localStorage.getItem('videoPlaybackPosition');
+      if (videoRef.current && savedTime) {
+        videoRef.current.currentTime = parseFloat(savedTime);
+      }
+    };
+
+    if (videoRef.current) {
+      videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
+    }
+
+    // Save the playback position before unmounting the component
+    return () => {
+      if (videoRef.current) {
+        const currentTime = videoRef.current.currentTime;
+        localStorage.setItem('videoPlaybackPosition', currentTime.toString());
+        videoRef.current.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      }
+    };
+  }, [video]);
+
+  const savePlaybackPosition = () => {
+    if (videoRef.current) {
+      const currentTime = videoRef.current.currentTime;
+      localStorage.setItem('videoPlaybackPosition', currentTime.toString());
+    }
+  };
+
+  useEffect(() => {
+    const checkForDevTools = () => {
+      const threshold = 160; // Adjust based on testing
+      const widthDiff = Math.abs(window.outerWidth - window.innerWidth);
+      const heightDiff = Math.abs(window.outerHeight - window.innerHeight);
+
+      if (widthDiff > threshold || heightDiff > threshold) {
+        alert('Developer tools detected!');
+        if (videoRef.current) {
+          videoRef.current.remove();
+        }
+        setVideo(null);
+      }
+    };
+
+    checkForDevTools();
+    window.addEventListener('resize', checkForDevTools);
+
+    return () => {
+      window.removeEventListener('resize', checkForDevTools);
+    };
+  }, []);
 
   const handleFullScreen = () => {
     if (videoRef.current) {
@@ -36,11 +89,15 @@ const VideoPlayer: React.FC = () => {
   };
 
   const handleSkip = () => {
-    navigate(`/quiz/${levelId}`)
+    navigate(`/quiz/${levelId}`);
+  };
+
+  const handleContextMenu = (e) => {
+    e.preventDefault();
   };
 
   return (
-    <>
+    <div>
       <UserHeader />
       <div className="min-h-screen bg-gray-900 p-4 mt-14 flex justify-center items-center">
         <div className="w-full max-w-6xl mx-auto relative">
@@ -52,6 +109,8 @@ const VideoPlayer: React.FC = () => {
                   controls
                   autoPlay
                   src={video.videoUrl}
+                  onContextMenu={handleContextMenu}
+                  onTimeUpdate={savePlaybackPosition}
                   className="w-full h-full max-h-[calc(100vh-200px)] md:max-h-[60vh] rounded-lg shadow-lg"
                 ></video>
               </div>
@@ -67,15 +126,15 @@ const VideoPlayer: React.FC = () => {
             <p className="text-white">Loading video...</p>
           )}
         </div>
-              <button
-                onClick={handleSkip}
-                className="absolute bottom-2 right-2 bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-500 transition"
-              >
-                Skip 
-              </button>
+        <button
+          onClick={handleSkip}
+          className="absolute bottom-2 right-2 bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-500 transition"
+        >
+          Skip 
+        </button>
       </div>
       <UserFooter />
-    </>
+    </div>
   );
 };
 

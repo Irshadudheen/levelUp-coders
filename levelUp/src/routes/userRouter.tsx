@@ -1,29 +1,31 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
-import Login from "../pages/user/login";
-import Register from '../pages/user/register';
 import ForgotPassword from '../Usercomponents/forgotPassword';
 import OtpPage from '../Usercomponents/otpPage';
 import NewPassword from '../Usercomponents/newPassword';
-import Home from '../pages/user/home';
-import Level from '../pages/user/level';
-import VideoPlayer from '../pages/user/video';
+
+
 import Quiz from '../Usercomponents/quiz';
 import Premium from '../Usercomponents/premium';
 import BrickLoader from '../Usercomponents/brickLoader';
-import UserProfile from '../pages/user/userProfile';
-import Compailer from '../Usercomponents/compailer';
+import Compailer from '../Usercomponents/workSpace/compailer';
 import EditUserProfile from '../Usercomponents/editUserProfile';
 import useGetUser from '../hook/useGetUser';
 import CourseList from '../Usercomponents/courseLIst';
 import NotFound from '../Usercomponents/notFound';
-import { useState } from 'react';
-
+import { useState,lazy ,Suspense} from 'react';
+const Login =lazy(()=>import('../pages/user/login'))
+const Register =lazy(()=>import('../pages/user/register')) 
+const Home =lazy(()=>import('../pages/user/home')) 
+const Level =lazy(()=>import('../pages/user/level')) 
+const UserProfile =lazy(()=>import('../pages/user/userProfile')) 
+const VideoPlayer =lazy(()=>import('../pages/user/video')) 
 const UserRouter = () => {
   const currentUser = useGetUser();
   const [dark, setDark] = useState(true);
 
   return (
     <div className={dark ? 'dark' : ''}>
+      <Suspense>
       <Routes>
         <Route path='/login' element={<Login  />} />
         <Route path='/register' element={<Register />} />
@@ -42,6 +44,7 @@ const UserRouter = () => {
         <Route path='/courses' element={<CourseList />} />
         <Route path='/*' element={<NotFound />} />
       </Routes>
+        </Suspense>
     </div>
   );
 };

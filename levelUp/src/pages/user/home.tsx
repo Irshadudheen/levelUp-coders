@@ -53,7 +53,7 @@ const HomePage: React.FC = () => {
             </p>
           </div>
         </div>
-        <h1 className='text-4xl font-bold'>Study plan</h1>
+        <h1 className='text-4xl font-bold ml-10'>Study plan</h1>
         <div className="max-w-2xl mx-auto ">
 
           <CourseGrid  courses={courses}/>

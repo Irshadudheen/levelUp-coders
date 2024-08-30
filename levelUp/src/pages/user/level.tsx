@@ -44,7 +44,7 @@ const ImageGrid: React.FC = () => {
                   )}
                 </div>
                 <div className="flex items-center justify-between mt-auto">
-                  {level.completed && <div className="text-green-400">✓ Completed</div>}
+                  {true && <div className="text-green-400">✓ Completed</div>}
                   {true && (
                     <div className="text-yellow-300">
                       {'★'.repeat()}
