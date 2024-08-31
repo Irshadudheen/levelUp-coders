@@ -3,10 +3,11 @@ import UserHeader from '../../Usercomponents/userHeader';
 import UserFooter from '../../Usercomponents/userFooter';
 import { useNavigate, useParams } from 'react-router-dom';
 import { findVideo } from '../../Api/subject';
+import ReactPlayer from 'react-player';
 
 const VideoPlayer: React.FC = () => {
-  const [video, setVideo] = useState<{ videoUrl: string } | null>(null);
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [video, setVideo] = useState<{ videoUrl: string; description: string } | null>(null);
+  const playerRef = useRef<ReactPlayer>(null);
   const { levelId } = useParams();
   const navigate = useNavigate();
 
@@ -22,68 +23,27 @@ const VideoPlayer: React.FC = () => {
     fetchVideo();
   }, [levelId]);
 
-  useEffect(() => {
-    const handleLoadedMetadata = () => {
-      const savedTime = localStorage.getItem('videoPlaybackPosition');
-      if (videoRef.current && savedTime) {
-        videoRef.current.currentTime = parseFloat(savedTime);
-      }
-    };
-
-    if (videoRef.current) {
-      videoRef.current.addEventListener('loadedmetadata', handleLoadedMetadata);
-    }
-
-    // Save the playback position before unmounting the component
-    return () => {
-      if (videoRef.current) {
-        const currentTime = videoRef.current.currentTime;
-        localStorage.setItem('videoPlaybackPosition', currentTime.toString());
-        videoRef.current.removeEventListener('loadedmetadata', handleLoadedMetadata);
-      }
-    };
-  }, [video]);
-
   const savePlaybackPosition = () => {
-    if (videoRef.current) {
-      const currentTime = videoRef.current.currentTime;
+    if (playerRef.current) {
+      const currentTime = playerRef.current.getCurrentTime();
       localStorage.setItem('videoPlaybackPosition', currentTime.toString());
     }
   };
 
   useEffect(() => {
-    const checkForDevTools = () => {
-      const threshold = 160; // Adjust based on testing
-      const widthDiff = Math.abs(window.outerWidth - window.innerWidth);
-      const heightDiff = Math.abs(window.outerHeight - window.innerHeight);
-
-      if (widthDiff > threshold || heightDiff > threshold) {
-        alert('Developer tools detected!');
-        if (videoRef.current) {
-          videoRef.current.remove();
-        }
-        setVideo(null);
+    if (playerRef.current) {
+      const savedTime = localStorage.getItem('videoPlaybackPosition');
+      if (savedTime) {
+        playerRef.current.seekTo(parseFloat(savedTime));
       }
-    };
-
-    checkForDevTools();
-    window.addEventListener('resize', checkForDevTools);
-
-    return () => {
-      window.removeEventListener('resize', checkForDevTools);
-    };
-  }, []);
+    }
+  }, [video]);
 
   const handleFullScreen = () => {
-    if (videoRef.current) {
-      if (videoRef.current.requestFullscreen) {
-        videoRef.current.requestFullscreen();
-      } else if (videoRef.current.mozRequestFullScreen) { /* Firefox */
-        videoRef.current.mozRequestFullScreen();
-      } else if (videoRef.current.webkitRequestFullscreen) { /* Chrome, Safari, and Opera */
-        videoRef.current.webkitRequestFullscreen();
-      } else if (videoRef.current.msRequestFullscreen) { /* IE/Edge */
-        videoRef.current.msRequestFullscreen();
+    if (playerRef.current) {
+      const playerElement = playerRef.current.wrapper;
+      if (playerElement.requestFullscreen) {
+        playerElement.requestFullscreen();
       }
     }
   };
@@ -92,46 +52,77 @@ const VideoPlayer: React.FC = () => {
     navigate(`/quiz/${levelId}`);
   };
 
-  const handleContextMenu = (e) => {
+  const handleContextMenu = (e: React.MouseEvent) => {
     e.preventDefault();
   };
+
+  // Detect developer tools open event
+  useEffect(() => {
+    const handleDevToolsOpen = (e: KeyboardEvent) => {
+      if (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) {
+        alert('Developer tools are opened!');
+      }
+    };
+
+    const handleResize = () => {
+      if (window.outerWidth - window.innerWidth > 100) {
+        alert('Developer tools are opened!');
+      }
+    };
+
+    window.addEventListener('keydown', handleDevToolsOpen);
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('keydown', handleDevToolsOpen);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
 
   return (
     <div>
       <UserHeader />
-      <div className="min-h-screen bg-gray-900 p-4 mt-14 flex justify-center items-center">
-        <div className="w-full max-w-6xl mx-auto relative">
+      <div className="min-h-screen bg-gray-900 p-4 mt-14 flex flex-col items-center">
+        <div className=" mx-auto relative">
           {video ? (
-            <div className="relative">
-              <div className="aspect-w-16 aspect-h-9">
-                <video
-                  ref={videoRef}
+            <div className="relative rounded-lg shadow-lg bg-gray-800 overflow-hidden">
+              <div className="aspect-w-full aspect-h-9">
+                <ReactPlayer
+                  ref={playerRef}
+                  url={video.videoUrl}
                   controls
-                  autoPlay
-                  src={video.videoUrl}
+                  playing
                   onContextMenu={handleContextMenu}
-                  onTimeUpdate={savePlaybackPosition}
-                  className="w-full h-full max-h-[calc(100vh-200px)] md:max-h-[60vh] rounded-lg shadow-lg"
-                ></video>
+                  onProgress={savePlaybackPosition}
+                  className="w-full h-full rounded-lg"
+                  onEnded={handleSkip}
+                />
               </div>
-              <button
-                onClick={handleFullScreen}
-                className="absolute top-2 right-2 bg-gray-700 text-white p-2 rounded-full hover:bg-gray-600 transition"
-                aria-label="Full Screen"
-              >
-                ⛶
-              </button>
             </div>
           ) : (
             <p className="text-white">Loading video...</p>
           )}
         </div>
-        <button
-          onClick={handleSkip}
-          className="absolute bottom-2 right-2 bg-blue-600 text-white p-2 rounded-lg hover:bg-blue-500 transition"
-        >
-          Skip 
-        </button>
+        {video && (
+          <div className="mt-8 w-full max-w-4xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg text-white">
+            <h2 className="text-2xl font-semibold mb-4">Video Description</h2>
+            <p className="text-lg">{video.description}</p>
+            <div className="mt-6 flex justify-between">
+              <button
+                onClick={handleSkip}
+                className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-500 transition"
+              >
+                Skip to Quiz
+              </button>
+              <button
+                onClick={handleFullScreen}
+                className="bg-gray-700 text-white py-2 px-6 rounded-lg hover:bg-gray-600 transition"
+              >
+                Full Screen
+              </button>
+            </div>
+          </div>
+        )}
       </div>
       <UserFooter />
     </div>

@@ -15,6 +15,7 @@ const Quiz: React.FC = () => {
     { question: string; options: string[]; answer: number }[]
   >([]);
   const [score, setScore] = useState(0);
+  const [timeLeft, setTimeLeft] = useState(30);
 
   useEffect(() => {
     let isMounted = true;
@@ -52,19 +53,42 @@ const Quiz: React.FC = () => {
     };
   }, [levelId]);
 
-  const handleOptionClick = (index: number) => {
-    setSelectedOption(index);
-
-    // Update score if the selected option is correct
-    if (index === questions[currentQuestion].answer) {
-      setScore(score + 1);
+  useEffect(() => {
+    if (timeLeft > 0) {
+      const timerId = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      return () => clearTimeout(timerId);
+    } else {
+      handleTimeout();
     }
+  }, [timeLeft]);
 
-    // Automatically move to the next question after a brief delay
+  const handleTimeout = () => {
+    if (selectedOption === null) {
+      setSelectedOption(-1); // Consider as failed
+    }
     setTimeout(() => {
       setSelectedOption(null);
       if (currentQuestion < questions.length - 1) {
         setCurrentQuestion(currentQuestion + 1);
+        setTimeLeft(30); // Reset timer for the next question
+      } else {
+        setShowResult(true);
+      }
+    }, 1000);
+  };
+
+  const handleOptionClick = (index: number) => {
+    setSelectedOption(index);
+
+    if (index === questions[currentQuestion].answer) {
+      setScore(score + 1);
+    }
+
+    setTimeout(() => {
+      setSelectedOption(null);
+      if (currentQuestion < questions.length - 1) {
+        setCurrentQuestion(currentQuestion + 1);
+        setTimeLeft(30); // Reset timer for the next question
       } else {
         setShowResult(true);
       }
@@ -76,6 +100,7 @@ const Quiz: React.FC = () => {
     setSelectedOption(null);
     setScore(0);
     setShowResult(false);
+    setTimeLeft(30); // Reset timer for the first question
   };
 
   if (questions.length === 0) {
@@ -83,8 +108,8 @@ const Quiz: React.FC = () => {
       <>
         <UserHeader />
         <div className="min-h-screen mt-5 bg-gray-900 flex items-center justify-center p-4">
-          <div className="max-w-lg w-full bg-white rounded-lg shadow-lg p-6">
-            <Skeleton className="max-w-lg w-full bg-white rounded-lg shadow-lg p-6" />
+          <div className="max-w-lg w-full bg-gray-800 rounded-lg shadow-lg p-6">
+            <Skeleton className="max-w-lg w-full bg-gray-700 rounded-lg shadow-lg p-6" />
           </div>
         </div>
       </>
@@ -95,11 +120,11 @@ const Quiz: React.FC = () => {
     <>
       <UserHeader />
       <div className="min-h-screen mt-5 bg-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-lg w-full bg-white rounded-lg shadow-lg p-6">
+        <div className="max-w-lg w-full bg-gray-800 rounded-lg shadow-lg p-6 relative">
           {showResult ? (
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-gray-800 mb-4">Quiz Completed!</h2>
-              <p className="text-gray-600">Your score: {score} / {questions.length}</p>
+              <h2 className="text-2xl font-bold text-white mb-4">Quiz Completed!</h2>
+              <p className="text-gray-300">Your score: {score} / {questions.length}</p>
               {score !== questions.length ? (
                 <button
                   onClick={handleRetry}
@@ -109,7 +134,7 @@ const Quiz: React.FC = () => {
                 </button>
               ) : (
                 <button
-                  className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-500 transition"
+                  className="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-500 transition"
                   onClick={() => navigate(`/compiler/${levelId}`)}
                 >
                   Next Compiler
@@ -118,10 +143,14 @@ const Quiz: React.FC = () => {
             </div>
           ) : (
             <>
-              <h2 className="text-xl font-semibold text-gray-800 mb-6">
+              {/* Timer at top center */}
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-700 text-white font-bold rounded-full px-6 py-2">
+                {timeLeft} sec
+              </div>
+              <h2 className="text-xl font-semibold text-white mb-6 text-center">
                 Question {currentQuestion + 1} of {questions.length}
               </h2>
-              <h3 className="text-lg font-medium text-gray-800 mb-4">
+              <h3 className="text-lg font-medium text-gray-300 mb-4">
                 {questions[currentQuestion].question}
               </h3>
               <ul className="space-y-3">
@@ -129,13 +158,13 @@ const Quiz: React.FC = () => {
                   <li key={index}>
                     <button
                       onClick={() => handleOptionClick(index)}
-                      disabled={selectedOption !== null}  // Disable buttons if an option is selected
-                      className={`w-full text-left px-4 py-2 rounded-lg border transition ${
+                      disabled={selectedOption !== null}
+                      className={`w-full text-left px-4 py-2 rounded-lg transition ${
                         selectedOption === index
                           ? selectedOption === questions[currentQuestion].answer
                             ? 'bg-green-500 text-white'
                             : 'bg-red-500 text-white'
-                          : 'bg-gray-200 text-gray-800 hover:bg-gray-300'
+                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
                       }`}
                     >
                       {option}

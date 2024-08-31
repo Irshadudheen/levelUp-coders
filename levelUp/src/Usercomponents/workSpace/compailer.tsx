@@ -69,7 +69,7 @@ const CompilerUI: React.FC = () => {
     </Split >
      </div>
   </div>
-  <UserFooter />
+ 
 </>
   );
 };
