@@ -6,6 +6,7 @@ import CourseDescription from './CourseDescription';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useNavigate } from 'react-router-dom';
+import { MovingBorderDemo } from './button';
 
 const CourseList = () => {
   const [viewCategory, setViewCategory] = useState('all');
@@ -127,21 +128,32 @@ const CourseList = () => {
           {currentCourses.map(course => (
             <div
               key={course.id}
-              className="bg-gray-800 p-6 rounded-lg shadow-lg relative"
+              className="bg-gray-800 p-6 rounded-lg shadow-lg flex flex-col justify-between"
             >
-              <img
-                src={course.image}
-                alt={course.title}
-                className="w-full h-40 object-cover rounded-t-lg mb-4"
-              />
-              <h2 className="text-xl font-semibold mb-2">{course.title}</h2>
-              <CourseDescription description={course.description} />
-              <button
-                onClick={() => navigate(`/level/${course._id}`)}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full transition duration-300 ease-in-out absolute bottom-4 left-4"
-              >
-                View Details
-              </button>
+              <div>
+                <img
+                  src={course.image}
+                  alt={course.title}
+                  className="w-full h-40 object-cover rounded-t-lg mb-4"
+                />
+                <h2 className="text-xl font-semibold mb-2">{course.title}</h2>
+                <p
+  className="overflow-hidden text-ellipsis "
+  style={{
+    display: '-webkit-box',
+    WebkitLineClamp: 2,
+    WebkitBoxOrient: 'vertical',
+  }}
+>
+  {course.description}
+</p>
+     
+              </div>
+              <div className="mt-4">
+                <div onClick={() => navigate(`/level/${course._id}`)}>
+                  <MovingBorderDemo />
+                </div>
+              </div>
             </div>
           ))}
         </div>

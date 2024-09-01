@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CourseDescription from './CourseDescription';
+import { MovingBorderDemo } from './button';
 
 const CourseGrid = ({ courses }: { courses: any[] }) => {
   const navigate = useNavigate();
@@ -124,12 +125,10 @@ const CourseGrid = ({ courses }: { courses: any[] }) => {
             <div className="p-4">
               <h2 className="text-2xl font-bold text-white mb-2">{course.name}</h2>
               <CourseDescription description={course.description} />
-              <button
-                onClick={() => navigate(`/level/${course._id}`)}
-                className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              >
-                Let's Start!
-              </button>
+              <div  onClick={() => navigate(`/level/${course._id}`)} className="button">
+
+              <MovingBorderDemo />
+              </div>
             </div>
           </div>
         ))}

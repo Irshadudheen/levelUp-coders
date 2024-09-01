@@ -11,6 +11,7 @@ import UserFooter from '../../Usercomponents/userFooter';
 import { getAllSubject } from '../../Api/subject';
 import useGetUser from '../../hook/useGetUser';
 import CourseGrid from '../../Usercomponents/CourseGrid';
+import { MovingBorderDemo } from '../../Usercomponents/button';
 
 const HomePage: React.FC = () => {
 
@@ -57,6 +58,7 @@ const HomePage: React.FC = () => {
         <div className="max-w-2xl mx-auto ">
 
           <CourseGrid  courses={courses}/>
+      
         </div>
       </div>
 
