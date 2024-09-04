@@ -11,6 +11,7 @@ import { useParams } from 'react-router-dom';
 
 type ProblemDescriptionProps = {
     problem: {
+        starterFunctionName:string;
         starterCode:string;
         title: string;
         problemStatement: string;
@@ -27,10 +28,11 @@ type ProblemDescriptionProps = {
 const Playground: React.FC<ProblemDescriptionProps> = ({ problem,setSuccess }) => {
     const [activeTestCaseId, setActiveTestCaseId] = useState(0);
     const [alertShown, setAlertShown] = useState(false); // State to track if alert has been shown
-    const [userCode,setUserCode]=useState(problem.starterCode)
+    let [userCode,setUserCode]=useState(problem.starterCode)
     const {problemId}=useParams()
     const handleSubmit =()=>{
         try {
+            userCode=userCode.slice(userCode.indexOf(problem.starterFunctionName))
             const cb = new Function(`return ${userCode}`)();
             
             const result = problems[problemId as string].handlerFunction(cb)
@@ -45,8 +47,12 @@ const Playground: React.FC<ProblemDescriptionProps> = ({ problem,setSuccess }) =
                 setTimeout(()=>{setSuccess(false)},3000)
 
             }
-       } catch (error) {
-        
+       } catch (error:any) {
+        toast.error('Opss! One or more test cases failed',{
+            position:'top-center',
+            autoClose:3000,
+            theme:'dark'
+        })
        }
     }
 
