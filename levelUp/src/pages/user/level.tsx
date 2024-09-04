@@ -46,7 +46,7 @@ const ImageGrid: React.FC = () => {
       </div>
       <div className="h-full bg-white w-full p-4 mt-14">
         <div className="max-w-6xl mx-auto mt-4">
-          {/* <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {level.map((level, index) => (
               <div
                 key={index}
@@ -74,7 +74,7 @@ const ImageGrid: React.FC = () => {
                 </div>
               </div>
             ))}
-          </div> */}
+          </div>
         </div>
       </div>
     </>

@@ -1,75 +1,47 @@
-import React, { useState } from 'react';
-import { Controlled as ControlledEditor } from 'react-codemirror2';
+import React, { useEffect, useState } from 'react';
+
 import Split from "react-split";
-import UserHeader from '../userHeader';
-import UserFooter from '../userFooter';
-import Button from '@mui/material/Button';
-import DeleteIcon from '@mui/icons-material/Delete';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
-import CodeIcon from '@mui/icons-material/Code';
-import axios from 'axios';
-import Timer from '../time';
+import Confetti from 'react-confetti'
+import useWindowSize from 'react-use/lib/useWindowSize'
 import ProblemDescription from './problemDescription';
 import Playground from './playground';
+import { useParams } from 'react-router-dom';
+import { problems } from '../../utils/problems';
 
-const CompilerUI: React.FC = () => {
-  const defaultCode: string = `/**
-   * @param {number[]} nums
-   * @return {number}
-   */
-  var thirdMax = function(nums) {
-      // Your code here
-  };`;
+const CompilerUI: React.FC= () => {
+  const [problemData,setProblem]=useState({})
+  const { problem } = useParams();
+  useEffect(()=>{
 
-  const [code, setCode] = useState<string>(defaultCode);
-  const [output, setOutput] = useState<string>('Output will be displayed here.');
-
-  const handleCompile = (): void => {
-    setOutput('Compiling code...');
-    // Logic for compiling the code
-    console.log('Compiling code...');
-  };
-
-  const handleRun = async (): Promise<void> => {
-    try {
-      setOutput('Running code...');
-      const res = await axios.post<{ output: string }>('http://localhost:4001/compiler/compile', { code, language: 'javascript' });
-      setOutput(res.data.output);
-      console.log('Running code...');
-    } catch (error: any) {
-      console.error(error.message);
-      setOutput('Error: ' + error.message);
+    if(problem){
+      
+      console.log(problem,'problem in compiler')
+      const result= problems[problem];
+      if(result){
+        setProblem(result)
+        console.log(result)
+      }
+      
     }
-  };
+  })
 
-  const handleClear = (): void => {
-    setCode(defaultCode);
-    setOutput('Output cleared.');
-  };
 
-  const handleCopy = (): void => {
-    navigator.clipboard.writeText(code);
-    setOutput('Code copied to clipboard.');
-  };
-  const handleCodeChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setCode(event.target.value);
-  };
+const[succuss,setSuccess]=useState(false)
+
   return (
 <>
- 
-  <div className="flex items-center justify-center min-h-screen bg-white p-4">
-    {/* <Timer />  */}
-     {/* Move the Timer component here, just inside the outer div */}
-     <div className="w-full">
-
-    <Split className="split" minSize={0}>
-    <ProblemDescription />
-   <Playground/>
-    </Split >
-     </div>
+  <div className="flex items-center justify-center m-0 h-screen"> {/* Use h-screen to ensure it takes the full height */}
+       {succuss&& <Confetti gravity={0.3}
+        tweenDuration={4000}
+        />}
+       
+    <div className="w-full h-full bg-dark-layer-1 flex flex-col"> {/* Add flex and flex-col to control the layout */}
+      <Split className="split" minSize={0}>
+        <ProblemDescription problem={problemData} />
+        <Playground problem={problemData} setSuccess={setSuccess}/>
+      </Split>
+    </div>
   </div>
- 
 </>
   );
 };

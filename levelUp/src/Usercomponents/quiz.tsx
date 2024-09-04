@@ -135,7 +135,7 @@ const Quiz: React.FC = () => {
               ) : (
                 <button
                   className="mt-4 bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-400 transition"
-                  onClick={() => navigate(`/compiler/${levelId}`)}
+                  onClick={() => navigate(`/compiler/${levelId}/two-sum`)}
                 >
                   Next Compiler
                 </button>

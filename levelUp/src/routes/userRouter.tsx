@@ -13,6 +13,7 @@ import useGetUser from '../hook/useGetUser';
 import CourseList from '../Usercomponents/courseLIst';
 import NotFound from '../Usercomponents/notFound';
 import { useState,lazy ,Suspense} from 'react';
+import ProblemPage from '../Usercomponents/[pid]';
 const Login =lazy(()=>import('../pages/user/login'))
 const Register =lazy(()=>import('../pages/user/register')) 
 const Home =lazy(()=>import('../pages/user/home')) 
@@ -40,6 +41,7 @@ const UserRouter = () => {
         <Route path='/loader' element={<BrickLoader />} />
         <Route path='/profile' element={currentUser ? <UserProfile /> : <Navigate to={'/login'} />} />
         <Route path='/compiler/:levelId' element={currentUser ? <Compailer /> : <Navigate to={'/login'} />} />
+        <Route path='/compiler/:levelId/:problem' element={currentUser ? <Compailer /> : <Navigate to={'/login'} />} />
         <Route path='/EditProfile' element={currentUser ? <EditUserProfile /> : <Navigate to={'/login'} />} />
         <Route path='/courses' element={<CourseList />} />
         <Route path='/*' element={<NotFound />} />
