@@ -6,6 +6,8 @@ import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { javascript } from '@codemirror/lang-javascript';
 import { toast } from 'react-toastify';
 import EditorFooter from './EditorFooter';
+import { problems } from '../../utils/problems';
+import { useParams } from 'react-router-dom';
 
 type ProblemDescriptionProps = {
     problem: {
@@ -26,8 +28,26 @@ const Playground: React.FC<ProblemDescriptionProps> = ({ problem,setSuccess }) =
     const [activeTestCaseId, setActiveTestCaseId] = useState(0);
     const [alertShown, setAlertShown] = useState(false); // State to track if alert has been shown
     const [userCode,setUserCode]=useState(problem.starterCode)
+    const {problemId}=useParams()
     const handleSubmit =()=>{
-        alert("submit")
+        try {
+            const cb = new Function(`return ${userCode}`)();
+            
+            const result = problems[problemId as string].handlerFunction(cb)
+            if(result){
+                toast.success('Congrats! All test passes',{
+                    position:'top-center',
+                    autoClose:3000,
+                    theme:'dark'
+
+                })
+                setSuccess(true)
+                setTimeout(()=>{setSuccess(false)},3000)
+
+            }
+       } catch (error) {
+        
+       }
     }
 
     useEffect(() => {
@@ -52,7 +72,7 @@ const Playground: React.FC<ProblemDescriptionProps> = ({ problem,setSuccess }) =
         };
     }, [alertShown]);
     const onchange=(value:string)=>{
-        console.log(value)
+       setUserCode(value)
     }
 
     return (

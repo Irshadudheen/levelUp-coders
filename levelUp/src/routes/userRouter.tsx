@@ -41,7 +41,7 @@ const UserRouter = () => {
         <Route path='/loader' element={<BrickLoader />} />
         <Route path='/profile' element={currentUser ? <UserProfile /> : <Navigate to={'/login'} />} />
         <Route path='/compiler/:levelId' element={currentUser ? <Compailer /> : <Navigate to={'/login'} />} />
-        <Route path='/compiler/:levelId/:problem' element={currentUser ? <Compailer /> : <Navigate to={'/login'} />} />
+        <Route path='/compiler/:levelId/:problemId' element={currentUser ? <Compailer /> : <Navigate to={'/login'} />} />
         <Route path='/EditProfile' element={currentUser ? <EditUserProfile /> : <Navigate to={'/login'} />} />
         <Route path='/courses' element={<CourseList />} />
         <Route path='/*' element={<NotFound />} />

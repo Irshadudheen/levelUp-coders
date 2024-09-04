@@ -10,13 +10,13 @@ import { problems } from '../../utils/problems';
 
 const CompilerUI: React.FC= () => {
   const [problemData,setProblem]=useState({})
-  const { problem } = useParams();
+  const { problemId } = useParams();
   useEffect(()=>{
 
-    if(problem){
+    if(problemId){
       
-      console.log(problem,'problem in compiler')
-      const result= problems[problem];
+      console.log(problemId,'problem in compiler')
+      const result= problems[problemId];
       if(result){
         setProblem(result)
         console.log(result)
