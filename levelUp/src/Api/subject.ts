@@ -87,3 +87,12 @@ export const createCategory = async(category:any)=>{
         console.error(error.message)
     }
 }
+export const getSubject= async(subjectId:string)=>{
+    try {
+        console.log(subjectId,'subjectId')
+        const res = await Api.post(subjectRoutes.getSubject,{subjectId})
+        return res.data
+    } catch (error) {
+        
+    }
+}

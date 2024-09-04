@@ -107,9 +107,9 @@ const Quiz: React.FC = () => {
     return (
       <>
         <UserHeader />
-        <div className="min-h-screen mt-5 bg-gray-900 flex items-center justify-center p-4">
-          <div className="max-w-lg w-full bg-gray-800 rounded-lg shadow-lg p-6">
-            <Skeleton className="max-w-lg w-full bg-gray-700 rounded-lg shadow-lg p-6" />
+        <div className="min-h-screen mt-5 bg-white flex items-center justify-center p-4">
+          <div className="max-w-lg w-full bg-gray-100 rounded-lg shadow-lg p-6">
+            <Skeleton className="max-w-lg w-full bg-gray-300 rounded-lg shadow-lg p-6" />
           </div>
         </div>
       </>
@@ -119,22 +119,22 @@ const Quiz: React.FC = () => {
   return (
     <>
       <UserHeader />
-      <div className="min-h-screen mt-5 bg-gray-900 flex items-center justify-center p-4">
-        <div className="max-w-lg w-full bg-gray-800 rounded-lg shadow-lg p-6 relative">
+      <div className="min-h-screen mt-5 bg-white flex items-center justify-center p-4">
+        <div className="max-w-lg w-full bg-gray-100 rounded-lg shadow-lg p-6 relative">
           {showResult ? (
             <div className="text-center">
-              <h2 className="text-2xl font-bold text-white mb-4">Quiz Completed!</h2>
-              <p className="text-gray-300">Your score: {score} / {questions.length}</p>
+              <h2 className="text-2xl font-bold text-black mb-4">Quiz Completed!</h2>
+              <p className="text-gray-700">Your score: {score} / {questions.length}</p>
               {score !== questions.length ? (
                 <button
                   onClick={handleRetry}
-                  className="mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-500 transition"
+                  className="mt-4 bg-black text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition"
                 >
                   Retry
                 </button>
               ) : (
                 <button
-                  className="mt-4 bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-500 transition"
+                  className="mt-4 bg-green-500 text-white px-6 py-2 rounded-lg hover:bg-green-400 transition"
                   onClick={() => navigate(`/compiler/${levelId}`)}
                 >
                   Next Compiler
@@ -144,13 +144,13 @@ const Quiz: React.FC = () => {
           ) : (
             <>
               {/* Timer at top center */}
-              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-700 text-white font-bold rounded-full px-6 py-2">
+              <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-gray-200 text-black font-bold rounded-full px-6 py-2">
                 {timeLeft} sec
               </div>
-              <h2 className="text-xl font-semibold text-white mb-6 text-center">
+              <h2 className="text-xl font-semibold text-black mb-6 text-center">
                 Question {currentQuestion + 1} of {questions.length}
               </h2>
-              <h3 className="text-lg font-medium text-gray-300 mb-4">
+              <h3 className="text-lg font-medium text-gray-700 mb-4">
                 {questions[currentQuestion].question}
               </h3>
               <ul className="space-y-3">
@@ -164,7 +164,7 @@ const Quiz: React.FC = () => {
                           ? selectedOption === questions[currentQuestion].answer
                             ? 'bg-green-500 text-white'
                             : 'bg-red-500 text-white'
-                          : 'bg-gray-700 text-gray-300 hover:bg-gray-600'
+                          : 'bg-gray-200 text-black hover:bg-gray-300'
                       }`}
                     >
                       {option}

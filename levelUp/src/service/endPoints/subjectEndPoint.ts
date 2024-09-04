@@ -7,7 +7,8 @@ const subjectRoute ={
     addQuiz:'/subject/subjectRouter/addQuiz',
     getQuiz:'/subject/subjectRouter/getQuiz',
     getAllCategory:'/subject/subjectRouter/getAllCategory',
-    addCategory:'/subject/subjectRouter/addCategory'
+    addCategory:'/subject/subjectRouter/addCategory',
+    getSubject:'/subject/subjectRouter/getSubject'
 
 }
 export default subjectRoute

@@ -81,51 +81,51 @@ const VideoPlayer: React.FC = () => {
 
   return (
     <div>
-      <UserHeader />
-      <div className="min-h-screen bg-gray-900 p-4 mt-14 flex flex-col items-center">
-        <div className=" mx-auto relative">
-          {video ? (
-            <div className="relative rounded-lg shadow-lg bg-gray-800 overflow-hidden">
-              <div className="aspect-w-full aspect-h-9">
-                <ReactPlayer
-                  ref={playerRef}
-                  url={video.videoUrl}
-                  controls
-                  playing
-                  onContextMenu={handleContextMenu}
-                  onProgress={savePlaybackPosition}
-                  className="w-full h-full rounded-lg"
-                  onEnded={handleSkip}
-                />
-              </div>
-            </div>
-          ) : (
-            <p className="text-white">Loading video...</p>
-          )}
-        </div>
-        {video && (
-          <div className="mt-8 w-full max-w-4xl mx-auto bg-gray-800 p-6 rounded-lg shadow-lg text-white">
-            <h2 className="text-2xl font-semibold mb-4">Video Description</h2>
-            <p className="text-lg">{video.description}</p>
-            <div className="mt-6 flex justify-between">
-              <button
-                onClick={handleSkip}
-                className="bg-blue-600 text-white py-2 px-6 rounded-lg hover:bg-blue-500 transition"
-              >
-                Skip to Quiz
-              </button>
-              <button
-                onClick={handleFullScreen}
-                className="bg-gray-700 text-white py-2 px-6 rounded-lg hover:bg-gray-600 transition"
-              >
-                Full Screen
-              </button>
+    <UserHeader />
+    <div className="min-h-screen bg-white p-4 mt-14 flex flex-col items-center">
+      <div className="mx-auto relative">
+        {video ? (
+          <div className="relative rounded-lg shadow-lg bg-gray-100 overflow-hidden">
+            <div className="aspect-w-full aspect-h-9">
+              <ReactPlayer
+                ref={playerRef}
+                url={video.videoUrl}
+                controls
+                playing
+                onContextMenu={handleContextMenu}
+                onProgress={savePlaybackPosition}
+                className="w-full h-full rounded-lg"
+                onEnded={handleSkip}
+              />
             </div>
           </div>
+        ) : (
+          <p className="text-black">Loading video...</p>
         )}
       </div>
-      <UserFooter />
+      {video && (
+        <div className="mt-8 w-full max-w-4xl mx-auto bg-gray-100 p-6 rounded-lg shadow-lg text-black">
+          <h2 className="text-2xl font-semibold mb-4">Video Description</h2>
+          <p className="text-lg">{video.description}</p>
+          <div className="mt-6 flex justify-between">
+            <button
+              onClick={handleSkip}
+              className="bg-black text-white py-2 px-6 rounded-lg hover:bg-gray-800 transition"
+            >
+              Skip to Quiz
+            </button>
+            <button
+              onClick={handleFullScreen}
+              className="bg-gray-300 text-black py-2 px-6 rounded-lg hover:bg-gray-400 transition"
+            >
+              Full Screen
+            </button>
+          </div>
+        </div>
+      )}
     </div>
+    <UserFooter />
+  </div>
   );
 };
 
