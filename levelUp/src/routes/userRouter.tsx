@@ -14,6 +14,8 @@ import CourseList from '../Usercomponents/courseLIst';
 import NotFound from '../Usercomponents/notFound';
 import { useState,lazy ,Suspense} from 'react';
 import ProblemPage from '../Usercomponents/[pid]';
+import SuccessPage from '../Usercomponents/successPayment';
+import FailurePage from '../Usercomponents/failurePage';
 const Login =lazy(()=>import('../pages/user/login'))
 const Register =lazy(()=>import('../pages/user/register')) 
 const Home =lazy(()=>import('../pages/user/home')) 
@@ -44,6 +46,9 @@ const UserRouter = () => {
         <Route path='/compiler/:levelId/:problemId' element={currentUser ? <Compailer /> : <Navigate to={'/login'} />} />
         <Route path='/EditProfile' element={currentUser ? <EditUserProfile /> : <Navigate to={'/login'} />} />
         <Route path='/courses' element={<CourseList />} />
+        <Route path='/paymentSucess/:payementId' element={<SuccessPage />} />
+        <Route path='/paymentFailure' element={<FailurePage/>}/>
+
         <Route path='/*' element={<NotFound />} />
       </Routes>
         </Suspense>

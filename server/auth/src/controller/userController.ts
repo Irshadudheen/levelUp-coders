@@ -2,7 +2,7 @@ import { Req,Res,Next } from "../framework/types/serverPakageTypes";
 import {IuserUseCase } from '../usecases/interface/usecase/userUseCase'
 import { accessTokenOptions, refreshTokenOptions } from "../framework/webServer/middleware/Tokens";
 import ErrorHandler from "../usecases/middlewares/errorHandler";
-import { Error } from "mongoose";
+
 
 export class UserController{
     private userUseCase:IuserUseCase

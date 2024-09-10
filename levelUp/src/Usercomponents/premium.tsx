@@ -5,7 +5,7 @@ const PricingTable = () => {
   const [prices, setPrices] = useState({
     Core: 12,
     Overdrive: 59,
-    Team: 29,
+    Team: 49,
   });
 
   const plans = [
@@ -14,10 +14,9 @@ const PricingTable = () => {
       monthlyPrice: 12,
       description: 'Best for solo creators',
       features: [
-        '100MB Cloud storage',
-        '100+ prompt templates',
-        '5 projects',
-        '24/7 support'
+        'premium level ',
+        'Interview',
+      
       ],
       icon: '○',
       color: 'text-cyan-400'
@@ -27,10 +26,9 @@ const PricingTable = () => {
       monthlyPrice: 59,
       description: 'Most popular plan',
       features: [
-        'All Starter features',
-        '1TB additional storage',
-        'Unlimited projects',
-        'Analytics'
+        'All course and level',
+        'Interview',
+       
       ],
       icon: '△',
       color: 'text-green-400',
@@ -38,13 +36,11 @@ const PricingTable = () => {
     },
     {
       name: 'Team',
-      monthlyPrice: 29,
+      monthlyPrice: 49,
       description: 'Exclusively for teams',
       features: [
-        'All Overdrive features',
-        '10TB additional storage',
-        '50% off per member',
-        'Real-time collaboration'
+        'Premium Course',
+        'Interview',
       ],
       icon: '⟳',
       color: 'text-cyan-400'
@@ -58,7 +54,7 @@ const PricingTable = () => {
         setPrices(prevPrices => ({
           Core: prevPrices.Core < 12 +100 ? prevPrices.Core + 1 : prevPrices.Core,
           Overdrive: prevPrices.Overdrive < 59 + 100 ? prevPrices.Overdrive + 1 : prevPrices.Overdrive,
-          Team: prevPrices.Team < 29 + 100 ? prevPrices.Team + 1 : prevPrices.Team,
+          Team: prevPrices.Team < 49 + 100 ? prevPrices.Team + 1 : prevPrices.Team,
         }));
       }, 10); // Adjust speed as needed
     } else {
@@ -66,7 +62,7 @@ const PricingTable = () => {
         setPrices(prevPrices => ({
           Core: prevPrices.Core > 12 ? prevPrices.Core - 1 : prevPrices.Core,
           Overdrive: prevPrices.Overdrive > 59 ? prevPrices.Overdrive - 1 : prevPrices.Overdrive,
-          Team: prevPrices.Team > 29 ? prevPrices.Team - 1 : prevPrices.Team,
+          Team: prevPrices.Team > 49 ? prevPrices.Team - 1 : prevPrices.Team,
         }));
       }, 1); // Adjust speed as needed
     }
@@ -74,18 +70,20 @@ const PricingTable = () => {
     return () => clearInterval(interval);
   }, [billingCycle]);
 
-  const handlePremium = async()=>{
+  const handlePremium = async(index)=>{
     try {
-      console.log('asdlkfjks');
+      console.log(index);
+      console.log(plans[index])
+      console.log(billingCycle)
+      
       const stripe = await loadStripe('pk_test_51PwPPbRu1UJ6KeMyzIFacH3x85ngUKuiMfLzfK6FwLUOGEncRjGXNPv4Wwpr9vrKYzjOR8i2iB7jGhrC767VTPLh00godGnlq1');
       
-      const body = {
-        product: {
-          name: 'Team',
-          monthlyPrice: 29,
-          description: 'Exclusively for teams',
-        },
-      };
+      const body = plans[index]
+      if(billingCycle!=='monthly'){
+        
+        body.monthlyPrice =body.monthlyPrice+100
+      }
+      console.log(body)
       
       const headers = {
         'Content-Type': 'application/json',
@@ -100,6 +98,7 @@ const PricingTable = () => {
       const session = await response.json();
       console.log(session);
       // stripe.
+      localStorage.setItem('paymentId',session.id)
       if (session && session.id) {
         console.log('hahda')
         const { error } = await stripe.redirectToCheckout({
@@ -161,7 +160,7 @@ const PricingTable = () => {
                   </li>
                 ))}
               </ul>
-              <button onClick={handlePremium} className="mt-auto bg-gradient-to-r from-gray-700 to-black hover:from-black hover:to-gray-600 text-white py-3 px-6 rounded-full font-semibold shadow-md transform hover:-translate-y-1 transition duration-300">
+              <button onClick={()=>handlePremium(index)} className="mt-auto bg-gradient-to-r from-gray-700 to-black hover:from-black hover:to-gray-600 text-white py-3 px-6 rounded-full font-semibold shadow-md transform hover:-translate-y-1 transition duration-300">
                 Get Started
               </button>
               {plan.popular && (
