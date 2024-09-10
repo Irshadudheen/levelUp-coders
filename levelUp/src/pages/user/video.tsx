@@ -82,7 +82,7 @@ const VideoPlayer: React.FC = () => {
   return (
     <div>
     <UserHeader />
-    <div className="min-h-screen bg-white p-4 mt-14 flex flex-col items-center">
+    <div className="min-h-screen bg-[#F4F1F8] p-4 mt-14 flex flex-col items-center">
       <div className="mx-auto relative">
         {video ? (
           <div className="relative rounded-lg shadow-lg bg-gray-100 overflow-hidden">

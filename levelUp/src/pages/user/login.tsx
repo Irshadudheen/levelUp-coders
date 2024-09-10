@@ -34,7 +34,8 @@ const Login:React.FC = () => {
       const res:any = await userGoogleLogin({name:user.displayName,email:user.email,password:user.email})
      
       if(res.user){
-        localStorage.setItem('accesToken',res.token.accesToken)
+        console.log(res.token,'the github token')
+        localStorage.setItem('accesToken',res.token.accessToken)
         localStorage.setItem('refreshToken',res.token.refreshToken)
         localStorage.setItem('role',res.token.role)
         dispatch(setUser({
@@ -76,7 +77,7 @@ const Login:React.FC = () => {
        const response = await userGoogleLogin({name:decoded.name,email:decoded.email,password:decoded.sub})
         console.log(response.user);
         if(response.user){
-          localStorage.setItem('accesToken',response.token.accesToken)
+          localStorage.setItem('accesToken',response.token.accessToken)
           localStorage.setItem('refreshToken',response.token.refreshToken)
           localStorage.setItem('role',response.token.role)
           dispatch(setUser({
@@ -108,7 +109,7 @@ const Login:React.FC = () => {
     if(response.user){
       
       console.log(response.token.role,'response of login my form submit')
-      localStorage.setItem('accesToken',response.token.accesToken)
+      localStorage.setItem('accesToken',response.token.accessToken)
       localStorage.setItem('refreshToken',response.token.refreshToken)
       localStorage.setItem('role',response.token.role)
       dispatch(setUser({
@@ -136,7 +137,7 @@ const Login:React.FC = () => {
   return (
     <>
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="bg-white text-gray-800 p-8 rounded-xl shadow-lg max-w-sm w-full">
+      <div className="bg-[#F4F1F8] text-gray-800 p-8 rounded-xl shadow-lg max-w-sm w-full">
         <h2 className="text-2xl font-bold mb-6 text-center">Login To Your Account</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">

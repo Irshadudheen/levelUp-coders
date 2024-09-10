@@ -14,7 +14,7 @@ const ActiveDays = () => {
   ];
 
   return (
-    <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center border border-gray-300 space-y-4 lg:col-span-2">
+    <div className="bg-[#F4F1F8] rounded-lg shadow-lg p-6 flex flex-col items-center border border-gray-300 space-y-4 lg:col-span-2">
     <h2 className="text-gray-800 text-lg font-bold">Active Days</h2>
     <div className="grid grid-rows-7 gap-2 w-full">
       <div className="items-center text-black justify-center flex">{mounth}</div>

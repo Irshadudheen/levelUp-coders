@@ -59,8 +59,13 @@ const Playground: React.FC<ProblemDescriptionProps> = ({ problem,setSuccess }) =
     useEffect(() => {
         const handleVisibilityChange = () => {
             if (document.hidden && !alertShown) {
-                alert("Please stay on this tab! Don't cheat!");
-                setAlertShown(true); // Set alertShown to true after showing the alert
+                toast.error(`Please stay on this tab! Don't cheat!`,{
+                    position:'top-center',
+                    autoClose:4000,
+                    theme:'dark'
+                })
+                // alert("Please stay on this tab! Don't cheat!");
+                // setAlertShown(true); // Set alertShown to true after showing the alert
             }
         };
 

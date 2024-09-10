@@ -65,7 +65,7 @@ const CourseList = () => {
   return (
     <>
       <UserHeader />
-      <div className="flex flex-col min-h-screen mt-14 bg-white text-gray-900">
+      <div className="flex flex-col min-h-screen mt-14 bg-[#F4F1F8] text-gray-900">
         <div className="relative">
           <img
             className="w-full h-[calc(100vh/6)] object-cover object-center mt-1"

@@ -31,6 +31,7 @@ export const isAuthenticate = async (req:CustomRequest,res:Res,next:Next)=>{
         try {
             const decoded = jwt.verify(accessToken,process.env.JWT_ACCESS_KEY as Secret) as CustomJwtPayload;
             if(decoded){
+                console.log(decoded,'decoded')
                 req.user={userId:decoded.userId,role};
                 next()
             }else{

@@ -28,7 +28,12 @@ const handlerTwoSum = (fn:any)=>{
         throw new Error(error)
     }
 }
-const starterCodeTwoSum = `function twoSum(nums,target){
+const starterCodeTwoSum = `/**
+ * @param {number[]} nums
+ * @param {number} target
+ * @return {number[]}
+ */
+ function twoSum(nums,target){
 //Write you code here
 };`;
 export const twoSum: Problem = {

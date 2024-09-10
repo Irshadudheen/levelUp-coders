@@ -25,11 +25,11 @@ console.log(pathname.split(''),':patname',pathname==='/')
     <header>
       <nav className="fixed left-0 right-0 top-0 bg-white z-50 border-gray-200 px-4 lg:px-6 py-2.5">
         <div className="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl">
-          <a href="/" className="flex items-center">
+          <button className="flex items-center">
             <span className="flex items-center h-10 px-10 bg-gradient-to-r from-gray-900 via-gray-600 to-gray-500 rounded-tl-full rounded-br-full font-bold uppercase italic text-white hover:opacity-90">
               LevelUp
             </span>
-          </a>
+          </button>
           <div className="flex items-center lg:order-2">
             <button
               onClick={currentUser ? handleLogout : () => navigate('/login')}
@@ -55,34 +55,34 @@ console.log(pathname.split(''),':patname',pathname==='/')
           <div className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
               <li>
-                <a onClick={() => navigate('/')} className={`cursor-pointer py-2 pr-4 pl-3 hover:text-black ${pathname==='/'?'text-black':'text-gray-700'}`}>
+                <button onClick={() => navigate('/')} className={`cursor-pointer py-2 pr-4 pl-3 hover:text-black ${pathname==='/'?'text-black':'text-gray-700'}`}>
                   Home
-                </a>
+                </button>
               </li>
               <li>
-                <a onClick={() => navigate('/courses')} className={`cursor-pointer py-2 pr-4 pl-3 ${pathname.includes('courses') ? 'text-black' : 'text-gray-700 hover:text-black'}`}>
+                <button onClick={() => navigate('/courses')} className={`cursor-pointer py-2 pr-4 pl-3 ${pathname.includes('courses') ? 'text-black' : 'text-gray-700 hover:text-black'}`}>
                   Course
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
+                <button  className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
                   Interview
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
+                <button  className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
                   Notification
-                </a>
+                </button>
               </li>
               <li>
-                <a onClick={() => navigate('/profile')} className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
+                <button onClick={() => navigate('/profile')} className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
                   Profile
-                </a>
+                </button>
               </li>
               <li>
-                <a href="#" className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
+                <button  className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
                   Contact
-                </a>
+                </button>
               </li>
             </ul>
           </div>

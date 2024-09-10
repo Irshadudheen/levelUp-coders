@@ -27,7 +27,7 @@ const HomePage: React.FC = () => {
   return (
     <div className='relative'>
       <UserHeader />
-      <div className="bg-white min-h-screen py-8 px-4">
+      <div className="bg-[#F4F1F8] min-h-screen py-8 px-4">
         <div className="flex flex-col md:flex-row">
           <div className="w-full md:w-1/2">
             <img src={image} alt="" className="object-contain w-full h-auto" />

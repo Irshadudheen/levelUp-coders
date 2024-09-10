@@ -40,7 +40,7 @@ const UserProfile = () => {
     <div className="min-h-screen bg-gray-100 p-4 mt-14">
       <div className="max-w-6xl mx-auto">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-          <div className="bg-white rounded-lg shadow-lg p-6 flex flex-col items-center border border-gray-300 space-y-4">
+          <div className="bg-[#F4F1F8] rounded-lg shadow-lg p-6 flex flex-col items-center border border-gray-300 space-y-4">
             <div className="flex items-center justify-between w-full">
               <span className="material-symbols-outlined text-6xl text-gray-800">
                 account_circle

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
+import {loadStripe} from '@stripe/stripe-js'
 const PricingTable = () => {
   const [billingCycle, setBillingCycle] = useState('monthly');
   const [prices, setPrices] = useState({
@@ -74,6 +74,50 @@ const PricingTable = () => {
     return () => clearInterval(interval);
   }, [billingCycle]);
 
+  const handlePremium = async()=>{
+    try {
+      console.log('asdlkfjks');
+      const stripe = await loadStripe('pk_test_51PwPPbRu1UJ6KeMyzIFacH3x85ngUKuiMfLzfK6FwLUOGEncRjGXNPv4Wwpr9vrKYzjOR8i2iB7jGhrC767VTPLh00godGnlq1');
+      
+      const body = {
+        product: {
+          name: 'Team',
+          monthlyPrice: 29,
+          description: 'Exclusively for teams',
+        },
+      };
+      
+      const headers = {
+        'Content-Type': 'application/json',
+      };
+      
+      const response = await fetch('http://localhost:3001/create-checkout-session', {
+        method: 'POST',
+        headers,
+        body: JSON.stringify(body),
+      });
+      
+      const session = await response.json();
+      console.log(session);
+      // stripe.
+      if (session && session.id) {
+        console.log('hahda')
+        const { error } = await stripe.redirectToCheckout({
+          sessionId: session.id,  // Pass the session ID from the backend
+        });
+        
+        if (error) {
+          console.log('haidhaiah')
+          console.error('Stripe checkout error:', error.message);
+        }
+      } else {
+        console.error('Failed to create checkout session');
+      }
+      
+    } catch (error: any) {
+      console.log(error.message);
+    }
+  }
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-4 relative">
       {/* Background Pattern */}
@@ -117,7 +161,7 @@ const PricingTable = () => {
                   </li>
                 ))}
               </ul>
-              <button className="mt-auto bg-gradient-to-r from-gray-700 to-black hover:from-black hover:to-gray-600 text-white py-3 px-6 rounded-full font-semibold shadow-md transform hover:-translate-y-1 transition duration-300">
+              <button onClick={handlePremium} className="mt-auto bg-gradient-to-r from-gray-700 to-black hover:from-black hover:to-gray-600 text-white py-3 px-6 rounded-full font-semibold shadow-md transform hover:-translate-y-1 transition duration-300">
                 Get Started
               </button>
               {plan.popular && (

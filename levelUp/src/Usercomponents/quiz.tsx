@@ -119,7 +119,7 @@ const Quiz: React.FC = () => {
   return (
     <>
       <UserHeader />
-      <div className="min-h-screen mt-5 bg-white flex items-center justify-center p-4">
+      <div className="min-h-screen mt-5 bg-[#F4F1F8] flex items-center justify-center p-4">
         <div className="max-w-lg w-full bg-gray-100 rounded-lg shadow-lg p-6 relative">
           {showResult ? (
             <div className="text-center">

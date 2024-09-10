@@ -8,11 +8,11 @@ const Api = axios.create({
 })
 Api.interceptors.request.use(
     (config) => {
-        const accessToken = localStorage.getItem('accessToken');
+        const accessToken = localStorage.getItem('accesToken');
         const refreshToken = localStorage.getItem('refreshToken');
         const role = localStorage.getItem('role');
         const verifyToken = localStorage.getItem("verifyToken")
-        console.log(" acc____tre<role :_____________--",verifyToken,"____________________--",role)
+        console.log(accessToken," acc____tre<role :_____________--",verifyToken,"____________________--",role)
         if (accessToken) {
             config.headers['Authorization'] = `Bearer ${accessToken}`;
         }
