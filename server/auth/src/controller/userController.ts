@@ -2,6 +2,7 @@ import { Req,Res,Next } from "../framework/types/serverPakageTypes";
 import {IuserUseCase } from '../usecases/interface/usecase/userUseCase'
 import { accessTokenOptions, refreshTokenOptions } from "../framework/webServer/middleware/Tokens";
 import ErrorHandler from "../usecases/middlewares/errorHandler";
+import { sendSignupData } from "../framework/services/messageBroker/producer";
 
 
 export class UserController{
@@ -44,6 +45,7 @@ export class UserController{
             const user = await this.userUseCase.createUser(token as string,req.body.otp, next)
             console.log("at the end of the uer", user)
             if(user){
+               await sendSignupData(user)
                 // const active = await this.userUseCase.createActiveDays({userId:user._id,days:[{data:,isActive:true}]})
                 res.clearCookie("verificationToken").send(user)
             }

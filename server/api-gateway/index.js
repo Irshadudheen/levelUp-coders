@@ -7,9 +7,11 @@ const service = {
     auth:'http://localhost:4000',
     subject:'http://localhost:4002',
     meeting:'http://meet-service:4003',
-    compiler:'http://localhost:3000'
+    compiler:'http://localhost:3000',
+    payment:'http://localhost:3001'
 
 }
+app.use('/payment',createProxyMiddleware({target:service.payment,changeOrigin:true}))
 app.use('/auth',createProxyMiddleware({target:service.auth,changeOrigin:true}))
 app.use('/subject',createProxyMiddleware({target:service.subject,changeOrigin:true}))
 app.use('/compiler',createProxyMiddleware({target:service.compiler,changeOrigin:true}))

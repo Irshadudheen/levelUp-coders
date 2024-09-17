@@ -6,7 +6,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node-dev src/index.ts"
   },
   "keywords": [],
   "author": "",
@@ -19,9 +19,11 @@
     "express": "^4.19.2",
     "inquirer": "^10.1.0",
     "jsonwebtoken": "^9.0.2",
+    "kafkajs": "^2.2.4",
     "mongoose": "^8.5.1",
     "nodemailer": "^6.9.14",
     "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
     "typescript": "^5.5.3"
   },
   "devDependencies": {

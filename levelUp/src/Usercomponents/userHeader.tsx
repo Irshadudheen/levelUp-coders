@@ -13,12 +13,20 @@ const UserHeader: React.FC = () => {
   const { pathname } = useLocation();
 
   const handleLogout = async () => {
-    const response = await logout();
-    if (response.succuss) {
-      clearUser(dispatch);
-      navigate('/login');
-      toast.success('You logged out successfully');
-    }
+    try {
+      
+      const response = await logout();
+      
+      if (response.succuss) {
+        clearUser(dispatch);
+        navigate('/login');
+        toast.success('You logged out successfully');
+      }else{
+
+        clearUser(dispatch);
+      }
+      } catch (error) {
+      }
   };
 console.log(pathname.split(''),':patname',pathname==='/')
   return (
@@ -33,12 +41,12 @@ console.log(pathname.split(''),':patname',pathname==='/')
           <div className="flex items-center lg:order-2">
             <button
               onClick={currentUser ? handleLogout : () => navigate('/login')}
-              className="text-gray-800 hover:bg-gray-50 focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2">
+              className="ttext-white bg-black hover:bg-black focus:ring-4 focus:ring-gray-500 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2">
               {currentUser ? 'Log out' : 'Log in'}
             </button>
-            <a href="#" className="text-white bg-black hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2">
+            {/* <a href="#" className="text-white bg-black hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2">
               Get started
-            </a>
+            </a> */}
             <button
               data-collapse-toggle="mobile-menu-2"
               type="button"
@@ -80,8 +88,8 @@ console.log(pathname.split(''),':patname',pathname==='/')
                 </button>
               </li>
               <li>
-                <button  className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
-                  Contact
+                <button onClick={()=>navigate('/premium')}  className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
+                  Shop
                 </button>
               </li>
             </ul>

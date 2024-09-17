@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import {loadStripe} from '@stripe/stripe-js'
+import { paymentSuccess } from '../Api/payment';
 const PricingTable = () => {
   const [billingCycle, setBillingCycle] = useState('monthly');
   const [prices, setPrices] = useState({
@@ -83,6 +84,9 @@ const PricingTable = () => {
         
         body.monthlyPrice =body.monthlyPrice+100
       }
+      console.log(body,'body')
+      localStorage.setItem('subscriptionType',JSON.stringify(body))
+      console.log(localStorage.getItem('subscriptionType'))
       console.log(body)
       
       const headers = {

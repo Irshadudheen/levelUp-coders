@@ -23,13 +23,16 @@ export const isAuthenticate = async (req:CustomRequest,res:Res,next:Next)=>{
             return res.status(401).json({message:'Access Forbidden!!! Please login again',success:false});
         }
         const accessToken = authHeader.split(' ')[1];
-        console.log('Comming here req.headers auth ',authHeader,refreshToken);
+        // console.log('Comming here req.headers auth ',authHeader,refreshToken);
         if(!accessToken &&!refreshToken){
             return res.status(401).json({message:'Access token forbidden!!! please login again',success:false});
-
+            
         }
+
+        
         try {
             const decoded = jwt.verify(accessToken,process.env.JWT_ACCESS_KEY as Secret) as CustomJwtPayload;
+            console.log('the decoded')
             if(decoded){
                 console.log(decoded,'decoded')
                 req.user={userId:decoded.userId,role};
@@ -40,7 +43,7 @@ export const isAuthenticate = async (req:CustomRequest,res:Res,next:Next)=>{
         } catch (error) {
             try {
                 const decodedRefreshToken = jwt.verify(refreshToken,process.env.JWT_REFRESH_KEY as Secret) as CustomJwtPayload;
-               
+                
                 if(!decodedRefreshToken){
                     return res.status(401).json({message:'Access forbidden!!! Please login again.',succuss:false})
                 }
@@ -50,6 +53,7 @@ export const isAuthenticate = async (req:CustomRequest,res:Res,next:Next)=>{
                 next()
                 
             } catch (error) {
+                console.log("haiha the not decoded")
                 return res.status(401).json({message:'Access Forbidden!!! Please login again',succus:false})
             }
             

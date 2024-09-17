@@ -1,7 +1,10 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { paymentSuccess } from '../Api/payment';
+import { useGetUserData } from '../hook/useGetUser';
 
 const SuccessPage = () => {
+  const user =useGetUserData()
     const navigate = useNavigate()
     const {payementId}=useParams()
     useEffect(()=>{
@@ -11,10 +14,19 @@ const SuccessPage = () => {
         navigate('/*')
      }else{
         const fetchTheData = async()=>{
-
-           const res= await fetch(`http://localhost:3001/success/${payementId}`)
+          console.log()
+         const data = localStorage.getItem('subscriptionType')
+          if(data){
+            console.log( JSON.parse(data))
+            const subscriptionType = JSON.parse(data)
+            const resoponse = await paymentSuccess(payementId,user.id,subscriptionType)
+            console.log(user.id)
+            console.log(resoponse)
+          }
+          //  const res= await fetch(`http://localhost:3001/success/${payementId}`).then(res=>res.json()).then(data=>console.log(data))
                 
-            console.log(res.json())
+
+            
         }
         fetchTheData()
      }

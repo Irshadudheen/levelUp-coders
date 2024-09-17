@@ -1,6 +1,6 @@
 import adminRoute from '../service/endPoints/adminEndPoint'
 import Api from "../service/axios"
-import user from '../@types/user'
+
 export const adminLogin = async (email:string,password:string)=>{
 try {
     const response = await Api.post(adminRoute.login,{email,password})
@@ -23,7 +23,7 @@ export const addSubject = async (subject:any)=>{
     try {
        const response = await Api.post(adminRoute.addSubject,subject,{
         headers: {
-          'Content-Type': 'multipart/form-data', // Specify the content type
+          'Content-Type': 'multipart/form-data', 
         }}) 
        return response
     } catch (error) {
