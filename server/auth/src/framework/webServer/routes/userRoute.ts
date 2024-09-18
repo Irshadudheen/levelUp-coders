@@ -1,5 +1,5 @@
 import {Next,Req,Res,Route} from '../../types/serverPakageTypes'
-import {userController} from './injections/injection'
+import {activeController, userController} from './injections/injection'
 import { isUser } from '../middleware/roleAuth'
 export function UserRoute(router:Route){
     
@@ -38,5 +38,11 @@ export function UserRoute(router:Route){
     router.patch('/updateProfile',isUser,async(req:Req,res:Res,next:Next)=>{
         console.log('comming into update profile')
         userController.updateProfile(req,res,next)
-})
+    })
+    router.post('/activeDaysUpdate',isUser,(req:Req,res:Res,next:Next)=>{
+        activeController.updateActiveDays(req,res,next)
+    })
+    router.post('/findActiveDays',isUser,(req:Req,res:Res,next:Next)=>{
+        activeController.findActiveDays(req,res,next)
+    })
 }

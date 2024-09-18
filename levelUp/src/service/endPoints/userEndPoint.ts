@@ -7,7 +7,9 @@ const userRoutes={
     logout:'/auth/user/logout',
     newPassword:'/auth/user/newPassword',
     verifyEmail:'/auth/user/createNewPassword',
-    updateProfile:'/auth/user/updateProfile'
+    updateProfile:'/auth/user/updateProfile',
+    updateActive:'/auth/user/activeDaysUpdate',
+    findActive:'/auth/user/findActiveDays'
    
 }
 

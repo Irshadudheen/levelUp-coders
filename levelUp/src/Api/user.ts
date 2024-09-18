@@ -87,3 +87,20 @@ export const updateUserProfile=async(userData:Object)=>{
         return error
     }
 }
+export const updateActiveDays=async(userId:string)=>{
+    try {
+        const response = await Api.post(userRoutes.updateActive,{userId})
+        return response.data
+    } catch (error) {
+        return error
+    }
+}
+export const findActive = async (userId:string)=>{
+    try {
+        const response = await Api.post(userRoutes.findActive,{userId})
+        console.log(response,'find active')
+        return response.data
+    } catch (error) {
+        return error
+    }
+}

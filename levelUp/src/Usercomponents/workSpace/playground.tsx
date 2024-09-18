@@ -10,6 +10,7 @@ import { problems } from '../../utils/problems';
 import { useNavigate, useParams } from 'react-router-dom';
 import { completeLevel } from '../../Api/subject';
 import { useGetUserData } from '../../hook/useGetUser';
+import { updateActiveDays } from '../../Api/user';
 
 type ProblemDescriptionProps = {
     problem: {
@@ -49,6 +50,8 @@ const Playground: React.FC<ProblemDescriptionProps> = ({ problem,setSuccess }) =
                 })
                 setSuccess(true)
                 console.clear()
+               const active= await updateActiveDays(user.id as string)
+               console.log(active)
                const res = await completeLevel(levelId as string,user.id)
                console.log(res)
                 setTimeout(()=>{setSuccess(false)
