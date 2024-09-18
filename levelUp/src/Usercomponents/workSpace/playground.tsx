@@ -7,7 +7,9 @@ import { javascript } from '@codemirror/lang-javascript';
 import { toast } from 'react-toastify';
 import EditorFooter from './EditorFooter';
 import { problems } from '../../utils/problems';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
+import { completeLevel } from '../../Api/subject';
+import { useGetUserData } from '../../hook/useGetUser';
 
 type ProblemDescriptionProps = {
     problem: {
@@ -29,8 +31,10 @@ const Playground: React.FC<ProblemDescriptionProps> = ({ problem,setSuccess }) =
     const [activeTestCaseId, setActiveTestCaseId] = useState(0);
     const [alertShown, setAlertShown] = useState(false); // State to track if alert has been shown
     let [userCode,setUserCode]=useState(problem.starterCode)
-    const {problemId}=useParams()
-    const handleSubmit =()=>{
+    const {problemId,levelId}=useParams()
+    const user = useGetUserData()
+    const navigate = useNavigate()
+    const handleSubmit =async()=>{
         try {
             userCode=userCode.slice(userCode.indexOf(problem.starterFunctionName))
             const cb = new Function(`return ${userCode}`)();
@@ -44,7 +48,13 @@ const Playground: React.FC<ProblemDescriptionProps> = ({ problem,setSuccess }) =
 
                 })
                 setSuccess(true)
-                setTimeout(()=>{setSuccess(false)},3000)
+                console.clear()
+               const res = await completeLevel(levelId as string,user.id)
+               console.log(res)
+                setTimeout(()=>{setSuccess(false)
+                   const subjectId= localStorage.getItem('subjectId')
+                    navigate(`/level/${subjectId}`)
+                },3000)
 
             }
        } catch (error:any) {

@@ -95,7 +95,7 @@ const VideoPlayer: React.FC = () => {
                 onContextMenu={handleContextMenu}
                 onProgress={savePlaybackPosition}
                 className="w-full h-full rounded-lg"
-                onEnded={handleSkip}
+                // onEnded={handleSkip}
               />
             </div>
           </div>

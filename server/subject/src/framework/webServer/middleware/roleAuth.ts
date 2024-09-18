@@ -1,7 +1,10 @@
 import { Next, Req, Res } from "../../types/serverPakageTypes";
+import { isAuthenticate } from "./auth";
 
 export const isUser = (req:Req,res:Res,next:Next)=>{
     try {
+       return isAuthenticate(req,res,next)
+
         const role = req.headers['x-user-role'] as string;
         console.log('role of req',role)
         if(role=='user'){
@@ -17,6 +20,7 @@ export const isUser = (req:Req,res:Res,next:Next)=>{
 }
 export const isAdmin = (req:Req,res:Res,next:Next)=>{
     try {
+     return   isAuthenticate(req,res,next)
         const role = req.headers['x-user-role'] as string;
         console.log('role of req',role);
         if(role=='admin'){

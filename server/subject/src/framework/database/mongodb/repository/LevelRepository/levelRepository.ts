@@ -1,10 +1,15 @@
+import { ObjectId } from "mongoose";
 import { Ilevel } from "../../../../../entities/level";
 import { IlevelRepository } from "../../../../../usecases/interface/repositoryInterface/levelRepository";
 import levelModel from "../../model/level";
-import { createLevel, getAllLevel,editLevel } from "./level/index";
+import { createLevel, getAllLevel,editLevel,addUser } from "./level/index";
 
 export class LevelRepository implements IlevelRepository{
     constructor(private levelModels:typeof levelModel){}
+  async addUser(levelId:string,userId:ObjectId):Promise<Ilevel|void>{
+    return await addUser(levelId,userId,this.levelModels)
+  }
+
   async editLevel(level: object): Promise<object | void> {
   return await  editLevel(level,this.levelModels)
   }

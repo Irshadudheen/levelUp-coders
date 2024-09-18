@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { Ilevel } from "../../entities/level";
 import { Iquiz } from "../../entities/quiz";
 import { Ivideo } from "../../entities/video";
@@ -15,6 +16,10 @@ export class LevelUseCase implements IlevelUseCase{
         private videoRepository:IvideoRepository,
         private quizRepository:IquizRepository
     ){}
+
+   async addToLevelTheUser(levelId:string,userId:ObjectId,next:Next):Promise<Ilevel|void>{
+    return await this.levelRepository.addUser(levelId,userId)
+   } 
    async editLevel(level: object, next: Next): Promise<object | void> {
         return await editLevel(level,this.levelRepository,next);
     }

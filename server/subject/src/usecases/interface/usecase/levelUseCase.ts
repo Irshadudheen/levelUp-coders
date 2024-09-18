@@ -1,3 +1,4 @@
+import { ObjectId } from "mongoose";
 import { Ilevel } from "../../../entities/level";
 import { Iquiz } from "../../../entities/quiz";
 import { Ivideo } from "../../../entities/video";
@@ -11,4 +12,5 @@ export interface IlevelUseCase{
     addQuiz(quiz:Iquiz,next:Next):Promise<Iquiz|void>
     getQuiz(levelId:string,next:Next):Promise<Iquiz[]|void|null>
     editLevel(level:object,next:Next):Promise<object|void>
+    addToLevelTheUser(levelId:string,userId:ObjectId,next:Next):Promise<Ilevel|void>
 }

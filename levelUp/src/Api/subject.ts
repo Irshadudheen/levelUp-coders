@@ -96,3 +96,11 @@ export const getSubject= async(subjectId:string)=>{
         
     }
 }
+export  const completeLevel = async (levelId:string,userId:string)=>{
+    try {
+        const res = await Api.post(subjectRoutes.complete,{levelId,userId})
+        return res.data
+    } catch (error) {
+        
+    }
+}

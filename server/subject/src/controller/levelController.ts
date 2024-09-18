@@ -87,5 +87,15 @@ export class LevelController{
             
         }
     }
-    
+    async addToLevelTheUserId(req:Req,res:Res,next:Next){
+        try {
+            const {levelId,userId}=req.body;
+            const level = await this.levelUseCase.addToLevelTheUser(levelId,userId,next)
+            if(level){
+                res.json(level)
+            }
+        } catch (error) {
+            
+        }
+    }
 }

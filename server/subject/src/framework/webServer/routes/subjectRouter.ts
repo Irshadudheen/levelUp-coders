@@ -1,9 +1,11 @@
 import upload from "../../service/multer"
 import { Route, Next, Req, Res } from "../../types/serverPakageTypes"
-import { isAdmin } from "../middleware/roleAuth"
+import { isAdmin, isUser } from "../middleware/roleAuth"
 import { categoryController, levelController, subjectController } from "./injections/injections"
 export function subjectRoute(router: Route) {
-
+    router.post('/addUserToLevel',isUser,(req:Req,res:Res,next:Next)=>{
+        levelController.addToLevelTheUserId(req,res,next)
+    })
     router.post('/addSubject', isAdmin, upload, (req: Req, res: Res, next: Next) => {
         console.log('comming in router of add subject')
         subjectController.addSubject(req, res, next)

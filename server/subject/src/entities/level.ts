@@ -6,7 +6,7 @@ export interface Ilevel{
     premium?:boolean;
  
     image:string;
-  
+    users?:ObjectId[];
     subjectId:ObjectId;
     
 }

@@ -3,14 +3,16 @@ import { getLevel, getSubject } from "../../Api/subject";
 import { useNavigate, useParams } from "react-router-dom";
 import UserHeader from "../../Usercomponents/userHeader";
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
+import { useGetUserData } from "../../hook/useGetUser";
 
 const ImageGrid: React.FC = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   const [level, setLevel] = useState([]);
   const [course, setCourse] = useState({});
-
+  const user = useGetUserData()
   useEffect(() => {
+    localStorage.setItem('subjectId',id as string)
     const fetchLevel = async () => {
       const res: any = await getLevel(id as string);
       const subject = await getSubject(id as string);
@@ -67,7 +69,9 @@ const ImageGrid: React.FC = () => {
                   )}
                 </div>
                 <div className="flex items-center justify-between mt-auto">
-                  <div className="text-green-600">✓ Completed</div>
+                {level?.users.some(client => client.toString()===user.id) && 
+    <div className="text-green-600">✓ Completed</div>
+} 
                   <div className="text-yellow-500">
                     {'★'.repeat(level.rating || 0)}
                   </div>

@@ -5,7 +5,7 @@ const levelSchema :Schema<Ilevel> = new Schema({
    
     image:{type:String,required:true},
     premium:{type:Boolean,required:true},
- 
+    users:[{type:Schema.Types.ObjectId}],
     subjectId:{type:Schema.Types.ObjectId,required:true,ref:'subject'}
 })
 const levelModel:Model<Ilevel>=model('level',levelSchema);
