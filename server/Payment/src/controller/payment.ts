@@ -3,9 +3,20 @@ import Stripe from 'stripe';
 import { IpaymentUseCase } from "../usecases/interface/usecase/paymentUseCase";
 
 export class PaymentController{
-    private paymentUseCase:any;
+    private paymentUseCase:IpaymentUseCase;
     constructor(paymentUseCase:IpaymentUseCase){
             this.paymentUseCase=paymentUseCase
+        }
+        async findUserPayment(req:Req,res:Res,next:Next){
+            try {
+                const{clientId}=req.body;
+                const payment = await this.paymentUseCase.findSubscription(clientId)
+                if(payment){
+                    res.json(payment)
+                }
+            } catch (error) {
+                
+            }
         }
         async success(req:Req,res:Res,next:Next){
             try {

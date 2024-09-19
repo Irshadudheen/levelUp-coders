@@ -2,7 +2,9 @@ import {Next,Req,Res,Route} from '../../types/serverPakageTypes'
 import {paymentController} from './injections/injection'
 import { isUser } from '../middleware/roleAuth'
 export function paymentRout(router:Route){
-  
+  router.post('/findPayment',async(req:Req,res:Res,next:Next)=>{
+    paymentController.findUserPayment(req,res,next);
+  })
   router.post('/create-checkout-session',async(req:Req,res:Res,next:Next)=>{
     paymentController.checkout(req,res,next)
   })  

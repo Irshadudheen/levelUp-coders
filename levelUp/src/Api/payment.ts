@@ -9,3 +9,11 @@ export const paymentSuccess = async(sessionId:string,clientId:string,paymentType
         return error
     }
 }
+export const findUserPayment = async (clientId:string)=>{
+    try {
+       const response = await Api.post(paymentRoute.findUserPayment,{clientId}) 
+       return response.data;
+    } catch (error) {
+        return error
+    }
+}

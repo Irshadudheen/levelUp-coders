@@ -36,7 +36,7 @@ const ActiveDays = () => {
   const dateArray = useMemo(() => {
     const today = new Date();
     const dates = [];
-    for (let i = 191; i >= 0; i--) {
+    for (let i = 192; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
       dates.push(date);
@@ -47,10 +47,15 @@ const ActiveDays = () => {
   // Handle tooltip display and position
   const handleMouseEnter = (e, formattedDate) => {
     const rect = e.target.getBoundingClientRect();
+    
+    // Calculate the tooltip position, ensuring it stays within the viewport
+    const tooltipX = (rect.left + window.scrollX - rect.width / 2)-400;
+    const tooltipY = (rect.top + window.scrollY - 50)-60; // Adjust Y value to avoid overlapping
+
     setHoveredDate(formattedDate);
     setTooltipPos({
-      x: rect.left + window.scrollX - rect.width / 2 - 350,
-      y: rect.top + window.scrollY - 190,
+      x: Math.max(10, Math.min(tooltipX, window.innerWidth - 150)), // Ensure it stays in the window
+      y: Math.max(10, tooltipY), // Ensure it stays above a certain point
     });
   };
 
@@ -62,26 +67,21 @@ const ActiveDays = () => {
     if (!userActiveDays) return false;
   
     return userActiveDays.days.some((activeDay) => {
-      // Convert the active day from the database into a Date object
       const activeDate = new Date(activeDay.date);
-  
-      // Normalize both dates by setting the time to 00:00:00 for comparison
-      const normalizedActiveDate = new Date(activeDate);
-      normalizedActiveDate.setHours(0, 0, 0, 0); // Reset time
+      activeDate.setHours(0, 0, 0, 0);
   
       const normalizedDate = new Date(date);
-      normalizedDate.setHours(0, 0, 0, 0); // Reset time
+      normalizedDate.setHours(0, 0, 0, 0);
   
-      // Compare both dates in milliseconds since both are normalized
-      return normalizedActiveDate.getTime() === normalizedDate.getTime();
+      return activeDate.getTime() === normalizedDate.getTime();
     });
   };
 
   return (
-    <div className="bg-[#F4F1F8] rounded-lg shadow-lg p-6 flex flex-col items-center border border-gray-300 space-y-4 lg:col-span-2">
+    <div className="bg-[#F4F1F8] rounded-lg shadow-lg p-6 flex flex-col items-center border border-gray-300 space-y-4 lg:col-span-2 relative">
       <h2 className="text-gray-800 text-lg font-bold">Active Days</h2>
-      <div className="grid grid-rows-7 gap-2 w-full relative">
-        <div className="items-center text-black justify-center flex">{month}</div>
+      <div className="grid grid-rows-7 gap-2 w-full">
+        <div className="items-center text-black justify-center flex">{month.map((moun, index) => (<p key={index} className="pl-10">{moun}</p>))}</div>
         {activeDays.map((day, index) => (
           <div key={index} className="flex justify-start items-center">
             <div className="text-gray-800 mr-2 w-[2.5rem]">{day.day}</div>
@@ -97,7 +97,6 @@ const ActiveDays = () => {
                       day: 'numeric',
                     });
 
-                    // Check if this date is an active day
                     const isActive = isActiveDay(date);
 
                     return (
@@ -115,8 +114,8 @@ const ActiveDays = () => {
         ))}
         {hoveredDate && (
           <div
-            className="absolute z-10 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm"
-            style={{ top: tooltipPos.y, left: tooltipPos.x, transform: 'translateX(-50%)' }}
+            className="absolute z-50 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg shadow-sm"
+            style={{ top: tooltipPos.y, left: tooltipPos.x }}
           >
             {hoveredDate}
           </div>

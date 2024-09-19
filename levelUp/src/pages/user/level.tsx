@@ -4,13 +4,26 @@ import { useNavigate, useParams } from "react-router-dom";
 import UserHeader from "../../Usercomponents/userHeader";
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { useGetUserData } from "../../hook/useGetUser";
+import { findUserPayment } from "../../Api/payment";
 
 const ImageGrid: React.FC = () => {
+  const user = useGetUserData()
+  const [premium,setPremium]=useState(false)
+  useEffect(()=>{
+    const fetchPremium = async()=>{
+      const response = await findUserPayment(user.id)
+      console.clear()
+      console.log('premium option',response)
+      if(response.subscriptionType){
+        setPremium(true)
+      }
+    }
+    fetchPremium()
+  },[])
   const navigate = useNavigate();
   const { id } = useParams();
   const [level, setLevel] = useState([]);
   const [course, setCourse] = useState({});
-  const user = useGetUserData()
   useEffect(() => {
     localStorage.setItem('subjectId',id as string)
     const fetchLevel = async () => {
@@ -27,8 +40,8 @@ const ImageGrid: React.FC = () => {
   return (
     <>
       <UserHeader />
-      <div className="w-full h-1/3 flex items-center justify-center">
-        <div className="flex w-full h-full mt-14 bg-gradient-to-b from-[#5B5032] to-[#1E1A11]">
+      <div className="w-full h-1/3 bg-[#F4F1F8] flex items-center justify-center">
+        <div className="flex w-full h-full  mt-14 bg-gradient-to-b from-[#5B5032] to-[#1E1A11]">
 
           <div className="flex flex-col items-center justify-center p-8 w-1/2">
             <p className=" text-lg text-left ml-10">
@@ -46,14 +59,17 @@ const ImageGrid: React.FC = () => {
       </div>
       <div className="flex-shrink-0 mr-8">
       </div>
-      <div className="h-full bg-[#F4F1F8] w-full p-4 mt-14">
+      <div className="h-full bg-[#F4F1F8] w-full p-4 ">
         <div className="max-w-6xl mx-auto mt-4">
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
             {level.map((level, index) => (
               <div
                 key={index}
-                onClick={() =>
-                  level.premium ? navigate('/premium') : navigate(`/video/${level._id}`)
+                onClick={() =>{
+
+                  console.log(premium,'premium')
+                  level.premium ? premium ?navigate(`/video/${level._id}`): navigate('/premium') : navigate(`/video/${level._id}`)
+                }
                 }
                 className="bg-gray-100 rounded-lg shadow-lg p-4 border border-gray-300 flex flex-col"
               >

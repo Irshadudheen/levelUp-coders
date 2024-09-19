@@ -14,21 +14,17 @@ const UserHeader: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      
       const response = await logout();
-      
       if (response.succuss) {
         clearUser(dispatch);
         navigate('/login');
         toast.success('You logged out successfully');
-      }else{
-
+      } else {
         clearUser(dispatch);
       }
-      } catch (error) {
-      }
+    } catch (error) {}
   };
-console.log(pathname.split(''),':patname',pathname==='/')
+
   return (
     <header>
       <nav className="fixed left-0 right-0 top-0 bg-white z-50 border-gray-200 px-4 lg:px-6 py-2.5">
@@ -41,56 +37,62 @@ console.log(pathname.split(''),':patname',pathname==='/')
           <div className="flex items-center lg:order-2">
             <button
               onClick={currentUser ? handleLogout : () => navigate('/login')}
-              className="ttext-white bg-black hover:bg-black focus:ring-4 focus:ring-gray-500 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2">
+              className="text-white bg-black hover:bg-black focus:ring-4 focus:ring-gray-500 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2">
               {currentUser ? 'Log out' : 'Log in'}
-            </button>
-            {/* <a href="#" className="text-white bg-black hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 lg:px-5 py-2 lg:py-2.5 mr-2">
-              Get started
-            </a> */}
-            <button
-              data-collapse-toggle="mobile-menu-2"
-              type="button"
-              className="inline-flex items-center p-2 ml-1 text-sm text-gray-500 rounded-lg lg:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200">
-              <span className="sr-only">Open main menu</span>
-              <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M3 5a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 10a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zM3 15a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1z" clipRule="evenodd"></path>
-              </svg>
-              <svg className="hidden w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path>
-              </svg>
             </button>
           </div>
           <div className="hidden justify-between items-center w-full lg:flex lg:w-auto lg:order-1" id="mobile-menu-2">
             <ul className="flex flex-col mt-4 font-medium lg:flex-row lg:space-x-8 lg:mt-0">
               <li>
-                <button onClick={() => navigate('/')} className={`cursor-pointer py-2 pr-4 pl-3 hover:text-black ${pathname==='/'?'text-black':'text-gray-700'}`}>
+                <button
+                  onClick={() => navigate('/')}
+                  className={`cursor-pointer py-2 pr-4 pl-3 hover:text-black ${pathname === '/' ? 'text-black' : 'text-gray-700'}`}>
                   Home
                 </button>
               </li>
               <li>
-                <button onClick={() => navigate('/courses')} className={`cursor-pointer py-2 pr-4 pl-3 ${pathname.includes('courses') ? 'text-black' : 'text-gray-700 hover:text-black'}`}>
+                <button
+                  onClick={() => navigate('/courses')}
+                  className={`cursor-pointer py-2 pr-4 pl-3 ${pathname.includes('courses') ? 'text-black' : 'text-gray-700 hover:text-black'}`}>
                   Course
                 </button>
               </li>
               <li>
-                <button  className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
-                  Interview
-                </button>
+                <button className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">Interview</button>
               </li>
               <li>
-                <button  className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
-                  Notification
-                </button>
+                <button className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">Notification</button>
               </li>
               <li>
                 <button onClick={() => navigate('/profile')} className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
                   Profile
                 </button>
               </li>
-              <li>
-                <button onClick={()=>navigate('/premium')}  className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">
-                  Shop
+              <li className="relative group">
+                <button
+                  onClick={() => navigate('/premium')}
+                  className="cursor-pointer h-full py-2 pr-4 pl-3 text-gray-700 hover:text-black">
+                  Store
                 </button>
+                {/* Dropdown menu */}
+                <div className="absolute left-0 hidden  w-40 bg-white rounded-md shadow-lg group-hover:block">
+                  <ul className="py-1 text-sm text-gray-700">
+                    <li>
+                      <button 
+                        onClick={() => navigate('/premium')}
+                        className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                        shop
+                      </button>
+                    </li>
+                    <li>
+                      <button
+                        onClick={() => navigate('/order')}
+                        className="block w-full text-left px-4 py-2 hover:bg-gray-100">
+                        Order
+                      </button>
+                    </li>
+                  </ul>
+                </div>
               </li>
             </ul>
           </div>

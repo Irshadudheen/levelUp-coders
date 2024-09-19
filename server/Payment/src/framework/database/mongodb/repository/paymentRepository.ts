@@ -7,4 +7,7 @@ export class PaymentRepository implements IpaymentRepository{
     async addSubscription(paymentData:Ipayment){
         return await this.paymentModels.create(paymentData)
     }
+    async findPayment(clientId:string):Promise<Ipayment|void|null>{
+        return await this.paymentModels.findOne({clientId})
+    }
 }
