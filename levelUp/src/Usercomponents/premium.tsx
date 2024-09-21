@@ -13,7 +13,7 @@ const PricingTable = () => {
     {
       name: 'Core',
       monthlyPrice: 12,
-      description: 'Best for solo creators',
+      description: 'Best for Users',
       features: [
         'premium level ',
         'Interview',
@@ -38,7 +38,7 @@ const PricingTable = () => {
     {
       name: 'Team',
       monthlyPrice: 49,
-      description: 'Exclusively for teams',
+      description: 'Exclusively plan',
       features: [
         'Premium Course',
         'Interview',

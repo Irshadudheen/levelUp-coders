@@ -24,11 +24,11 @@ const UserProfile =lazy(()=>import('../pages/user/userProfile'))
 const VideoPlayer =lazy(()=>import('../pages/user/video')) 
 const UserRouter = () => {
   const currentUser = useGetUser();
-  const [dark, setDark] = useState(true);
+
 
   return (
-    <div className={dark ? 'dark' : ''}>
-      <Suspense>
+    <>
+      <Suspense fallback={<BrickLoader />}>
       <Routes>
         <Route path='/login' element={<Login  />} />
         <Route path='/register' element={<Register />} />
@@ -52,7 +52,7 @@ const UserRouter = () => {
         <Route path='/*' element={<NotFound />} />
       </Routes>
         </Suspense>
-    </div>
+    </>
   );
 };
 

@@ -23,20 +23,20 @@ const ActiveDays = () => {
   }, [user.id]);
 
   const activeDays = [
-    { day: 'Mon', active: false },
-    { day: 'Tue', active: false },
-    { day: 'Wed', active: false },
-    { day: 'Thu', active: false },
-    { day: 'Fri', active: false },
-    { day: 'Sat', active: false },
-    { day: 'Sun', active: false },
+    { day: 'Mon' },
+    { day: 'Tue', },
+    { day: 'Wed', },
+    { day: 'Thu', },
+    { day: 'Fri', },
+    { day: 'Sat', },
+    { day: 'Sun', },
   ];
 
   // Create an array of the last 28 dates
   const dateArray = useMemo(() => {
     const today = new Date();
     const dates = [];
-    for (let i = 192; i >= 0; i--) {
+    for (let i = 194; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
       dates.push(date);

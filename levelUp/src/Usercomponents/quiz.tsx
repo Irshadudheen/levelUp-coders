@@ -16,26 +16,55 @@ const Quiz: React.FC = () => {
   >([]);
   const [score, setScore] = useState(0);
   const [timeLeft, setTimeLeft] = useState(30);
-
   useEffect(() => {
     let isMounted = true;
-
+  
     const fetchQuiz = async () => {
       try {
         const res = await getQuiz(levelId as string);
+        console.clear();
+        console.log(res);
+  
+        // Function to shuffle an array
+        function shuffleArray(array: any[]) {
+          for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]; // Swap elements
+          }
+        }
+  
         if (isMounted && res.length > 0) {
           const formattedQuestions = res.map((quiz) => {
-            const options: string[] = Object.keys(quiz.options);
-            const answer = options.findIndex((option) => quiz.options[option]);
+            // Shuffle the option keys (e.g., 'a', 'b', 'c', 'd')
+            let optionsKeys: string[] = Object.keys(quiz.options);
+            shuffleArray(optionsKeys);
+  
+            // Create a new shuffled options object
+            let shuffledOptions: any = {};
+            optionsKeys.forEach((key) => {
+              shuffledOptions[key] = quiz.options[key]; // Keep original values
+            });
+  
+            // Find the correct answer after shuffling
+            const correctOptionKey = Object.keys(quiz.options).find(
+              (key) => quiz.options[key] === true
+            );
+            const answerIndex = optionsKeys.findIndex(
+              (key) => key === correctOptionKey
+            );
+  
+            console.log(shuffledOptions, 'Shuffled Options');
+            console.log(answerIndex, 'Answer Index');
+  
             return {
               question: quiz.question,
-              options: options.map(
-                (option) => option.charAt(0).toUpperCase() + option.slice(1)
+              options: optionsKeys.map(
+                (key) => key.charAt(0).toUpperCase() + key.slice(1) // Capitalize option keys
               ),
-              answer: answer,
+              answer: answerIndex, // Correct index in the shuffled array
             };
           });
-
+  
           if (isMounted) {
             setQuestions(formattedQuestions);
             setQuiz(res);
@@ -45,14 +74,14 @@ const Quiz: React.FC = () => {
         console.error('Failed to fetch quiz:', error);
       }
     };
-
+  
     fetchQuiz();
-
+  
     return () => {
       isMounted = false;
     };
   }, [levelId]);
-
+  
   useEffect(() => {
     if (timeLeft > 0) {
       const timerId = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);

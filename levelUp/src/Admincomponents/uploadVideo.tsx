@@ -44,7 +44,7 @@ const UploadVideo:React.FC = () => {
                                 <h2 className="text-3xl font-bold mb-8 text-gray-800">Upload Video</h2>
                                 <div className="mb-5">
                                     <label htmlFor="subject" className="block mb-2 text-sm font-medium text-gray-900">Video Name</label>
-                                    <input type="text" id="subject" {...register('name', { required: true })} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Subject" required />
+                                    <input type="text" id="subject" {...register('name', { required: true })} className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="Video name" required />
                                     {errors.name && <span className="text-red-600">This field is required</span>}
                                 </div>
                                 <div className="mb-5">

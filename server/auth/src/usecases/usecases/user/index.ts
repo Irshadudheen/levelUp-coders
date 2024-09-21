@@ -6,5 +6,5 @@ import { emailVerify } from "./emailVerify";
 import { updateUserPassword } from "./updateUserPassword";
 import { googleLogin } from "./googleLogin";
 import { editProfile } from "./editProfile";
-import { createActiveDays } from "./activeDayscreate";
-export{userSignup,createUser,login,forgotPassword,emailVerify,updateUserPassword,googleLogin,editProfile,createActiveDays};
+
+export{userSignup,createUser,login,forgotPassword,emailVerify,updateUserPassword,googleLogin,editProfile};

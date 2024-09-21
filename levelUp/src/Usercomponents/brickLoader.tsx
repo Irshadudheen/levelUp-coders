@@ -7,7 +7,7 @@ const BrickLoader = () => {
         {[...Array(5)].map((_, i) => (
           <div
             key={i}
-            className={`w-4 h-4 bg-blue-500 rounded-sm animate-brick-wave delay-${i * 100}`}
+            className={`w-4 h-4 bg-black rounded-sm animate-brick-wave delay-${i * 100}`}
           ></div>
         ))}
       </div>

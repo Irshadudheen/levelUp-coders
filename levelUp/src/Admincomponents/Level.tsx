@@ -46,9 +46,9 @@ const Level = () => {
                   <th scope="col" className="px-6 py-3">
                     Subject name
                   </th>
-                  <th scope="col" className="px-6 py-3">
+                  {/* <th scope="col" className="px-6 py-3">
                     description
-                  </th>
+                  </th> */}
                   <th scope="col" className="px-6 py-3">
                     image
                   </th>
@@ -70,9 +70,9 @@ const Level = () => {
                     <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap ">
                       {subject.name}
                     </th>
-                    <td className="px-6 py-4">
+                    {/* <td className="px-6 py-4">
                       {subject.videoDescription}
-                    </td>
+                    </td> */}
                     <td className="px-6 py-4">
                       <img src={subject.image} width={50} height={50} alt={subject.name} />
                     </td>

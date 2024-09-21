@@ -12,7 +12,7 @@ const CourseGrid = ({ courses }: { courses: any[] }) => {
   const [suggestions, setSuggestions] = useState<any[]>([]);
   const [isFocused, setIsFocused] = useState(false);
 
-  const coursesPerPage = 8; // Display 8 courses per page (4 in each row)
+  const coursesPerPage = 4; // Display 8 courses per page (4 in each row)
 
   // Filter and paginate courses when the search term or course list changes
   useEffect(() => {

@@ -8,24 +8,24 @@ import { findUserPayment } from "../../Api/payment";
 
 const ImageGrid: React.FC = () => {
   const user = useGetUserData()
-  const [premium,setPremium]=useState(false)
-  useEffect(()=>{
-    const fetchPremium = async()=>{
+  const [premium, setPremium] = useState(false)
+  useEffect(() => {
+    const fetchPremium = async () => {
       const response = await findUserPayment(user.id)
       console.clear()
-      console.log('premium option',response)
-      if(response.subscriptionType){
+      console.log('premium option', response)
+      if (response.subscriptionType) {
         setPremium(true)
       }
     }
     fetchPremium()
-  },[])
+  }, [])
   const navigate = useNavigate();
   const { id } = useParams();
   const [level, setLevel] = useState([]);
   const [course, setCourse] = useState({});
   useEffect(() => {
-    localStorage.setItem('subjectId',id as string)
+    localStorage.setItem('subjectId', id as string)
     const fetchLevel = async () => {
       const res: any = await getLevel(id as string);
       const subject = await getSubject(id as string);
@@ -65,10 +65,10 @@ const ImageGrid: React.FC = () => {
             {level.map((level, index) => (
               <div
                 key={index}
-                onClick={() =>{
+                onClick={() => {
 
-                  console.log(premium,'premium')
-                  level.premium ? premium ?navigate(`/video/${level._id}`): navigate('/premium') : navigate(`/video/${level._id}`)
+                  console.log(premium, 'premium')
+                  level.premium ? premium ? navigate(`/video/${level._id}`) : navigate('/premium') : navigate(`/video/${level._id}`)
                 }
                 }
                 className="bg-gray-100 rounded-lg shadow-lg p-4 border border-gray-300 flex flex-col"
@@ -85,9 +85,9 @@ const ImageGrid: React.FC = () => {
                   )}
                 </div>
                 <div className="flex items-center justify-between mt-auto">
-                {level?.users.some(client => client.toString()===user.id) && 
-    <div className="text-green-600">✓ Completed</div>
-} 
+                  {level?.users.some(client => client.toString() === user.id) &&
+                    <div className="text-green-600">✓ Completed</div>
+                  }
                   <div className="text-yellow-500">
                     {'★'.repeat(level.rating || 0)}
                   </div>

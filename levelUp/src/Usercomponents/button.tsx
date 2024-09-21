@@ -9,7 +9,7 @@ export function MovingBorderDemo() {
 
         borderRadius="1.75rem"
       
-        className="bg-white  dark:bg-slate-900 text-black dark:text-white border-neutral-200 dark:border-slate-800"
+        className="  bg-slate-900 text-black text-white border-neutral-200 border-slate-800"
       >
        Let's start
       </Button>

@@ -186,7 +186,7 @@ const Login:React.FC = () => {
             </a>
           </div>
           <div className="text-center mt-4">
-            <p className="text-gray-600">Don't have an account? <a onClick={() => navigate('/register')} className="text-blue-500 hover:text-blue-400">Sign up here</a></p>
+            <p className="text-gray-600">Don't have an account? <a onClick={() => navigate('/register')} className="text-blue-500 cursor-pointer hover:text-blue-700">Sign up here</a></p>
           </div>
         </form>
       </div>

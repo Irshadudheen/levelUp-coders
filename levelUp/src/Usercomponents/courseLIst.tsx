@@ -12,7 +12,7 @@ const CourseList = () => {
   const [allCourses, setAllCourses] = useState<any[]>([]);
   const [courses, setCourses] = useState<any[]>([]);
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [coursesPerPage] = useState<number>(6);
+  const [coursesPerPage] = useState<number>(3);
   const [loading, setLoading] = useState<boolean>(true);
   const [categories, setCategories] = useState([]);
 
