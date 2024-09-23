@@ -36,7 +36,7 @@ const ActiveDays = () => {
   const dateArray = useMemo(() => {
     const today = new Date();
     const dates = [];
-    for (let i = 194; i >= 0; i--) {
+    for (let i = 195; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
       dates.push(date);

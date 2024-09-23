@@ -10,18 +10,21 @@ import BrickLoader from '../Usercomponents/brickLoader';
 import Compailer from '../Usercomponents/workSpace/compailer';
 import EditUserProfile from '../Usercomponents/editUserProfile';
 import useGetUser from '../hook/useGetUser';
-import CourseList from '../Usercomponents/courseLIst';
+
 import NotFound from '../Usercomponents/notFound';
-import { useState,lazy ,Suspense} from 'react';
-import ProblemPage from '../Usercomponents/[pid]';
+import { lazy ,Suspense} from 'react';
+
 import SuccessPage from '../Usercomponents/successPayment';
 import FailurePage from '../Usercomponents/failurePage';
+import Room from '../Usercomponents/interview/room';
+const CourseList = lazy(()=>import('../Usercomponents/courseLIst'))
 const Login =lazy(()=>import('../pages/user/login'))
 const Register =lazy(()=>import('../pages/user/register')) 
 const Home =lazy(()=>import('../pages/user/home')) 
 const Level =lazy(()=>import('../pages/user/level')) 
 const UserProfile =lazy(()=>import('../pages/user/userProfile')) 
 const VideoPlayer =lazy(()=>import('../pages/user/video')) 
+const InterviewHome=lazy(()=>import('../Usercomponents/interview/interviewHome'))
 const UserRouter = () => {
   const currentUser = useGetUser();
 
@@ -48,7 +51,8 @@ const UserRouter = () => {
         <Route path='/courses' element={<CourseList />} />
         <Route path='/paymentSucess/:payementId' element={<SuccessPage />} />
         <Route path='/paymentFailure' element={<FailurePage/>}/>
-
+        <Route path='/interview' element={<InterviewHome/>}/>
+        <Route path='/room' element={<Room/>}/>
         <Route path='/*' element={<NotFound />} />
       </Routes>
         </Suspense>

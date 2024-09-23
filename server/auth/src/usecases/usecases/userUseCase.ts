@@ -1,7 +1,7 @@
 import { Req,Res,Next } from "../../framework/types/serverPakageTypes";
 import { IuserUseCase } from "../interface/usecase/userUseCase";
 import { Iuser } from "../../entities/user";
-import {userSignup,createUser,login,forgotPassword,emailVerify,updateUserPassword,googleLogin, editProfile, createActiveDays} from './user/index'
+import {userSignup,createUser,login,forgotPassword,emailVerify,updateUserPassword,googleLogin, editProfile} from './user/index'
 import { Ijwt, IToken } from "../interface/service/jwt";
 import { catchError } from "../middlewares/catchError";
 import { IuserRepository } from "../interface/repositoryInterface/userRepository";

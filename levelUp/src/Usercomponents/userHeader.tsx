@@ -58,7 +58,7 @@ const UserHeader: React.FC = () => {
                 </button>
               </li>
               <li>
-                <button className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">Interview</button>
+                <button onClick={()=>navigate('/interview')} className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">Interview</button>
               </li>
               <li>
                 <button className="cursor-pointer py-2 pr-4 pl-3 text-gray-700 hover:text-black">Notification</button>
