@@ -51,7 +51,9 @@ code {
 	color: white;
 	font-size: 1rem;
 }
-.cm-scroller,
+.cm-scroller{
+  background-color: #282828 !important;
+},
 .cm-gutter{
   background-color: #282828 !important;
 }

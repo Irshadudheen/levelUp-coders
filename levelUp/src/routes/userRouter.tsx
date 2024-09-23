@@ -52,7 +52,7 @@ const UserRouter = () => {
         <Route path='/paymentSucess/:payementId' element={<SuccessPage />} />
         <Route path='/paymentFailure' element={<FailurePage/>}/>
         <Route path='/interview' element={<InterviewHome/>}/>
-        <Route path='/room' element={<Room/>}/>
+        <Route path='/room/:roomId' element={<Room/>}/>
         <Route path='/*' element={<NotFound />} />
       </Routes>
         </Suspense>

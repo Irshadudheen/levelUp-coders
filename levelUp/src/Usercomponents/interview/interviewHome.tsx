@@ -2,13 +2,13 @@ import React from 'react';
 import { FaPlus, FaTrashAlt, FaLink } from 'react-icons/fa';
 import UserHeader from '../userHeader';
 import { useNavigate } from 'react-router-dom';
-
+import { v4 as uuidv4 } from 'uuid';
 const InterviewHome = () => {
     const navigate =useNavigate()
   return (
     <>
     <UserHeader/>
-    <div className="min-h-screen bg-gray-100 p-8">
+    <div className="min-h-screen mt-10 bg-gray-100 p-8">
       {/* Header Section */}
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-semibold text-gray-800">levelUp Interview</h1>
@@ -21,7 +21,7 @@ const InterviewHome = () => {
 
       {/* Create Interview Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div onClick={()=>navigate('/room')} className="bg-white shadow-lg rounded-lg p-6 flex items-center justify-center">
+        <div onClick={()=>navigate(`/room/${uuidv4()}`)} className="bg-white shadow-lg rounded-lg p-6 flex items-center justify-center">
           <button className="flex items-center gap-2 text-blue-600 text-lg">
             <FaPlus className="text-2xl" />
             Create an interview
