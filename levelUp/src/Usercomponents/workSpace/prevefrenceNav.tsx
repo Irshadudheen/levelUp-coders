@@ -1,15 +1,53 @@
 import { AiOutlineFullscreen, AiOutlineFullscreenExit, AiOutlineSetting } from "react-icons/ai";
+import { useLocation } from "react-router-dom"; // import useLocation for checking the route
 import Timer from "../time";
 
-function PrevefrenceNav() {
+function PrevefrenceNav({runCode}) {
+  const location = useLocation();
+  
+  console.log(location, 'ha');
+
+  const handleCopyLink = () => {
+    const inviteLink = window.location.href; // get the current URL
+    navigator.clipboard.writeText(inviteLink).then(() => {
+      alert("Invite link copied to clipboard!"); // notify the user that the link is copied
+    });
+  };
+
+  const handleRunCode = () => {
+
+    runCode()
+    // Add your run code logic here
+  };
+
   return (
     <div className="flex items-center justify-between bg-dark-layer-2 h-11 w-full">
       <Timer />
       <div className="flex items-center text-white">
         <button className="flex cursor-pointer items-center rounded text-left focus:outline-none bg-dark-fill-3 text-dark-layer-2 hover:bg-dark-fill-2 px-2 py-1.5 font-medium">
-          <span className="text-xs text-dark-label-2">JavaScript</span>
+          {!location.pathname.includes('/room') && (<span className="text-xs text-dark-label-2">JavaScript</span>)}
+      {location.pathname.includes('/room') && (
+        <div className="flex items-center text-white">
+          <button
+            onClick={handleCopyLink}
+            className="flex cursor-pointer items-center rounded text-left focus:outline-none bg-dark-fill-3 text-dark-layer-2 hover:bg-dark-fill-2 px-2 py-1.5 font-medium"
+          >
+            <span className="text-xs text-dark-label-2">Invite</span>
+          </button>
+
+          <button
+            onClick={handleRunCode}
+            className="ml-2 flex cursor-pointer items-center rounded text-left focus:outline-none bg-dark-fill-3 text-dark-layer-2 hover:bg-dark-fill-2 px-2 py-1.5 font-medium"
+          >
+            <span className="text-xs text-dark-label-2">Run</span>
+          </button>
+        </div>
+      )}
         </button>
       </div>
+
+      {/* Only show the invite and run buttons if the current location is /room */}
+
       <div className="flex items-center m-2">
         <button
           className="relative rounded px-3 py-1.5 font-medium items-center transition-all focus:outline-none inline-flex ml-auto p-1 mr-2 hover:bg-dark-fill-3 group"

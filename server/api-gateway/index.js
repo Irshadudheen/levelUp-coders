@@ -6,7 +6,7 @@ const app = express()
 const service = {
     auth:'http://localhost:4000',
     subject:'http://localhost:4002',
-    meeting:'http://localhost:4003',
+    meeting:'http://localhost:4005',
     compiler:'http://localhost:3000',
     payment:'http://localhost:3001'
 

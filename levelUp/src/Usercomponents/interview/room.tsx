@@ -1,58 +1,93 @@
-import React, { useEffect, useState } from 'react'
-import PrevefrenceNav from '../workSpace/prevefrenceNav'
-import Split from 'split.js'
-import ReactCodeMirror from '@uiw/react-codemirror'
-import { javascript } from '@codemirror/lang-javascript'
-import { vscodeDark } from '@uiw/codemirror-theme-vscode'
+import React, { useEffect, useState } from 'react';
+import PrevefrenceNav from '../workSpace/prevefrenceNav';
+import ReactCodeMirror from '@uiw/react-codemirror';
+import { javascript } from '@codemirror/lang-javascript';
+import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { io } from 'socket.io-client';
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom';
+import { sendCode, validateRoom } from '../../Api/interview';
+import Api from '../../service/axios';
+
+
 const socket = io('http://localhost:4005');
 
 const Room = () => {
     const { roomId } = useParams();
-// Inside your room creation logic:
-const [userCode, setUserCode] = useState(``);
-const [inviteLink, setInviteLink] = useState('');
-useEffect(() => {
-    // Join the room
-    socket.emit('joinRoom', { roomId });
+    const [userCode, setUserCode] = useState(`console.log('welcome to interview')`);
+    const [outPut,setOutPut]=useState('outPut')
+    const navigate = useNavigate();
+    const runCode=async()=>{
+        console.log(userCode)
+        const res = await sendCode(userCode)
+        console.log(res)
+        if(res.output){
+            setOutPut(res.output)
+        }
+    }
+    useEffect(() => {
+        const checkRoom = async () => {
+            const checkRoom = await validateRoom(roomId as string);
+            if (!checkRoom.success) {
+                navigate('/*');
+            }
+        };
+        checkRoom();
+    }, []);
 
-    // Request the current code from the server or other users
-    socket.emit('requestCurrentCode', { roomId });
+    useEffect(() => {
+        // Join the room
+        socket.emit('joinRoom', { roomId });
 
-    // Listen for code updates from the server or other users
-    socket.on('codeUpdate', (newCode) => {
-        setUserCode(newCode);
-    });
+        // Request the current code from the server or other users
+        socket.emit('requestCurrentCode', { roomId });
 
-    return () => {
-        // Leave the room when the component unmounts
-        socket.emit('leaveRoom', { roomId });
+        // Listen for code updates from the server or other users
+        socket.on('codeUpdate', (newCode) => {
+            setUserCode(newCode);
+        });
+
+        return () => {
+            // Leave the room when the component unmounts
+            socket.emit('leaveRoom', { roomId });
+        };
+    }, [roomId]);
+
+    const handleCodeChange = (value: string) => {
+      
+        // Update the userCode with the processed newCode
+        setUserCode(value);
+
+        // Broadcast the updated code to the server, which will send it to other users
+        socket.emit('codeUpdate', { roomId, code: value });
     };
-}, [roomId]);
-  const handleCodeChange = (value: string) => {
-    setUserCode(value);
-    
-    // Broadcast the updated code to the server, which will send it to other users
-    socket.emit('codeUpdate', { roomId, code: value });
-};
-  return (
-    <div className='flex flex-col h-screen bg-dark-layer-1 relative '>
-         <PrevefrenceNav />
-         
-                <div className="w-full overflow-auto">
+
+    return (
+        <div className='flex flex-col h-screen bg-dark-layer-1 relative '>
+            <PrevefrenceNav runCode={runCode} />
+            <div className="flex">
+                <div className="w-1/2 overflow-auto">
                     <ReactCodeMirror
                         value={userCode}
                         theme={vscodeDark}
                         onChange={handleCodeChange}
-                        onPaste={() => toast.error("Don't cheat!")}
+                      
                         extensions={[javascript()]}
                         style={{ fontSize: 16 }}
                     />
                 </div>
-    </div>
+                <div className="w-1/2 overflow-auto">
+                    <ReactCodeMirror
+                        value={outPut}
+                        theme={vscodeDark}
+                        onChange={(e)=>setOutPut(e)}
+                      
+                        extensions={[javascript()]}
+                        style={{ fontSize: 16 }}
+                    />
+                </div>
+            </div>
+        </div>
+    );
+};
 
-  )
-}
-
-export default Room
+export default Room;

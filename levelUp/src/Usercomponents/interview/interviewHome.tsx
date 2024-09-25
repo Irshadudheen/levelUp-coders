@@ -1,10 +1,17 @@
-import React from 'react';
+
 import { FaPlus, FaTrashAlt, FaLink } from 'react-icons/fa';
 import UserHeader from '../userHeader';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
+import { createRomm } from '../../Api/interview';
 const InterviewHome = () => {
     const navigate =useNavigate()
+    const handleCreateRoom =async ()=>{
+      const res = await createRomm()
+      if(res.roomId){
+        navigate(`/room/${res.roomId}`)
+      }
+    }
   return (
     <>
     <UserHeader/>
@@ -21,7 +28,7 @@ const InterviewHome = () => {
 
       {/* Create Interview Section */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <div onClick={()=>navigate(`/room/${uuidv4()}`)} className="bg-white shadow-lg rounded-lg p-6 flex items-center justify-center">
+        <div onClick={handleCreateRoom} className="bg-white shadow-lg rounded-lg p-6 flex items-center justify-center">
           <button className="flex items-center gap-2 text-blue-600 text-lg">
             <FaPlus className="text-2xl" />
             Create an interview

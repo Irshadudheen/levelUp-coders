@@ -1,18 +1,57 @@
 const express = require('express');
+const { exec } = require('child_process');
 const http = require('http');
 const { Server } = require('socket.io');
 const NodeCache = require('node-cache');
-
+const { v4  }= require('uuid');
 const cache = new NodeCache({ stdTTL: 100, checkperiod: 120 });
-
+const cors = require('cors')
 const app = express();
+app.use(cors())
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {
     origin: '*',
   },
 });
-
+app.use(express.json())
+app.use(express.urlencoded({ extended: true }))
+app.get('/validateRoom/:roomId',(req,res)=>{
+  try {
+    const {roomId}=req.params;
+    const checkRoom = cache.get(`room:${roomId}`)
+    console.log(checkRoom)
+    if(checkRoom){
+      res.json({success:true})
+    }else{
+      res.json({success:false})
+    }
+    
+  } catch (error) {
+    
+  }
+})
+app.post('/runCode',(req,res)=>{
+  try {
+    let {code}=req.body;
+    console.log(code)
+    code = code.replace(/"/g, '\\"').replace(/\n/g, ' ');
+    exec(`node -e "${code}"`, (error, stdout, stderr) => {
+      if (error) {
+        res.status(500).json({ error: stderr });
+        return;
+      }
+      res.status(200).json({ output: stdout });
+    });
+  } catch (error) {
+    
+  }
+})
+ app.post('/createRoom',(req,res)=>{
+roomId =v4()
+  cache.set(`room:${roomId}`,`console.log('welcome to interview')`)
+  res.json({roomId})
+ })
 io.on('connection', (socket) => {
   console.log('User connected');
 
