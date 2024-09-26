@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CourseDescription from './CourseDescription';
-import { MovingBorderDemo } from './button';
+import { MovingBorderDemo } from './Aceternity UI/button';
 
 const CourseGrid = ({ courses }: { courses: any[] }) => {
   const navigate = useNavigate();

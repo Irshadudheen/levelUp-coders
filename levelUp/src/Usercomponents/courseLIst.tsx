@@ -5,7 +5,7 @@ import { getAllCategory, getAllSubject } from '../Api/subject';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { useNavigate } from 'react-router-dom';
-import { MovingBorderDemo } from './button';
+import { MovingBorderDemo } from './Aceternity UI/button';
 
 const CourseList = () => {
   const [viewCategory, setViewCategory] = useState('all');

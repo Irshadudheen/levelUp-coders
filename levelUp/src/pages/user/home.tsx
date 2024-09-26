@@ -7,6 +7,7 @@ import UserFooter from '../../Usercomponents/userFooter';
 import { getAllSubject } from '../../Api/subject';
 import useGetUser from '../../hook/useGetUser';
 import CourseGrid from '../../Usercomponents/CourseGrid';
+import { AnimatedModalDemo } from '../../Usercomponents/Aceternity UI/modal';
 
 const HomePage: React.FC = () => {
   const [courses, setCourses] = useState([]);
@@ -23,7 +24,7 @@ const HomePage: React.FC = () => {
     };
     fetchSubject();
   }, [setCourses, currentUser]);
-
+// const animation = AnimatedModalDemo()
   return (
     <div className='relative'>
       <UserHeader />
@@ -40,6 +41,7 @@ const HomePage: React.FC = () => {
               to make learning fun and effective. Start your journey with us today!
             </p>
           </div>
+    
         </div>
         <h1 className='text-4xl font-bold ml-10 text-gray-900'>Study plan</h1>
         <div className="w-full mt-2 mx-auto">

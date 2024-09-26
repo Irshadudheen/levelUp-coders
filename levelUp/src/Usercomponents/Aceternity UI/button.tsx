@@ -1,6 +1,6 @@
 
 import React from "react";
-import { Button } from "./moveComponent";
+import { Button } from "../moveComponent";
  
 export function MovingBorderDemo() {
   return (
@@ -9,7 +9,7 @@ export function MovingBorderDemo() {
 
         borderRadius="1.75rem"
       
-        className="  bg-slate-900 text-black text-white border-neutral-200 border-slate-800"
+        className="  bg-slate-900  text-white  border-slate-800"
       >
        Let's start
       </Button>
