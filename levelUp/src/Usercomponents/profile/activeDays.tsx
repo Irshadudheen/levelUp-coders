@@ -1,7 +1,7 @@
 import React, { useState, useMemo, useEffect } from 'react';
-import { printLastSixMonths } from '../service/getMounth';
-import { findActive } from '../Api/user';
-import { useGetUserData } from '../hook/useGetUser';
+import { printLastSixMonths } from '../../service/getMounth';
+import { findActive } from '../../Api/user';
+import { useGetUserData } from '../../hook/useGetUser';
 
 const ActiveDays = () => {
   const [month] = useState(printLastSixMonths);
@@ -36,7 +36,7 @@ const ActiveDays = () => {
   const dateArray = useMemo(() => {
     const today = new Date();
     const dates = [];
-    for (let i = 189; i >= 0; i--) {
+    for (let i = 201; i >= 0; i--) {
       const date = new Date(today);
       date.setDate(today.getDate() - i);
       dates.push(date);
@@ -86,7 +86,7 @@ const ActiveDays = () => {
           <div key={index} className="flex justify-start items-center">
             <div className="text-gray-800 mr-2 w-[2.5rem]">{day.day}</div>
             <div className="flex space-x-1">
-              {Array(28)
+              {Array(29)
                 .fill()
                 .map((_, weekIndex) => {
                   const date = dateArray[weekIndex * 7 + index];

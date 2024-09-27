@@ -25,6 +25,7 @@ const HomePage: React.FC = () => {
     fetchSubject();
   }, [setCourses, currentUser]);
 // const animation = AnimatedModalDemo()
+
   return (
     <div className='relative'>
       <UserHeader />

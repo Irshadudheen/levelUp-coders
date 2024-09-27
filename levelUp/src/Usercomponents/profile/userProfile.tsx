@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import UserHeader from '../../Usercomponents/userHeader';
-import UserFooter from '../../Usercomponents/userFooter';
+import UserHeader from '../userHeader';
+import UserFooter from '../userFooter';
 import useGetUser, { useGetUserData } from '../../hook/useGetUser';
 import { Button } from '@mui/material';
 import { Navigate, useNavigate } from 'react-router-dom';
-import ActiveDays from '../../Usercomponents/activeDays';
+import ActiveDays from './activeDays';
 import { printLastSixMonths } from '../../service/getMounth';
 const UserProfile = () => {
   console.log(printLastSixMonths())

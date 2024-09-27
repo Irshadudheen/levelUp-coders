@@ -104,3 +104,4 @@ export const findActive = async (userId:string)=>{
         return error
     }
 }
+

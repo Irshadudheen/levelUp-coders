@@ -9,9 +9,9 @@ export const createRomm = async ()=>{
         throw error
     }
 }
-export const sendCode =async (code:string)=>{
+export const sendCode =async (code:string,language:string)=>{
 try {
-    const res = await Api.post(interviewRoute.runCode,{code})  
+    const res = await Api.post(interviewRoute.runCode,{code,language})  
     return res.data  
 } catch (error) {
     throw error

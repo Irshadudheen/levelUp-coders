@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import {loadStripe} from '@stripe/stripe-js'
 import { paymentSuccess } from '../Api/payment';
+import UserHeader from './userHeader';
 const PricingTable = () => {
   const [billingCycle, setBillingCycle] = useState('monthly');
   const [prices, setPrices] = useState({
@@ -122,7 +123,9 @@ const PricingTable = () => {
     }
   }
   return (
-    <div className="min-h-screen bg-white flex items-center justify-center p-4 relative">
+    <>
+    <UserHeader/>
+    <div className="min-h-screen mt-10 bg-white flex items-center justify-center p-4 relative">
       {/* Background Pattern */}
       <div className="absolute inset-0 bg-gradient-to-b from-gray-100 to-white opacity-60"></div>
       
@@ -138,7 +141,7 @@ const PricingTable = () => {
             <button 
               className={`px-4 py-2 rounded-full ${billingCycle === 'annual' ? 'bg-black text-white' : 'text-black'} transition duration-300`}
               onClick={() => setBillingCycle('annual')}
-            >
+              >
               Annual
             </button>
           </div>
@@ -147,8 +150,8 @@ const PricingTable = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {plans.map((plan, index) => (
             <div 
-              key={index} 
-              className={`relative bg-white rounded-lg p-8 flex flex-col shadow-lg hover:shadow-xl transition duration-300 ${plan.popular ? 'border-4 border-green-400 transform scale-105' : 'border border-gray-300'}`}
+            key={index} 
+            className={`relative bg-white rounded-lg p-8 flex flex-col shadow-lg hover:shadow-xl transition duration-300 ${plan.popular ? 'border-4 border-green-400 transform scale-105' : 'border border-gray-300'}`}
             >
               <div className={`${plan.color} text-4xl mb-4`}>
                 {plan.icon}
@@ -178,6 +181,7 @@ const PricingTable = () => {
         </div>
       </div>
     </div>
+          </>
   );
 };
 

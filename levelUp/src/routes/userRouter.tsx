@@ -17,12 +17,13 @@ import { lazy ,Suspense} from 'react';
 import SuccessPage from '../Usercomponents/successPayment';
 import FailurePage from '../Usercomponents/failurePage';
 import Room from '../Usercomponents/interview/room';
+import OrderTable from '../Usercomponents/premium/order';
 const CourseList = lazy(()=>import('../Usercomponents/courseLIst'))
 const Login =lazy(()=>import('../pages/user/login'))
 const Register =lazy(()=>import('../pages/user/register')) 
 const Home =lazy(()=>import('../pages/user/home')) 
 const Level =lazy(()=>import('../pages/user/level')) 
-const UserProfile =lazy(()=>import('../pages/user/userProfile')) 
+const UserProfile =lazy(()=>import('../Usercomponents/profile/userProfile')) 
 const VideoPlayer =lazy(()=>import('../pages/user/video')) 
 const InterviewHome=lazy(()=>import('../Usercomponents/interview/interviewHome'))
 const UserRouter = () => {
@@ -54,6 +55,7 @@ const UserRouter = () => {
         <Route path='/interview' element={<InterviewHome/>}/>
         <Route path='/room/:roomId' element={<Room/>}/>
         <Route path='/*' element={<NotFound />} />
+        <Route path='/order' element={<OrderTable/>}/>
       </Routes>
         </Suspense>
     </>

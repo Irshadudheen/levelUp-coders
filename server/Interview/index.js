@@ -68,10 +68,10 @@ function runCode(language, code) {
         command = 'node';
         args.push(tempFile);
         break;
-      case 'py':
-        command = 'python';
-        args.push(tempFile);
-        break;
+        case 'py':
+          command = 'python';
+          args.push(tempFile);
+          break;
       case 'java':
         const className = path.basename(tempFile, '.java');
         command = 'javac';
@@ -99,7 +99,11 @@ function runCode(language, code) {
 
     child.stderr.on('data', (data) => {
       errorData += data.toString();
+      console.log('eorror occure',errorData)
     });
+    if(errorData){
+      resolve(errorData);
+    }
 
     child.on('exit', (code) => {
       if (code === 0 && language === 'cpp') {
@@ -112,6 +116,7 @@ function runCode(language, code) {
           errorData += data.toString();
         });
 
+        console.log('error',errorData)
         runExecutable.on('exit', (exitCode) => {
           cleanup(tempFile, './a.out');
           if (exitCode === 0) {
@@ -138,16 +143,23 @@ function cleanup(...files) {
     }
   }
 }
+const data=async()=>{
+
+  const output=await runCode('py',`print("Try programiz.pro")`)
+  console.log(output,'the response ')
+}
+data()
 app.post('/runCode',async (req, res) => {
   try {
-    let { code } = req.body;
-   const output=await runCode('js',code)
+    let { code,language } = req.body;
+   const output=await runCode(language,code)
    console.log(output,'the output')
         res.status(200).json({ output });
     
     
   } catch (error) {
-    res.status(500).json({ error: 'Something went wrong' });
+    console.log(error,'the error')
+    res.status(200).json({ error:error });
   }
 });
  app.post('/createRoom',(req,res)=>{
@@ -155,22 +167,36 @@ roomId =v4()
   cache.set(`room:${roomId}`,`console.log('welcome to interview')`)
   res.json({roomId})
  })
-io.on('connection', (socket) => {
+ io.on('connection', (socket) => {
   console.log('User connected');
 
   socket.on('joinRoom', ({ roomId }) => {
     socket.join(roomId);
     console.log(`Joined room: ${roomId}`);
 
+    // Send the current code and output from the cache
+    const outPutCode = cache.get(`output:${roomId}`);
     const code = cache.get(roomId);
+
     if (code) {
-      socket.emit('codeUpdate', code);
+      socket.emit('codeUpdate', code);  // Send code to the newly joined user
+    }
+
+    if (outPutCode) {
+      socket.emit('outputUpdate', outPutCode);  // Send the current output to the newly joined user
     }
   });
 
+  // When output changes, broadcast it to other users and cache it
+  socket.on('outputUpdate', ({ roomId, code }) => {
+    cache.set(`output:${roomId}`, code);  // Cache the updated output
+    socket.to(roomId).emit('outputUpdate', code);  // Broadcast output to other users in the room
+  });
+
+  // When code changes, broadcast it to other users and cache it
   socket.on('codeUpdate', ({ roomId, code }) => {
-    cache.set(roomId, code);
-    socket.to(roomId).emit('codeUpdate', code);
+    cache.set(roomId, code);  // Cache the updated code
+    socket.to(roomId).emit('codeUpdate', code);  // Broadcast code to other users in the room
   });
 
   socket.on('leaveRoom', ({ roomId }) => {
@@ -186,3 +212,27 @@ io.on('connection', (socket) => {
 server.listen(4005, () => {
   console.log('Server running on port 4005');
 });
+// const { PythonShell } = require('python-shell');
+
+// function runPythonCode(code) {
+//   return new Promise((resolve, reject) => {
+//     PythonShell.runString(code, null, (err, results) => {
+//       if (err) reject(err);
+//       resolve(results);
+//     });
+//   });
+// }
+
+// (async () => {
+//   try {
+//     console.log('dksj')
+//     const result = await runPythonCode(`
+// x = 1 + 1
+// print(x)
+//     `);
+//     console.log('hasd',typeof result)
+//     console.log('Python output:', result);
+//   } catch (err) {
+//     console.error('Error:', err);
+//   }
+// })();

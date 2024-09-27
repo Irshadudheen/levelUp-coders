@@ -17,3 +17,12 @@ export const findUserPayment = async (clientId:string)=>{
         return error
     }
 }
+
+// export const userOrder= async (clientId:string)=>{
+//     try {
+//         const res = await Api.get(paymentRoute.getUserAllpayment)
+//     } catch (error) {
+//         throw error
+        
+//     }
+// }
