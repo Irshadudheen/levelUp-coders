@@ -4,11 +4,22 @@ import UserHeader from '../userHeader';
 import { useNavigate } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
 import { createRomm } from '../../Api/interview';
+import { findUserPayment } from '../../Api/payment';
+import { useGetUserData } from '../../hook/useGetUser';
+import { toast } from 'react-toastify';
 const InterviewHome = () => {
+    
     const navigate =useNavigate()
+    const user = useGetUserData()
     const handleCreateRoom =async ()=>{
+      const priemium = await findUserPayment(user.id)
+      if(!priemium.clientId){
+        toast.info('new offer have ')
+      return  navigate('/premium')
+      }
       const res = await createRomm()
       if(res.roomId){
+        toast.success('the interview created')
         navigate(`/room/${res.roomId}`)
       }
     }

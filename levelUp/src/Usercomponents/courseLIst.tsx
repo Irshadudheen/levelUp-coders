@@ -15,6 +15,7 @@ const CourseList = () => {
   const [coursesPerPage] = useState<number>(3);
   const [loading, setLoading] = useState<boolean>(true);
   const [categories, setCategories] = useState([]);
+  const [sortOption, setSortOption] = useState<string>('latest'); // New state for sorting
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -44,14 +45,29 @@ const CourseList = () => {
   }, []);
 
   useEffect(() => {
-    if (viewCategory === 'all') {
-      setCourses(allCourses); // Display all courses
-    } else {
-      const filtered = allCourses.filter(course => course.categoryId.name === viewCategory);
-      setCourses(filtered);
+    let filteredCourses = allCourses;
+    
+    // Filter based on selected category
+    if (viewCategory !== 'all') {
+      filteredCourses = allCourses.filter(course => course.categoryId.name === viewCategory);
     }
-    setCurrentPage(1); // Reset to the first page whenever the category changes
-  }, [viewCategory, allCourses]);
+
+    // Sort based on the selected sort option
+    console.log(filteredCourses, 'the sort');
+    if (sortOption === 'latest') {
+      filteredCourses.sort((a, b) => {
+        return b._id.localeCompare(a._id); // For string comparison
+        // If _id is a number, you can also use: return b._id - a._id;
+      });
+    } else if (sortOption === 'oldest') {
+      filteredCourses.sort((a, b) => {
+        return a._id.localeCompare(b._id); // For string comparison
+        // If _id is a number, you can also use: return a._id - b._id;
+      });
+    }
+    setCourses(filteredCourses);
+    setCurrentPage(1); // Reset to the first page whenever the category or sort option changes
+  }, [viewCategory, sortOption, allCourses]);
 
   const indexOfLastCourse = currentPage * coursesPerPage;
   const indexOfFirstCourse = indexOfLastCourse - coursesPerPage;
@@ -77,7 +93,8 @@ const CourseList = () => {
           </div>
         </div>
         <main className="flex-grow p-4 md:p-8">
-          <div className="flex">
+          <div className="flex justify-between">
+            {/* Category Filter */}
             <select
               onChange={e => setViewCategory(e.target.value)}
               className="appearance-none w-1/4 mb-4 bg-white border border-gray-300 text-gray-900 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-gray-100 focus:border-gray-500 transition-colors duration-200"
@@ -88,6 +105,15 @@ const CourseList = () => {
                   {category.name}
                 </option>
               ))}
+            </select>
+
+            {/* Sorting Option */}
+            <select
+              onChange={e => setSortOption(e.target.value)}
+              className="appearance-none w-1/4 mb-4 bg-white border border-gray-300 text-gray-900 py-3 px-4 pr-8 rounded-lg leading-tight focus:outline-none focus:bg-gray-100 focus:border-gray-500 transition-colors duration-200"
+            >
+              <option value="latest">Latest</option>
+              <option value="oldest">Oldest</option>
             </select>
           </div>
           {loading ? (

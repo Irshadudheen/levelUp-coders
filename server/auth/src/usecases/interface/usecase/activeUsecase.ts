@@ -5,4 +5,5 @@ export interface IactiveUsecase{
     // createActiveDays(active:Iactive,next:Next):Promise<Iactive>
     update(userId:string,next:Next):Promise<Iactive|void|null>
     find(userId:string,next:Next):Promise<Iactive|void|null>
+    toTenUser(next:Next):Promise<object|void|null>
 }

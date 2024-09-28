@@ -4,6 +4,53 @@ import activeModel from "../model/activeDays";
 
 export class ActiveRepository implements IactiveRepository {
   constructor(private activeModels: typeof activeModel) {}
+ async toTenUser(): Promise<object | void | null> {
+    // const findTotalUser = await this.activeModels.find()
+    const topTenUsers = await this.activeModels.aggregate([
+      {
+        // Unwind the 'days' array to create a separate document for each day
+        $unwind: "$days"
+      },
+      {
+        // Match only documents where 'isActive' is true
+        $match: { "days.isActive": true }
+      },
+      {
+        // Group by userId and count the number of active days
+        $group: {
+          _id: "$userId",
+          activeDaysCount: { $sum: 1 }
+        }
+      },
+      {
+        // Sort by activeDaysCount in descending order
+        $sort: { activeDaysCount: -1 }
+      },
+      {
+        // Limit the result to the top 10 users
+        $limit: 10
+      },
+      {
+        // Optionally, lookup the user details
+        $lookup: {
+          from: 'users', // Collection name of users
+          localField: '_id',
+          foreignField: '_id',
+          as: 'userDetails'
+        }
+      },
+      {
+        // Project the final fields you want to return
+        $project: {
+          userId: "$_id",
+          activeDaysCount: 1,
+          userDetails: { $arrayElemAt: ["$userDetails", 0] }
+        }
+      }
+    ]);
+    console.log(topTenUsers,'the top ten user')
+    return topTenUsers
+  }
 
   async find(userId: string): Promise<Iactive | void | null> {
     return await this.activeModels.findOne({ userId });

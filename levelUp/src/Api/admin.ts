@@ -47,3 +47,11 @@ export const userBlock= async(userId:string)=>{
         return error
     }
 }
+export const topTenActiveUser= async ()=>{
+    try {
+        const res = await Api.get(adminRoute.topTenActiveUser)
+        return res.data
+    } catch (error) {
+        throw error
+    }
+}

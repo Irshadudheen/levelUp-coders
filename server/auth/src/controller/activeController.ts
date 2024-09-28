@@ -31,5 +31,15 @@ export class ActiveController{
             
         }
     }
-
+    async getToptenActiveUser(req:Req,res:Res,next:Next){
+        try {
+            const topTenActiveUser =await this.activeUseCase.toTenUser(next)
+            console.log(topTenActiveUser)
+            if(topTenActiveUser){
+                res.json(topTenActiveUser).status(201)
+            }
+        } catch (error:any) {
+            console.log(error.message)
+        }
+    }
 }

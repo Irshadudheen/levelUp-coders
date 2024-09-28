@@ -76,29 +76,30 @@ const Room = () => {
 
     return (
         <div className='flex flex-col h-screen bg-dark-layer-1 relative '>
+           
             <PrevefrenceNav runCode={runCode} />
             <div className="flex">
-                <div className="w-1/2 overflow-auto  ">
-                    <ReactCodeMirror
-                        value={userCode}
-                        theme={vscodeDark}
-                        onChange={handleCodeChange}
-                      
-                        extensions={[javascript()]}
-                        style={{ fontSize: 16 }}
-                    />
-                </div>
-                <div className="w-1/2 overflow-auto">
-                    <ReactCodeMirror
-                        value={outPut}
-                        theme={vscodeDark}
-                        onChange={(e)=>setOutPut(e)}
-                      
-                        extensions={[javascript()]}
-                        style={{ fontSize: 16 }}
-                    />
-                </div>
-            </div>
+    <div className="w-1/2 overflow-auto">
+        <ReactCodeMirror
+            value={userCode}
+            theme={vscodeDark}
+            onChange={handleCodeChange}
+            extensions={[javascript()]}
+            style={{ fontSize: 16 }}
+        />
+    </div>
+    {/* Add a border between input and output */}
+    <div className="w-px bg-gray-600"></div> 
+    <div className="w-1/2 overflow-auto">
+        <ReactCodeMirror
+            value={outPut}
+            theme={vscodeDark}
+            onChange={(e) => setOutPut(e)}
+            extensions={[javascript()]}
+            style={{ fontSize: 16 }}
+        />
+    </div>
+</div>
         </div>
     );
 };

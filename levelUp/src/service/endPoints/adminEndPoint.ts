@@ -3,6 +3,7 @@
     logout:'/auth/admin/logout',
     addSubject:'/subject/subjectRouter/addSubject',
     getAllUser:'/auth/admin/userData',
-    blockUser:'/auth/admin/blockUser'
+    blockUser:'/auth/admin/blockUser',
+    topTenActiveUser:'/auth/admin/topTenUser'
 }
 export default adminRoute

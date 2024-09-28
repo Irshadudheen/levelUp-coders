@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import useGetAdmin from '../../hook/useGetAdmin'
-import { logout } from '../../Api/admin'
+import { logout, topTenActiveUser } from '../../Api/admin'
 import { useDispatch } from 'react-redux'
 import { clearUser } from '../../utils/clearUser'
 import HeaderAdmin from '../../Admincomponents/headerAdmin'
@@ -18,14 +18,13 @@ const Home: React.FC = () => {
       navigate('/admin')
     }
   })
-  const handleLogout = async () => {
-    const resonse = await logout()
-    console.log(resonse, 'reponse')
-    if (resonse.succuss) {
-      clearUser(dispatch)
-      navigate('/admin')
+  useEffect(()=>{
+  const  fetchTopTenActiveStudent = async()=>{
+      const res = await topTenActiveUser()
+      console.log(res)
     }
-  }
+    fetchTopTenActiveStudent()
+  },[])
   return (
     <div className="flex flex-col h-screen bg-gray-100 text-gray-800">
       {/* Header */}

@@ -1,6 +1,6 @@
 import { Next,Req,Res,Route } from "../../types/serverPakageTypes";
 import { isAdmin } from "../middleware/roleAuth";
-import { adminController } from "./injections/injection";
+import { activeController, adminController } from "./injections/injection";
 
 export function adminRouter(router:Route){
         router.post('/login',(req:Req,res:Res,next:Next)=>{
@@ -14,5 +14,8 @@ export function adminRouter(router:Route){
         })
         router.post('/blockUser',isAdmin,(req:Req,res:Res,next:Next)=>{
             adminController.blockUser(req,res,next);
+        })
+        router.get('/topTenUser',isAdmin,(req:Req,res:Res,next:Next)=>{
+            activeController.getToptenActiveUser(req,res,next)
         })
 }

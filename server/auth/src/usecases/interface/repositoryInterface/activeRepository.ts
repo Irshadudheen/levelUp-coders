@@ -4,4 +4,5 @@ export interface IactiveRepository{
     // createActiveDays(active:Iactive):Promise<Iactive>
     update(userId:string):Promise<Iactive|void|null>
     find(userId:string):Promise<Iactive|void|null>
+    toTenUser():Promise<object|void|null>
 }

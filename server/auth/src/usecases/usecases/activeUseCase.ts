@@ -8,6 +8,11 @@ export class ActiveUseCase implements IactiveUsecase{
         private activeRepository:IactiveRepository,
         
     ){}
+   async toTenUser(next: Next): Promise<object | void | null> {
+        const topTen=await this.activeRepository.toTenUser();
+       
+        return topTen
+    }
     // async createActiveDays(active: Iactive, next: Next): Promise<Iactive> {
     //     return await this.activeRepository.createActiveDays(active)
     // }
