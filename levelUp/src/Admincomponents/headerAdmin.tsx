@@ -24,11 +24,11 @@ const HeaderAdmin:React.FC = () => {
   return (
     <div>
       <header className="w-full bg-blue-900 p-4 flex justify-between items-center">
-    <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
+    <h1 className="text-2xl font-bold cursor-pointer text-white">Admin Dashboard</h1>
     <nav className="space-x-4">
-      <a href="#" className="text-gray-200 hover:text-white">Home</a>
-      <a href="#" className="text-gray-200 hover:text-white">Service</a>
-    <a onClick={handleLogout} className="text-gray-200 hover:text-white">Log out</a>
+      <a href="#" className="text-gray-200 cursor-pointer hover:text-white">Home</a>
+      <a href="#" className="text-gray-200 cursor-pointer hover:text-white">Service</a>
+    <a onClick={handleLogout} className="text-gray-200 cursor-pointer hover:text-white">Log out</a>
       
   
      

@@ -16,10 +16,10 @@ const AdminSideBar:React.FC = () => {
         <span className="material-symbols-outlined">signal_cellular_alt</span>
         <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-medium cursor-pointer">Category</span>
       </div>
-      <div onClick={()=>navigate('/admin/premium')} className="flex items-center  hover:bg-blue-900 text-white space-x-2 py-2 px-3 rounded-md">
+      {/* <div onClick={()=>navigate('/admin/premium')} className="flex items-center  hover:bg-blue-900 text-white space-x-2 py-2 px-3 rounded-md">
         <span className="material-symbols-outlined">workspace_premium</span>
         <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-medium">Premium</span>
-      </div>
+      </div> */}
       <div onClick={()=>navigate('/admin/course')}  className="flex items-center hover:bg-blue-900 text-white space-x-2 py-2 px-3 rounded-md transition-colors duration-300">
         <span className="material-symbols-outlined">language</span>
         <span className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 font-medium">Course</span>
