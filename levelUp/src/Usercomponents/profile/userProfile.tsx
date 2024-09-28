@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import UserHeader from '../userHeader';
 import UserFooter from '../userFooter';
-import useGetUser, { useGetUserData } from '../../hook/useGetUser';
+import { useGetUserData } from '../../hook/useGetUser';
 import { Button } from '@mui/material';
-import { Navigate, useNavigate } from 'react-router-dom';
+import {  useNavigate } from 'react-router-dom';
 import ActiveDays from './activeDays';
 import { printLastSixMonths } from '../../service/getMounth';
+import Badge from './image/badge.png'
+import { List, CheckSquare, MessageCircle, ChevronRight } from 'lucide-react';
 const UserProfile = () => {
   console.log(printLastSixMonths())
   const navigate = useNavigate()
@@ -24,6 +26,14 @@ const UserProfile = () => {
       })
       .catch(error => console.error('Error fetching location:', error));
   }, []);
+  const submissions = [
+    { title: 'Design Circular Deque', time: 'an hour ago' },
+    { title: 'Two Sum', time: 'a day ago' },
+    { title: 'My Calendar II', time: 'a day ago' },
+    { title: 'Special Array I', time: '2 days ago' },
+    { title: 'My Calendar I', time: '2 days ago' },
+  ];
+
 
   const activeDays = [
     { day: 'Mon', active: true },
@@ -68,7 +78,44 @@ const UserProfile = () => {
             </div>
           </div>
           <ActiveDays />
+          <div className="bg-[#F4F1F8] rounded-lg shadow-lg p-6 flex flex-col items-center border border-gray-300 text-black">Badge
+            <img src={Badge} alt="" />
+          </div>
         </div>
+        <div className="bg-[#F4F1F8] mt-2 text-black border border-gray-300 p-4 rounded-lg shadow-md">
+  <div className="flex space-x-2 mb-4">
+    <button className="bg-gray-200 px-3 py-1 rounded-md flex items-center hover:bg-gray-300 transition">
+      <List size={16} className="mr-2 text-black" />
+      Recent AC
+    </button>
+    <button className="bg-gray-200 px-3 py-1 rounded-md flex items-center hover:bg-gray-300 transition">
+      <List size={16} className="mr-2 text-black" />
+      List
+    </button>
+    <button className="bg-gray-200 px-3 py-1 rounded-md flex items-center hover:bg-gray-300 transition">
+      <CheckSquare size={16} className="mr-2 text-black" />
+      Solutions
+    </button>
+    <button className="bg-gray-200 px-3 py-1 rounded-md flex items-center hover:bg-gray-300 transition">
+      <MessageCircle size={16} className="mr-2 text-black" />
+      Discuss
+    </button>
+  </div>
+  <div className="flex justify-between items-center mb-2">
+    <span className="text-sm text-gray-600">View all Complete</span>
+    <ChevronRight size={16} className="text-gray-600" />
+  </div>
+  <ul>
+    {submissions.map((submission, index) => (
+      <li key={index} className="bg-gray-100 mb-2 p-3 rounded shadow-sm">
+        <div className="flex justify-between items-center">
+          <span className="text-black">{submission.title}</span>
+          <span className="text-sm text-gray-600">{submission.time}</span>
+        </div>
+      </li>
+    ))}
+  </ul>
+</div>
       </div>
     </div>
     <UserFooter />
