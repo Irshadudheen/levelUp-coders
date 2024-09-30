@@ -3,8 +3,8 @@ import { IactiveRepository } from "../../../../usecases/interface/repositoryInte
 import activeModel from "../model/activeDays";
 
 export class ActiveRepository implements IactiveRepository {
-  constructor(private activeModels: typeof activeModel) {}
- async toTenUser(): Promise<object | void | null> {
+  constructor(private activeModels: typeof activeModel) { }
+  async toTenUser(): Promise<object | void | null> {
     // const findTotalUser = await this.activeModels.find()
     const topTenUsers = await this.activeModels.aggregate([
       {
@@ -48,7 +48,7 @@ export class ActiveRepository implements IactiveRepository {
         }
       }
     ]);
-    console.log(topTenUsers,'the top ten user')
+    console.log(topTenUsers, 'the top ten user')
     return topTenUsers
   }
 

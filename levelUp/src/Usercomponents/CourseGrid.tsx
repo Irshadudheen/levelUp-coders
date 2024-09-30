@@ -17,13 +17,16 @@ const CourseGrid = ({ courses }: { courses: any[] }) => {
   // Filter and paginate courses when the search term or course list changes
   useEffect(() => {
     const lowercasedSearchTerm = searchTerm.toLowerCase();
-    const filtered = courses.filter(course =>
-      course.name.toLowerCase().includes(lowercasedSearchTerm) ||
-      course.description.toLowerCase().includes(lowercasedSearchTerm)
-    );
+    if(courses&&courses.length){
 
-    setFilteredCourses(filtered);
-    setCurrentIndex(0); // Reset pagination on search or course update
+      const filtered = courses.filter(course =>
+        course.name.toLowerCase().includes(lowercasedSearchTerm) ||
+        course.description.toLowerCase().includes(lowercasedSearchTerm)
+      );
+      
+      setFilteredCourses(filtered);
+      setCurrentIndex(0); // Reset pagination on search or course update
+    }
   }, [searchTerm, courses]);
 
   // Update the visible courses when the filtered courses or pagination changes

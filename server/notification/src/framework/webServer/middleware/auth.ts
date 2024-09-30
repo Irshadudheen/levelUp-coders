@@ -2,8 +2,6 @@ import { JwtPayload, Secret } from "jsonwebtoken";
 import { Next, Req, Res } from "../../types/serverPakageTypes";
 import jwt from 'jsonwebtoken'
 import { catchError } from "../../../usecases/middlewares/catchError";
-import userModel from '../../database/mongodb/model/userModel'
-
 require('dotenv').config();
 interface CustomRequest extends Req{
     user?:{userId:string,role:string};
@@ -37,13 +35,8 @@ export const isAuthenticate = async (req:CustomRequest,res:Res,next:Next)=>{
             console.log('the decoded')
             if(decoded){
                 console.log(decoded,'decoded')
-                const user = await userModel.findOne({_id:decoded.userId,blocked:false})
-                if(user){
-
-                    req.user={userId:decoded.userId,role};
-                    
-                    next()
-                }
+                req.user={userId:decoded.userId,role};
+                next()
             }else{
                 return res.status(401).json({message:'Access forbidden!!! Please login again.',succuss:false})
             }

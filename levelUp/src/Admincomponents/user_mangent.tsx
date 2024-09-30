@@ -43,7 +43,7 @@ const User_mangent:React.FC = () => {
   return (
     <>
       <HeaderAdmin />
-      <div className="flex h-screen bg-white-800 text-white">
+      <div className="flex  bg-white-800 text-white">
         {/* Sidebar */}
        <AdminSideBar/>
 

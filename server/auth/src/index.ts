@@ -1,4 +1,4 @@
-import express,{urlencoded,json} from 'express'
+import express, { urlencoded, json } from 'express'
 import { Kafka, KafkaMessage } from "kafkajs";
 import cors from 'cors'
 import cookieParser from "cookie-parser"
@@ -8,24 +8,24 @@ import connectDb from './framework/webServer/config/db'
 import { errMiddleware } from './usecases/middlewares/errorMiddleware'
 
 
-const start = async ()=>{
+const start = async () => {
     try {
-        if(!process.env.JWT_VERIFICATION_KEY){
+        if (!process.env.JWT_VERIFICATION_KEY) {
             throw new Error('JWT_VERIFI_KEY is not found')
         }
-        if(!process.env.JWT_ACCESS_KEY){
+        if (!process.env.JWT_ACCESS_KEY) {
             throw new Error('JWT_ACCESS_KEY is not found')
         }
-        if(!process.env.JWT_REFRESH_KEY){
+        if (!process.env.JWT_REFRESH_KEY) {
             throw new Error('JWT_REFRESH_KEY is not found')
         }
-        if(!process.env.mongodb){
+        if (!process.env.mongodb) {
             throw new Error('mongodburl is not found')
         }
-        if(!process.env.MATLER_EMAIL){
+        if (!process.env.MATLER_EMAIL) {
             throw new Error('MATLER_EMAIL is not found')
         }
-        if(!process.env.MATLER_PASSWORD){
+        if (!process.env.MATLER_PASSWORD) {
             throw new Error('MATLER_PASSWORD is not found')
         }
         connectDb()
@@ -49,7 +49,7 @@ adminRouter(adminRouterInstance)
 app.use(cors());
 app.use(cookieParser())
 app.use(json())
-app.use(urlencoded({extended:true}))
+app.use(urlencoded({ extended: true }))
 
 // Apply the separate routers to different paths
 app.use('/user', userRouter)
