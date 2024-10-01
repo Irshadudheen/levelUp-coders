@@ -37,7 +37,8 @@ export const isAuthenticate = async (req:CustomRequest,res:Res,next:Next)=>{
             console.log('the decoded')
             if(decoded){
                 console.log(decoded,'decoded')
-                const user = await userModel.findOne({_id:decoded.userId,blocked:false})
+                const user = await userModel.findOne({_id:decoded.id,blocked:false})
+                console.log(user,'the user')
                 if(user){
 
                     req.user={userId:decoded.userId,role};
