@@ -1,4 +1,5 @@
 
+import { subjectType } from "../@types/subjectType";
 import Premium from "../Usercomponents/premium";
 import Api from "../service/axios";
 import subjectRoutes from "../service/endPoints/subjectEndPoint";
@@ -101,6 +102,25 @@ export  const completeLevel = async (levelId:string,userId:string)=>{
         const res = await Api.post(subjectRoutes.complete,{levelId,userId})
         return res.data
     } catch (error) {
+        
+    }
+
+}
+export const updateSubject = async(subjectId:string,subject:any)=>{
+    try {
+     const   res = await Api.put(`${subjectRoutes.updateSubject}/${subjectId}`,subject)
+        return res.data
+        
+    } catch (error) {
+        throw error
+    }
+}
+export const actionToSubject = async (subjectId:string)=>{
+    try {
+        const res = await Api.patch(`${subjectRoutes.actionList}/${subjectId}`)
+        return res.data
+    } catch (error) {
+        throw error
         
     }
 }

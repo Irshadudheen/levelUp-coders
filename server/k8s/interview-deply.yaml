@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: interview-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: interview
+  template:
+    metadata:
+      labels:
+        app: interview
+    spec:
+      containers:
+        - name: interview 
+          image: irhadudheen/interview-levelup:latest
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: interview-srv
+spec:
+  type: NodePort
+  selector:
+    app: interview 
+  ports:
+    - name: interview-srv-port
+      protocol: TCP
+      port: 4005 
+      targetPort: 4005 
+      

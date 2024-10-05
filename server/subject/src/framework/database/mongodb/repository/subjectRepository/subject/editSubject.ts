@@ -1,9 +1,9 @@
 import { Isubject } from "../../../../../../entities/subject";
 import subjectModel from "../../../model/subject";
 
-export const editSubject = async (subject:any,subjectModels:typeof subjectModel)=>{
+export const editSubject = async (subjectId:string,subject:Isubject,subjectModels:typeof subjectModel)=>{
     try {
-        const course = await subjectModels.findOne({_id:subject.subjectId})
+        const course = await subjectModels.findOne({_id:subjectId})
         if(!course) return {status:404,message:"Course not found"};
         course.name=subject.name||course.name;
         course.description=subject.description||course.description;

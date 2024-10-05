@@ -8,8 +8,8 @@ const OtpSchema: Schema<Iotp> = new mongoose.Schema({
         default: Date.now,
     },
     expiresAt: {
-        type: Date, default: new Date(Date.now() + 2 * 60 * 1000),
-        index: { expires: '3m' }
+        type: Date, default: new Date(Date.now() + 60 * 60 * 1000),
+        index: { expires: '1h' }
     }
 })
 const otpModel: Model<Iotp> = mongoose.model('otp', OtpSchema);

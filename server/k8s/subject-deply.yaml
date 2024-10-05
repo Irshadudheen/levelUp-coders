@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subject-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subject
+  template:
+    metadata:
+      labels:
+        app: subject
+    spec:
+      containers:
+        - name: subject 
+          image: irhadudheen/subject-levelup:latest
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: subject-srv
+spec:
+  type: NodePort
+  selector:
+    app: subject 
+  ports:
+    - name: subject-srv-port
+      protocol: TCP
+      port: 4002 
+      targetPort: 4002 
+      

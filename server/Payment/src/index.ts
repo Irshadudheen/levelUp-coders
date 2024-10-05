@@ -1,8 +1,9 @@
 import express, { json, Router, urlencoded } from 'express'
 import cors from 'cors'
-import runPaymentConsumer from './framework/services/messageBroker/consumer'
+
 import connectDb from './framework/webServer/config/db'
 import { paymentRout } from './framework/webServer/routes/paymentRoute'
+import consumeUserData from './framework/services/messageBroker/consumer'
 
 const app = express()
 app.use(cors())
@@ -11,7 +12,7 @@ app.use(urlencoded({ extended: true }))
 // Start database and message broker
 const start = async () => {
   await connectDb()
-  await runPaymentConsumer()
+   consumeUserData()
 }
 start()
 

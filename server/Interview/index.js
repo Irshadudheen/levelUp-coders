@@ -11,7 +11,9 @@ const {createClient} = require("redis");
 const fs = require('fs');
 
 const path = require('path');
-const client = createClient();
+const client = createClient({
+  url: 'redis://redis-service:6379'
+});
 (async () => { 
     await client.connect(); 
 })(); 
@@ -143,12 +145,12 @@ function cleanup(...files) {
     }
   }
 }
-const data=async()=>{
+// const data=async()=>{
 
-  const output=await runCode('py',`print("Try programiz.pro")`)
-  console.log(output,'the response ')
-}
-data()
+//   const output=await runCode('py',`print("Try programiz.pro")`)
+//   console.log(output,'the response ')
+// }
+// data()
 app.post('/runCode',async (req, res) => {
   try {
     let { code,language } = req.body;

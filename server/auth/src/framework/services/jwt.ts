@@ -13,7 +13,7 @@ export class JWTtoken implements Ijwt{
 
       async createVerificationJWT(payload: any): Promise<string> {
           const verifyToken = await jwt.sign(payload, this.JWT_VERIFICATION_KEY,{
-             expiresIn:'15m',
+             expiresIn:'1h',
           })
           console.log("in side the servie",verifyToken )
           return verifyToken

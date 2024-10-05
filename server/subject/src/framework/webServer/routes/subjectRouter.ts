@@ -41,14 +41,8 @@ export function subjectRoute(router: Route) {
         console.log(req.query)
         levelController.getQuiz(req, res, next)
     })
-    router.put('/editSubject', isAdmin, (req: Req, res: Res, next: Next) => {
-        console.log(req.body)
-        subjectController.editSubject(req, res, next)
-    })
-    router.put('/editlevel', isAdmin, (req: Req, res: Res, next: Next) => {
-        console.log(req.body)
-        levelController.editLevel(req, res, next)
-    })
+ 
+ 
     router.post('/addCategory', isAdmin, (req: Req, res: Res, next: Next) => {
         console.log(req.body)
         categoryController.creatCategory(req, res, next)
@@ -61,5 +55,10 @@ export function subjectRoute(router: Route) {
     router.get('/getAllCategory', (req: Req, res: Res, next: Next) => {
         categoryController.allCategory(req, res, next)
     })
-
+    router.put('/updateSubject/:subjectId',isAdmin,(req:Req,res:Res,next:Next)=>{
+        subjectController.updateSubject(req,res,next)
+    })
+    router.patch('/actionList/:subjectId',isAdmin,(req:Req,res:Res,next:Next)=>{
+        subjectController.actionCourse(req,res,next)
+    })
 }

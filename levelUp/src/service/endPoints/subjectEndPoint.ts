@@ -9,6 +9,8 @@ const subjectRoute ={
     getAllCategory:'/subject/subjectRouter/getAllCategory',
     addCategory:'/subject/subjectRouter/addCategory',
     getSubject:'/subject/subjectRouter/getSubject',
-    complete:'/subject/subjectRouter/addUserToLevel'
+    complete:'/subject/subjectRouter/addUserToLevel',
+    updateSubject:'/subject/subjectRouter/updateSubject',
+    actionList:'/subject/subjectRouter/actionList'
 }
 export default subjectRoute

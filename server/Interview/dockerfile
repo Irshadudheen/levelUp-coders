@@ -1,0 +1,21 @@
+# Use the Node.js Alpine image as the base
+FROM node:alpine
+
+# Install Python and necessary dependencies
+RUN apk add --no-cache python3 py3-pip
+
+# Set working directory
+WORKDIR /app
+
+# Copy the package.json and install Node.js dependencies
+COPY package.json ./
+RUN npm install
+
+# Copy the rest of the application code
+COPY ./ ./
+
+# Expose the port your application will run on
+EXPOSE 4005
+
+# Start the application
+CMD ["npm", "start"]

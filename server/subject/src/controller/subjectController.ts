@@ -8,15 +8,32 @@ export class SubjectController{
     constructor(private subjectUseCase:IsubjectUseCase){
        
     }
-    async editSubject(req:Req,res:Res,next:Next){
+    async actionCourse(req:Req,res:Res,next:Next){
         try {
-            const {subjectId,name,description}=req.body;
-            const subject = await this.subjectUseCase.editSubject({subjectId,name,description},next);
-            res.json(subject).status(201);
+            const {subjectId}=req.params;
+            const subject = await this.subjectUseCase.listCourse(subjectId,next)
+            if(subject){
+                res.json(subject).status(201)
+            }
         } catch (error:any) {
-                console.log(error.message)           
+            console.log(error.message)
+            
         }
     }
+    async updateSubject(req:Req,res:Res,next:Next){
+        try {
+            const {name,description,image,categoryId}=req.body;
+            const {subjectId}=req.params;
+            const subject = await this.subjectUseCase.editSubject({name,description,image,categoryId},subjectId,next)
+            if(subject){
+                res.json(subject).status(201)
+            }
+        } catch (error:any) {
+            console.log(error.message)
+            
+        }
+    }
+   
     async getAllSubject(req:Req,res:Res,next:Next){
         try {
             const allSubject = await this.subjectUseCase.getAllSubject(next)
