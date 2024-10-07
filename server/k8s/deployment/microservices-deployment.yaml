@@ -15,12 +15,10 @@ spec:
     spec:
       containers:
       - name: auth-service
-        image: aswantht/roadmap-auth-service:latest
+        image: irhadudheen/auth-levelup:latest
         ports:
-        - containerPort: 5000
-        envFrom:
-        - secretRef:
-            name: auth-service-secrets
+        - containerPort: 4000
+       
 ---
 apiVersion: v1
 kind: Service
@@ -31,221 +29,108 @@ spec:
   selector:
     app: auth-service
   ports:
-  - port: 5000
-    targetPort: 5000
+  - port: 4000
+    targetPort: 4000
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: roadmap-service
+  name: subject-service
   namespace: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: roadmap-service
+      app: subject-service
   template:
     metadata:
       labels:
-        app: roadmap-service
+        app: subject-service
     spec:
       containers:
-      - name: roadmap-service
-        image: aswantht/roadmap-roadmap-service:latest
+      - name: subject-service
+        image: irhadudheen/subject-levelup:latest
         ports:
-        - containerPort: 5001
-        envFrom:
-        - secretRef:
-            name: roadmap-service-secrets
+        - containerPort: 4002
+        
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: roadmap-service
+  name: subject-service
   namespace: backend
 spec:
   selector:
-    app: roadmap-service
+    app: subject-service
   ports:
-  - port: 5001
-    targetPort: 5001
+  - port: 4002
+    targetPort: 4002
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: profile-service
+  name: payment-service
   namespace: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: profile-service
+      app: payment-service
   template:
     metadata:
       labels:
-        app: profile-service
+        app: payment-service
     spec:
       containers:
-      - name: profile-service
-        image: aswantht/roadmap-profile-service:latest
+      - name: payment-service
+        image: irhadudheen/payment-levelup:latest
         ports:
-        - containerPort: 5002
-        envFrom:
-        - secretRef:
-            name: profile-service-secrets
+        - containerPort: 3001
+       
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: profile-service
+  name: payment-service
   namespace: backend
 spec:
   selector:
-    app: profile-service
+    app: payment-service
   ports:
-  - port: 5002
-    targetPort: 5002
+  - port: 3001
+    targetPort: 3001
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: post-service
+  name: interview-service
   namespace: backend
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: post-service
+      app: interview-service
   template:
     metadata:
       labels:
-        app: post-service
+        app: interview-service
     spec:
       containers:
-      - name: post-service
-        image: aswantht/roadmap-post-service:latest
+      - name: interview-service
+        image: irhadudheen/interview-levelup:latest
         ports:
-        - containerPort: 5003
-        envFrom:
-        - secretRef:
-            name: post-service-secrets
+        - containerPort: 4005
+       
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: post-service
+  name: interview-service
   namespace: backend
 spec:
   selector:
-    app: post-service
+    app: interview-service
   ports:
-  - port: 5003
-    targetPort: 5003
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: notification-service
-  namespace: backend
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: notification-service
-  template:
-    metadata:
-      labels:
-        app: notification-service
-    spec:
-      containers:
-      - name: notification-service
-        image: aswantht/roadmap-notification-service:latest
-        ports:
-        - containerPort: 5004
-        envFrom:
-        - secretRef:
-            name: notification-service-secrets
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: notification-service
-  namespace: backend
-spec:
-  selector:
-    app: notification-service
-  ports:
-  - port: 5004
-    targetPort: 5004
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: chat-service
-  namespace: backend
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: chat-service
-  template:
-    metadata:
-      labels:
-        app: chat-service
-    spec:
-      containers:
-      - name: chat-service
-        image: aswantht/roadmap-chat-service:latest
-        ports:
-        - containerPort: 5005
-        envFrom:
-        - secretRef:
-            name: chat-service-secrets
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: chat-service
-  namespace: backend
-spec:
-  selector:
-    app: chat-service
-  ports:
-  - port: 5005
-    targetPort: 5005
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: recommendation-service
-  namespace: backend
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      app: recommendation-service
-  template:
-    metadata:
-      labels:
-        app: recommendation-service
-    spec:
-      containers:
-      - name: recommendation-service
-        image: aswantht/roadmap-recommendation-service:latest
-        ports:
-        - containerPort: 5006
-        envFrom:
-        - secretRef:
-            name: recommendation-service-secrets
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: recommendation-service
-  namespace: backend
-spec:
-  selector:
-    app: recommendation-service
-  ports:
-  - port: 5006
-    targetPort: 5006
+  - port: 4005
+    targetPort: 4005
+

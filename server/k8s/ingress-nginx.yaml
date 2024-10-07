@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: levelup-ingress
+  namespace: backend
+spec:
+  rules:
+  - host: molla.molla.cfd
+    http:
+      paths:
+      - path: /auth
+        pathType: Prefix
+        backend:
+          service:
+            name: auth-service
+            port:
+              number: 4000
+      - path: /subject
+        pathType: Prefix
+        backend:
+          service:
+            name: subject-service
+            port:
+              number: 4002
+      - path: /payment
+        pathType: Prefix
+        backend:
+          service:
+            name: payment-service
+            port:
+              number: 3001
+      - path: /interview
+        pathType: Prefix
+        backend:
+          service:
+            name: interview-service
+            port:
+              number: 4005
+  ingressClassName: nginx
