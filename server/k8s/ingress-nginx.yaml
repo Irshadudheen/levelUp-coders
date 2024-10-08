@@ -3,16 +3,29 @@ kind: Ingress
 metadata:
   name: levelup-ingress
   namespace: backend
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
+  tls:
+    - hosts:
+        - molla.molla.cfd
+      secretName: letsencrypt-prod
   rules:
   - host: molla.molla.cfd
     http:
       paths:
-      - path: /auth
+      - path: /user
         pathType: Prefix
         backend:
           service:
-            name: auth-service
+            name: auth-service  # The service for handling authentication
+            port:
+              number: 4000
+      - path: /admin
+        pathType: Prefix
+        backend:
+          service:
+            name: auth-service  # Reusing the same service for admin
             port:
               number: 4000
       - path: /subject

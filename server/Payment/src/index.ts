@@ -21,7 +21,7 @@ const payementRouter = Router()
 paymentRout(payementRouter) // This function registers routes on the router
 
 // Use the router in the app
-app.use('/', payementRouter)
+app.use('/payment', payementRouter)
 
 const PORT = 3001
 app.listen(PORT, () => console.log(`The server is running on port ${PORT} for payment`))
