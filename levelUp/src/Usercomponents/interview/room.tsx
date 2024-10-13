@@ -10,7 +10,10 @@ import Api from '../../service/axios';
 import { toast } from 'react-toastify';
 
 
-const socket = io('http://localhost:4005');
+const socket = io('wss://molla.molla.cfd/socket.io/',{
+    transports: ['websocket'],
+    secure: true,
+});
 
 const Room = () => {
     const { roomId } = useParams();
@@ -35,6 +38,7 @@ const Room = () => {
     useEffect(() => {
         const checkRoom = async () => {
             const checkRoom = await validateRoom(roomId as string);
+            console.log(checkRoom,'the check the room')
             if (!checkRoom.success) {
                 navigate('/*');
             }

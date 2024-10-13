@@ -1,6 +1,6 @@
 const interviewRoute={
-    createRoom:'/interview/createRoom',
-    validateRoom:'/interview/validateRoom',
-    runCode:'/interview/runCode'
+    createRoom:'/interview/room',
+    validateRoom:'/interview/code/validateRoom',
+    runCode:'/interview/code/runCode'
 }
 export default interviewRoute

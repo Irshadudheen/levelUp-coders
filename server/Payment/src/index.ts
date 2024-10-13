@@ -10,11 +10,11 @@ app.use(cors())
 app.use(json())
 app.use(urlencoded({ extended: true }))
 // Start database and message broker
-const start = async () => {
-  await connectDb()
-   consumeUserData()
-}
-start()
+// const start = async () => {
+//   await connectDb()
+//    consumeUserData()
+// }
+// start()
 
 // Initialize router and apply payment routes
 const payementRouter = Router()

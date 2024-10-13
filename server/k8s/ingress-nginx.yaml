@@ -5,48 +5,59 @@ metadata:
   namespace: backend
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/websocket-services: "interview-service"
 spec:
   tls:
     - hosts:
         - molla.molla.cfd
       secretName: letsencrypt-prod
   rules:
-  - host: molla.molla.cfd
-    http:
-      paths:
-      - path: /user
-        pathType: Prefix
-        backend:
-          service:
-            name: auth-service  # The service for handling authentication
-            port:
-              number: 4000
-      - path: /admin
-        pathType: Prefix
-        backend:
-          service:
-            name: auth-service  # Reusing the same service for admin
-            port:
-              number: 4000
-      - path: /subject
-        pathType: Prefix
-        backend:
-          service:
-            name: subject-service
-            port:
-              number: 4002
-      - path: /payment
-        pathType: Prefix
-        backend:
-          service:
-            name: payment-service
-            port:
-              number: 3001
-      - path: /interview
-        pathType: Prefix
-        backend:
-          service:
-            name: interview-service
-            port:
-              number: 4005
+    - host: molla.molla.cfd
+      http:
+        paths:
+          - path: /user
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-service  
+                port:
+                  number: 4000
+          - path: /admin
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-service  
+                port:
+                  number: 4000
+          - path: /subject
+            pathType: Prefix
+            backend:
+              service:
+                name: subject-service
+                port:
+                  number: 4002
+          - path: /payment
+            pathType: Prefix
+            backend:
+              service:
+                name: payment-service
+                port:
+                  number: 3001
+          - path: /interview
+            pathType: Prefix
+            backend:
+              service:
+                name: interview-service
+                port:
+                  number: 4005
+          - path: /socket.io/
+            pathType: Prefix
+            backend:
+              service:
+                name: interview-service
+                port:
+                  number: 4005
   ingressClassName: nginx

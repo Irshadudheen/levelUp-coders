@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rabbitmq-deployment
+  namespace: backend  # Added namespace
 spec:
   replicas: 1
   selector:
@@ -27,13 +28,12 @@ spec:
             limits:
               cpu: "500m" # Example CPU limit
               memory: "512Mi" # Example memory limit
-
-
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: rabbitmq
+  namespace: backend  # Added namespace
   labels:
     app: rabbitmq
 spec:

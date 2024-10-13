@@ -1,9 +1,9 @@
  const adminRoute = {
-    login:'/auth/admin/login',
-    logout:'/auth/admin/logout',
+    login:'/admin/login',
+    logout:'/admin/logout',
     addSubject:'/subject/subjectRouter/addSubject',
-    getAllUser:'/auth/admin/userData',
-    blockUser:'/auth/admin/blockUser',
-    topTenActiveUser:'/auth/admin/topTenUser'
+    getAllUser:'/admin/userData',
+    blockUser:'/admin/blockUser',
+    topTenActiveUser:'/admin/topTenUser'
 }
 export default adminRoute
