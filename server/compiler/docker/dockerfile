@@ -1,0 +1,16 @@
+FROM ubuntu:latest
+
+# Install dependencies for Python, Node.js, and C++
+RUN apt-get update && apt-get install -y python3 python3-pip nodejs npm 
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the run_code.sh script into the container
+COPY run_code.sh /app/
+
+# Ensure run_code.sh is executable
+RUN chmod +x /app/run_code.sh
+
+# Set the default command to run the script
+CMD ["/app/run_code.sh"]
