@@ -1,1 +1,1 @@
-setTimeout(()=>console.log('dd'),1000);setTimeout(()=>console.log('sssss'), 2000);
+setTimeout(()=>console.log(0),1000);setTimeout(()=>console.log(1),2000);setTimeout(()=>console.log(2),3000);setTimeout(()=>console.log(3),5000)

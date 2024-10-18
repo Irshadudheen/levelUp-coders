@@ -2,6 +2,7 @@ const express = require('express');
 const Docker = require('dockerode');
 const path = require('path');
 const fs = require('fs');
+const stream = require('stream');
 
 const app = express();
 const docker = new Docker();
@@ -28,27 +29,43 @@ app.post('/execute', async (req, res) => {
         HostConfig: {
           Binds: [`${__dirname}/user_code:/user_code`],
         },
+        AttachStdout: true,
+        AttachStderr: true,
+        Tty: false,
       });
   
       await container.start();
-  
-      const logStream = await container.logs({
-        stdout: true,
-        stderr: true,
-        follow: true,
+
+      // Set up server-sent events
+      res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive'
       });
 
-      let logOutput = '';
-      await new Promise((resolve, reject) => {
-        logStream.on('data', (chunk) => {
-          logOutput += chunk.toString('utf8');
+      const logStream = new stream.PassThrough();
+      container.attach({stream: true, stdout: true, stderr: true}, (err, stream) => {
+        if (err) return console.error(err);
+        container.modem.demuxStream(stream, logStream, logStream);
+      });
+
+      logStream.on('data', (chunk) => {
+        const logData = chunk.toString('utf8').trim();
+        if (logData) {
+          res.write(`data: ${JSON.stringify({ log: logData })}\n\n`);
+        }
+      });
+
+      await new Promise((resolve) => {
+        container.wait((err, data) => {
+          if (err) console.error('Container wait error:', err);
+          resolve();
         });
-        logStream.on('end', resolve);
-        logStream.on('error', reject);
       });
 
-      console.log('Container logs:', logOutput);
-      res.send(logOutput);
+      res.write(`data: ${JSON.stringify({ log: 'Execution completed' })}\n\n`);
+      res.end();
+
     } catch (err) {
       console.error('Error running container:', err);
       if (!res.headersSent) {
@@ -71,6 +88,7 @@ app.post('/execute', async (req, res) => {
       }
     }
 });
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

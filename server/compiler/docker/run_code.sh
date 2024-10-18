@@ -12,10 +12,10 @@ fi
 # Identify the language based on file extension and execute accordingly
 if [[ "$CODE_FILE" == *.py ]]; then
   echo "Running Python code..."
-  python3 "$CODE_FILE"
+  python3 -u "$CODE_FILE"
 elif [[ "$CODE_FILE" == *.js ]]; then
   echo "Running JavaScript code..."
-  node "$CODE_FILE"
+  node --no-buffer "$CODE_FILE"
 else
   echo "Error: Unsupported language or file type: $CODE_FILE"
   exit 1
