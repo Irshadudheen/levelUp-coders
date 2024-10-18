@@ -1,40 +1,30 @@
 const express = require('express');
-const Docker = require('dockerode');
+const fs = require('fs').promises;
 const path = require('path');
-const fs = require('fs');
-const stream = require('stream');
+const k8s = require('@kubernetes/client-node');
 
 const app = express();
-const docker = new Docker();
-
-const PORT = 3000;
-
 app.use(express.json());
 
+const USER_CODE_DIR = '/user_code';
+
+// Initialize Kubernetes client
+const kc = new k8s.KubeConfig();
+kc.loadFromCluster();
+const exec = new k8s.Exec(kc);
+
 app.post('/execute', async (req, res) => {
-    const { filename, content } = req.body;
-  
-    if (!filename || !content) {
-      return res.status(400).send('Filename and content are required.');
+    const { filename, content, language } = req.body;
+
+    if (!filename || !content || !language) {
+      return res.status(400).send('Filename, content, and language are required.');
     }
-  
-    const filePath = path.join(__dirname, 'user_code', filename);
-    fs.writeFileSync(filePath, content);
-  
-    let container;
+
+    const filePath = path.join(USER_CODE_DIR, filename);
+    
     try {
-      container = await docker.createContainer({
-        Image: 'my_compiler_image',
-        Cmd: ['/app/run_code.sh', `/user_code/${filename}`],
-        HostConfig: {
-          Binds: [`${__dirname}/user_code:/user_code`],
-        },
-        AttachStdout: true,
-        AttachStderr: true,
-        Tty: false,
-      });
-  
-      await container.start();
+      // Write the code to a file
+      await fs.writeFile(filePath, content);
 
       // Set up server-sent events
       res.writeHead(200, {
@@ -43,52 +33,51 @@ app.post('/execute', async (req, res) => {
         'Connection': 'keep-alive'
       });
 
-      const logStream = new stream.PassThrough();
-      container.attach({stream: true, stdout: true, stderr: true}, (err, stream) => {
-        if (err) return console.error(err);
-        container.modem.demuxStream(stream, logStream, logStream);
+      // Execute the code in the sandbox container
+      const command = ['/app/run_code.sh', language, filename];
+      const podName = process.env.HOSTNAME; // Kubernetes sets this to the pod name
+      const namespace = 'default'; // Adjust if you're using a different namespace
+
+      const stream = await exec.exec(
+        namespace,
+        podName,
+        'sandbox', // container name
+        command,
+        process.stdout,
+        process.stderr,
+        process.stdin,
+        true // tty
+      );
+
+      stream.on('data', (buffer) => {
+        const data = buffer.toString();
+        res.write(`data: ${JSON.stringify({ log: data })}\n\n`);
       });
 
-      logStream.on('data', (chunk) => {
-        const logData = chunk.toString('utf8').trim();
-        if (logData) {
-          res.write(`data: ${JSON.stringify({ log: logData })}\n\n`);
-        }
+      stream.on('error', (err) => {
+        console.error('Stream error:', err);
+        res.write(`data: ${JSON.stringify({ error: err.message })}\n\n`);
       });
 
-      await new Promise((resolve) => {
-        container.wait((err, data) => {
-          if (err) console.error('Container wait error:', err);
-          resolve();
-        });
+      stream.on('close', () => {
+        res.write(`data: ${JSON.stringify({ log: '//Execution completed' })}\n\n`);
+        res.end();
       });
-
-      res.write(`data: ${JSON.stringify({ log: 'Execution completed' })}\n\n`);
-      res.end();
 
     } catch (err) {
-      console.error('Error running container:', err);
+      console.error('Error executing code:', err);
       if (!res.headersSent) {
         res.status(500).send('Failed to execute code.');
+      } else {
+        res.write(`data: ${JSON.stringify({ error: 'Failed to execute code.' })}\n\n`);
+        res.end();
       }
     } finally {
-      if (container) {
-        try {
-          await container.stop().catch(err => {
-            if (err.statusCode === 304) {
-              console.log('Container was already stopped');
-            } else {
-              throw err;
-            }
-          });
-          await container.remove();
-        } catch (removeErr) {
-          console.error('Error removing container:', removeErr);
-        }
-      }
+      // Clean up: delete the file after execution
+      fs.unlink(filePath).catch(console.error);
     }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+app.listen(3000, () => {
+  console.log('Main service listening on port 3000');
 });
