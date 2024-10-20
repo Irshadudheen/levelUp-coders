@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: compiler-service
+  namespace: compiler-namespace
+spec:
+  replicas: 1  # Changed from 2 to 1
+  selector:
+    matchLabels:
+      app: compiler-service
+  template:
+    metadata:
+      labels:
+        app: compiler-service
+    spec:
+      containers:
+      - name: main-service
+        image: irhadudheen/compiler-levelup:latest
+        ports:
+        - containerPort: 3000
+        volumeMounts:
+        - name: user-code
+          mountPath: /user_code
+      - name: sandbox
+        image: irhadudheen/sandbox:latest
+        command: ["/bin/sh"]
+        args: ["-c", "while true; do sleep 30; done;"]
+        volumeMounts:
+        - name: user-code
+          mountPath: /user_code
+      volumes:
+      - name: user-code
+        emptyDir: {}
