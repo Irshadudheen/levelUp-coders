@@ -15,6 +15,8 @@ interface CustomJwtPayload extends JwtPayload{
 
 export const isAuthenticate = async (req:CustomRequest,res:Res,next:Next)=>{
     try {
+        console.log(req.cookies)
+        
         const authHeader = req.headers['authorization'];
         const refreshToken = req.headers['x-refresh-token'] as string;
         const role = req.headers['x-user-role'] as string;

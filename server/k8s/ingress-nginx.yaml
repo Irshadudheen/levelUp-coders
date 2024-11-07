@@ -9,6 +9,11 @@ metadata:
     nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
     nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
     nginx.ingress.kubernetes.io/websocket-services: "interview-service"
+        # CORS configuration
+    # nginx.ingress.kubernetes.io/enable-cors: "true"
+    # nginx.ingress.kubernetes.io/cors-allow-origin: "https://vite-react-nine-indol-61.vercel.app"
+    # nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    # nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
 spec:
   tls:
     - hosts:

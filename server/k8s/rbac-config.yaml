@@ -1,30 +1,24 @@
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: compiler-namespace  # Replace with your actual namespace name
-
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: Role
 metadata:
-  namespace: compiler-namespace  # Use your actual namespace
-  name: pod-exec-role
+  namespace: compiler
+  name: configmap-creator
 rules:
 - apiGroups: [""]
-  resources: ["pods", "pods/exec"]
-  verbs: ["get", "list", "create"]
-
+  resources: ["configmaps"]
+  verbs: ["create", "get", "list", "watch", "update", "delete"]
 ---
 apiVersion: rbac.authorization.k8s.io/v1
 kind: RoleBinding
 metadata:
-  name: pod-exec-rolebinding
-  namespace: compiler-namespace  # Use your actual namespace
+  name: configmap-creator-binding
+  namespace: compiler
 subjects:
 - kind: ServiceAccount
-  name: default  # Or the name of your specific ServiceAccount
-  namespace: compiler-namespace  # Use your actual namespace
+  name: default
+  namespace: compiler
 roleRef:
   kind: Role
-  name: pod-exec-role
+  name: configmap-creator
   apiGroup: rbac.authorization.k8s.io

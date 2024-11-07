@@ -1,10 +1,10 @@
 const userRoutes={
-    signup : '/user/register',
+    signup : '/auth/user/register',
     verifyOTP:'/user/createUser',
-    login:'/user/login',
+    login:'/auth/user/login',
     forgotPassword:'/user/forgotPassword',
     googleLogin:'/user/googleLogin',
-    logout:'/user/logout',
+    logout:'/auth/user/logout',
     newPassword:'/user/newPassword',
     verifyEmail:'/user/createNewPassword',
     updateProfile:'/user/updateProfile',

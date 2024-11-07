@@ -1,90 +1,132 @@
-const path = require('path');
-const fs = require('fs').promises;
 const k8s = require('@kubernetes/client-node');
+const fs = require('fs');
+const path = require('path');
 
-const USER_CODE_DIR = '../user_code';
+const NAMESPACE = 'compiler';
+const IMAGE = 'irhadudheen/sandbox:latest';
+const SCRIPT_PATH = '/app/run_code.sh';
 
-// const kc = new k8s.KubeConfig();
-// kc.loadFromCluster();
-// const exec = new k8s.Exec(kc);
+const kc = new k8s.KubeConfig();
+kc.loadFromDefault();
+
+const k8sApi = kc.makeApiClient(k8s.CoreV1Api);
+const jobsApi = kc.makeApiClient(k8s.BatchV1Api);
+
+const createConfigMap = async (filename, content) => {
+  const configMap = {
+    apiVersion: 'v1',
+    kind: 'ConfigMap',
+    metadata: {
+      name: `code-${Date.now()}`,
+      namespace: NAMESPACE
+    },
+    data: {
+      [filename]: content
+    }
+  };
+
+  return await k8sApi.createNamespacedConfigMap(NAMESPACE, configMap);
+};
+
+const createJob = async (configMapName, filename, fileExtension) => {
+  const job = {
+    apiVersion: 'batch/v1',
+    kind: 'Job',
+    metadata: {
+      name: `code-execution-${Date.now()}`,
+      namespace: NAMESPACE
+    },
+    spec: {
+      template: {
+        spec: {
+          containers: [{
+            name: 'code-runner',
+            image: IMAGE,
+            command: [SCRIPT_PATH, fileExtension, `/user_code/${filename}`],
+            volumeMounts: [{
+              name: 'code-volume',
+              mountPath: '/user_code'
+            }]
+          }],
+          volumes: [{
+            name: 'code-volume',
+            configMap: {
+              name: configMapName
+            }
+          }],
+          restartPolicy: 'Never'
+        }
+      }
+    }
+  };
+
+  return await jobsApi.createNamespacedJob(NAMESPACE, job);
+};
+
+const getPodName = async (jobName) => {
+  const pods = await k8sApi.listNamespacedPod(NAMESPACE, undefined, undefined, undefined, undefined, `job-name=${jobName}`);
+  return pods.body.items[0]?.metadata.name;
+};
+
+const streamLogs = async (res, podName) => {
+  const stream = await k8sApi.readNamespacedPodLog(
+    podName,
+    NAMESPACE,
+    'code-runner',
+    { follow: true, tailLines: 100 }
+  );
+
+  stream.on('data', (chunk) => {
+    const logData = chunk.toString('utf8').trim();
+    if (logData) {
+      res.write(`data: ${JSON.stringify({ log: logData })}\n\n`);
+    }
+  });
+
+  return new Promise((resolve) => {
+    stream.on('end', () => {
+      res.write(`data: ${JSON.stringify({ log: 'Execution completed' })}\n\n`);
+      resolve();
+    });
+  });
+};
 
 const runCode = async (req, res) => {
-  const { filename, content, language } = req.body;
-  console.log('Received request:', { filename, content, language });
-  
-  if (!filename || !content || !language) {
-    return res.status(400).send('Filename, content, and language are required.');
-  }
-
   try {
-    // Ensure the USER_CODE_DIR exists
-    await fs.mkdir(USER_CODE_DIR, { recursive: true });
-    console.log(`Ensured directory exists: ${USER_CODE_DIR}`);
+    const { filename, content } = req.body;
+    if (!filename || !content) {
+      return res.status(400).send('Filename and content are required.');
+    }
 
-    const filePath = path.join(USER_CODE_DIR, filename);
-    console.log('Writing file to:', filePath);
-    
-    // Write the code to a file
-    await fs.writeFile(filePath, content);
-    console.log('File written successfully');
+    const fileExtension = path.extname(filename).slice(1);
 
-    // Set up server-sent events
+    const configMap = await createConfigMap(filename, content);
+    const job = await createJob(configMap.body.metadata.name, filename, fileExtension);
+
     res.writeHead(200, {
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
       'Connection': 'keep-alive'
     });
-    
-    // Execute the code in the sandbox container
-    const command = ['/app/run_code.sh', language, path.join(USER_CODE_DIR, filename)];
-    const podName = process.env.HOSTNAME;
-    const namespace = process.env.NAMESPACE || 'compiler-namespace';
 
-    console.log('Executing command:', command);
-    console.log('Pod name:', podName);
-    console.log('Namespace:', namespace);
+    let podName;
+    while (!podName) {
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      podName = await getPodName(job.body.metadata.name);
+    }
 
-    const stream = await exec.exec(
-      namespace,
-      podName,
-      'sandbox', // container name
-      command,
-      process.stdout,
-      process.stderr,
-      process.stdin,
-      true // tty
-    );
+    await streamLogs(res, podName);
+    res.end();
 
-    stream.on('data', (buffer) => {
-      const data = buffer.toString();
-      console.log('Received data:', data);
-      res.write(`data: ${JSON.stringify({ log: data })}\n\n`);
-    });
-
-    stream.on('error', (err) => {
-      console.error('Stream error:', err);
-      res.write(`data: ${JSON.stringify({ error: err.message })}\n\n`);
-    });
-
-    stream.on('close', () => {
-      console.log('Execution completed');
-      res.write(`data: ${JSON.stringify({ log: '//Execution completed' })}\n\n`);
-      res.end();
-    });
-    
-  } catch (err) {
-    console.error('Error executing code:', err);
+  } catch (error) {
+    console.error('Error:', error);
     if (!res.headersSent) {
-      res.status(500).send('Failed to execute code.');
+      res.status(500).send(`Failed to execute code: ${error.message}`);
     } else {
-      res.write(`data: ${JSON.stringify({ error: 'Failed to execute code.' })}\n\n`);
+      res.write(`data: ${JSON.stringify({ error: error.message })}\n\n`);
       res.end();
     }
-  } finally {
-    // Clean up: delete the file after execution
-    const filePath = path.join(USER_CODE_DIR, filename);
-    fs.unlink(filePath).catch(console.error);
   }
-}
+};
 
 module.exports = { runCode };

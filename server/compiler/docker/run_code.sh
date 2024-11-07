@@ -1,7 +1,17 @@
 #!/bin/bash
 
-# $1 is the path to the file containing the user's code
-CODE_FILE=$1
+# Enable error tracing
+set -e
+
+# Enable command echoing for debugging
+set -x
+
+# $1 is the language (file extension)
+# $2 is the path to the file containing the user's code
+LANGUAGE=$1
+CODE_FILE=$2
+
+echo "Starting execution of $CODE_FILE"
 
 # Check if the file exists
 if [ ! -f "$CODE_FILE" ]; then
@@ -9,14 +19,20 @@ if [ ! -f "$CODE_FILE" ]; then
   exit 1
 fi
 
-# Identify the language based on file extension and execute accordingly
-if [[ "$CODE_FILE" == *.py ]]; then
-  echo "Running Python code..."
-  python3 -u "$CODE_FILE"
-elif [[ "$CODE_FILE" == *.js ]]; then
-  echo "Running JavaScript code..."
-  node --no-buffer "$CODE_FILE"
-else
-  echo "Error: Unsupported language or file type: $CODE_FILE"
-  exit 1
-fi
+# Execute based on the provided language
+case "$LANGUAGE" in
+  py)
+    echo "Running Python code..."
+    python3 -u "$CODE_FILE"
+    ;;
+  js)
+    echo "Running JavaScript code..."
+    node "$CODE_FILE"
+    ;;
+  *)
+    echo "Error: Unsupported language: $LANGUAGE"
+    exit 1
+    ;;
+esac
+
+echo "Execution completed successfully"

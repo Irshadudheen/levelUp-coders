@@ -1,5 +1,5 @@
  const adminRoute = {
-    login:'/admin/login',
+    login:'/auth/admin/login',
     logout:'/admin/logout',
     addSubject:'/subject/subjectRouter/addSubject',
     getAllUser:'/admin/userData',

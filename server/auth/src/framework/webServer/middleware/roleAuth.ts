@@ -8,6 +8,7 @@ export const isUser = (req: Req, res: Res, next: Next) => {
         // console.log('role of req', role)
         // if (role == 'user') {
             // console.log(req.cookies,'the user logout')
+            console.log('dfskjaaf')
             isAuthenticate(req,res,next)
             // next()
         // // } else {

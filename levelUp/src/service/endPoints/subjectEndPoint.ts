@@ -1,16 +1,16 @@
 const subjectRoute ={
-    getAllSubject:'/subject/getAllSubject',
-    getLevel:'/subject/getLevel',
-    addLevel:'/subject/addLevel',
-    UploadVideo:'/subject/uploadVideo',
-    getVideo:'/subject/getVideo',
-    addQuiz:'/subject/addQuiz',
-    getQuiz:'/subject/getQuiz',
-    getAllCategory:'/subject/getAllCategory',
+    getAllSubject:'/subject/subject/getAllSubject',
+    getLevel:'/subject/subject/getLevel',
+    addLevel:'/subject/subject/addLevel',
+    UploadVideo:'/subject/subject/uploadVideo',
+    getVideo:'/subject/subject/getVideo',
+    addQuiz:'/subject/subject/addQuiz',
+    getQuiz:'/subject/subject/getQuiz',
+    getAllCategory:'subject/subject/getAllCategory',
     addCategory:'/subject/addCategory',
     getSubject:'/subject/getSubject',
     complete:'/subject/addUserToLevel',
-    updateSubject:'/subject/updateSubject',
-    actionList:'/subject/actionList'
+    updateSubject:'/subject/subject/updateSubject',
+    actionList:'/subject/subject/actionList'
 }
 export default subjectRoute

@@ -6,7 +6,7 @@ export const createUser = async ( newUser: Iuser ,
       userModels:typeof userModel) : Promise <Iuser> =>{
          try{
             
-            const user = await userModel.create(newUser)
+            const user = await userModels.create(newUser)
             await user.save()
           
             return user
