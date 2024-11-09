@@ -12,11 +12,12 @@ const InterviewHome = () => {
     const navigate =useNavigate()
     const user = useGetUserData()
     const handleCreateRoom =async ()=>{
-      const priemium = await findUserPayment(user.id)
-      if(!priemium.clientId){
-        toast.info('new offer have ')
-      return  navigate('/premium')
-      }
+      // const priemium = await findUserPayment(user.id)
+      // priemium.clientId=true
+      // if(!priemium.clientId){
+      //   toast.info('new offer have ')
+      // return  navigate('/premium')
+      // }
       const res = await createRomm()
       if(res.roomId){
         toast.success('the interview created')

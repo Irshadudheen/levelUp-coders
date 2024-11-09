@@ -1,16 +1,16 @@
 const subjectRoute ={
-    getAllSubject:'/subject/subjectRouter/getAllSubject',
-    getLevel:'/subject/subjectRouter/getLevel',
-    addLevel:'/subject/subjectRouter/addLevel',
-    UploadVideo:'/subject/subjectRouter/uploadVideo',
-    getVideo:'/subject/subjectRouter/getVideo',
-    addQuiz:'/subject/subjectRouter/addQuiz',
-    getQuiz:'/subject/subjectRouter/getQuiz',
-    getAllCategory:'/subject/subjectRouter/getAllCategory',
-    addCategory:'/subject/subjectRouter/addCategory',
-    getSubject:'/subject/subjectRouter/getSubject',
-    complete:'/subject/subjectRouter/addUserToLevel',
-    updateSubject:'/subject/subjectRouter/updateSubject',
-    actionList:'/subject/subjectRouter/actionList'
+    getAllSubject:'/subject/subject/getAllSubject',
+    getLevel:'/subject/subject/getLevel',
+    addLevel:'/subject/subject/addLevel',
+    UploadVideo:'/subject/subject/uploadVideo',
+    getVideo:'/subject/subject/getVideo',
+    addQuiz:'/subject/subject/addQuiz',
+    getQuiz:'/subject/subject/getQuiz',
+    getAllCategory:'subject/subject/getAllCategory',
+    addCategory:'/subject/addCategory',
+    getSubject:'/subject/getSubject',
+    complete:'/subject/addUserToLevel',
+    updateSubject:'/subject/subject/updateSubject',
+    actionList:'/subject/subject/actionList'
 }
 export default subjectRoute

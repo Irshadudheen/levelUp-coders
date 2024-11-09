@@ -1,0 +1,68 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: levelup-ingress
+  namespace: backend
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    nginx.ingress.kubernetes.io/websocket-services: "interview-service"
+        # CORS configuration
+    # nginx.ingress.kubernetes.io/enable-cors: "true"
+    # nginx.ingress.kubernetes.io/cors-allow-origin: "https://vite-react-nine-indol-61.vercel.app"
+    # nginx.ingress.kubernetes.io/cors-allow-methods: "GET, POST, PUT, DELETE, PATCH, OPTIONS"
+    # nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+spec:
+  tls:
+    - hosts:
+        - molla.molla.cfd
+      secretName: letsencrypt-prod
+  rules:
+    - host: molla.molla.cfd
+      http:
+        paths:
+          - path: /user
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-service  
+                port:
+                  number: 4000
+          - path: /admin
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-service  
+                port:
+                  number: 4000
+          - path: /subject
+            pathType: Prefix
+            backend:
+              service:
+                name: subject-service
+                port:
+                  number: 4002
+          - path: /payment
+            pathType: Prefix
+            backend:
+              service:
+                name: payment-service
+                port:
+                  number: 3001
+          - path: /interview
+            pathType: Prefix
+            backend:
+              service:
+                name: interview-service
+                port:
+                  number: 4005
+          - path: /socket.io/
+            pathType: Prefix
+            backend:
+              service:
+                name: interview-service
+                port:
+                  number: 4005
+  ingressClassName: nginx

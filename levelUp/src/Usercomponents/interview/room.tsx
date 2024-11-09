@@ -1,107 +1,143 @@
 import React, { useEffect, useState } from 'react';
-import PrevefrenceNav from '../workSpace/prevefrenceNav';
+import { useNavigate, useParams } from 'react-router-dom';
 import ReactCodeMirror from '@uiw/react-codemirror';
 import { javascript } from '@codemirror/lang-javascript';
 import { vscodeDark } from '@uiw/codemirror-theme-vscode';
 import { io } from 'socket.io-client';
-import { useNavigate, useParams } from 'react-router-dom';
-import { sendCode, validateRoom } from '../../Api/interview';
-import Api from '../../service/axios';
 import { toast } from 'react-toastify';
 
+import PrevefrenceNav from '../workSpace/prevefrenceNav';
+import { validateRoom } from '../../Api/interview';
 
-const socket = io('http://localhost:4005');
+// Constants
+const INITIAL_CODE = `console.log('welcome to interview')`;
+const SERVER_URL = 'http://localhost:3000';
 
-const Room = () => {
-    const { roomId } = useParams();
-    const [userCode, setUserCode] = useState(`console.log('welcome to interview')`);
-    const [outPut,setOutPut]=useState('outPut')
-    // const [language,setLanguage]=useState('py')
-    const navigate = useNavigate();
-    const runCode=async(language:string)=>{
-        console.log(userCode)
-        const res = await sendCode(userCode,language)
-        console.log(res)
-        if(res.output){
-            setOutPut(res.output)
-            socket.emit('outputUpdate', { roomId, code: res.output });
-        }else{
-            setOutPut(res.error)
-            toast.error('something went wrong')
-            socket.emit('outputUpdate', { roomId, code: res.output });
+// Socket initialization
+const socket = io('wss://molla.molla.cfd/socket.io/', {
+  transports: ['websocket'],
+  secure: true,
+});
 
-        }
-    }
-    useEffect(() => {
-        const checkRoom = async () => {
-            const checkRoom = await validateRoom(roomId as string);
-            if (!checkRoom.success) {
-                navigate('/*');
-            }
-        };
-        checkRoom();
-    }, []);
+const Room: React.FC = () => {
+  const { roomId } = useParams<{ roomId: string }>();
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        // Join the room
-        socket.emit('joinRoom', { roomId });
+  const [userCode, setUserCode] = useState<string>(INITIAL_CODE);
+  const [output, setOutput] = useState<string>('Output');
 
-        // Request the current code from the server or other users
-        socket.emit('requestCurrentCode', { roomId });
-        socket.emit('requestCurrentOutput',{roomId})
-        socket.on('outputUpdate',(newOutput)=>{
-            console.clear()
-            console.log('ahdahahahah',newOutput)
-            setOutPut(newOutput)
-        })
-        // Listen for code updates from the server or other users
-        socket.on('codeUpdate', (newCode) => {
-            setUserCode(newCode);
-        });
+  useEffect(() => {
+    const checkRoom = async () => {
+      const checkRoom = await validateRoom(roomId as string);
+      if (!checkRoom.success) {
+        navigate('/*');
+      }
+    };
+    checkRoom();
+  }, [roomId, navigate]);
 
-        return () => {
-            // Leave the room when the component unmounts
-            socket.emit('leaveRoom', { roomId });
-        };
-    }, [roomId]);
-
-    const handleCodeChange = (value: string) => {
-      
-        // Update the userCode with the processed newCode
-        setUserCode(value);
-    
-        // Broadcast the updated code to the server, which will send it to other users
-        socket.emit('codeUpdate', { roomId, code: value });
+  useEffect(() => {
+    // Socket event handlers
+    const handleCodeUpdate = (newCode: string) => setUserCode(newCode);
+    const handleOutputUpdate = (newOutput: string) => {
+      console.clear();
+      console.log('Output update:', newOutput);
+      setOutput(newOutput);
     };
 
-    return (
-        <div className='flex flex-col h-screen bg-dark-layer-1 relative '>
-           
-            <PrevefrenceNav runCode={runCode} />
-            <div className="flex">
-    <div className="w-1/2 overflow-auto">
-        <ReactCodeMirror
-            value={userCode}
-            theme={vscodeDark}
-            onChange={handleCodeChange}
-            extensions={[javascript()]}
-            style={{ fontSize: 16 }}
+    // Join room and set up listeners
+    socket.emit('joinRoom', { roomId });
+    socket.emit('requestCurrentCode', { roomId });
+    socket.emit('requestCurrentOutput', { roomId });
+
+    socket.on('codeUpdate', handleCodeUpdate);
+    socket.on('outputUpdate', handleOutputUpdate);
+
+    // Cleanup function
+    return () => {
+      socket.emit('leaveRoom', { roomId });
+      socket.off('codeUpdate', handleCodeUpdate);
+      socket.off('outputUpdate', handleOutputUpdate);
+    };
+  }, [roomId]);
+
+  const executeCode = async (filename: string, content: string) => {
+    try {
+        setOutput('')
+      const response = await fetch(`${SERVER_URL}/execute`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ filename, content }),
+      });
+
+      const reader = response.body!.getReader();
+      const decoder = new TextDecoder();
+
+      while (true) {
+        const { value, done } = await reader.read();
+        if (done) break;
+
+        const events = decoder.decode(value).split('\n\n');
+        for (const event of events) {
+          if (event.startsWith('data: ')) {
+            const data = JSON.parse(event.slice(6));
+            console.log(data.log);  // Or update your UI with this data
+            setOutput(prev => prev + (prev ? '\n' : '') + data.log);
+          }
+        }
+      }
+    } catch (error) {
+      console.error('Error executing code:', error);
+      toast.error('Something went wrong while executing the code');
+    }
+  };
+
+  const runCode = async (language: string) => {
+    executeCode('code.js', userCode);
+    socket.emit('outputUpdate', { roomId, code: output });
+  };
+
+  const handleCodeChange = (value: string) => {
+    setUserCode(value);
+    socket.emit('codeUpdate', { roomId, code: value });
+  };
+
+  return (
+    <div className='flex flex-col h-screen bg-dark-layer-1 relative'>
+      <PrevefrenceNav runCode={runCode} />
+      <div className="flex">
+        <CodeMirrorEditor
+          value={userCode}
+          onChange={handleCodeChange}
+          className="w-1/2"
         />
-    </div>
-    {/* Add a border between input and output */}
-    <div className="w-px bg-gray-600"></div> 
-    <div className="w-1/2 overflow-auto">
-        <ReactCodeMirror
-            value={outPut}
-            theme={vscodeDark}
-            onChange={(e) => setOutPut(e)}
-            extensions={[javascript()]}
-            style={{ fontSize: 16 }}
+        <div className="w-px bg-gray-600" />
+        <CodeMirrorEditor
+          value={output}
+          onChange={(e) => setOutput(e)}
+          className="w-1/2"
         />
+      </div>
     </div>
-</div>
-        </div>
-    );
+  );
 };
+
+interface CodeMirrorEditorProps {
+  value: string;
+  onChange: (value: string) => void;
+  className?: string;
+}
+
+const CodeMirrorEditor: React.FC<CodeMirrorEditorProps> = ({ value, onChange, className }) => (
+  <div className={`overflow-auto ${className}`}>
+    <ReactCodeMirror
+      value={value}
+      theme={vscodeDark}
+      onChange={onChange}
+      extensions={[javascript()]}
+      style={{ fontSize: 16 }}
+    />
+  </div>
+);
 
 export default Room;

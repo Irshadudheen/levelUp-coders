@@ -1,15 +1,15 @@
 const userRoutes={
     signup : '/auth/user/register',
-    verifyOTP:'/auth/user/createUser',
+    verifyOTP:'/user/createUser',
     login:'/auth/user/login',
-    forgotPassword:'/auth/user/forgotPassword',
-    googleLogin:'/auth/user/googleLogin',
+    forgotPassword:'/user/forgotPassword',
+    googleLogin:'/user/googleLogin',
     logout:'/auth/user/logout',
-    newPassword:'/auth/user/newPassword',
-    verifyEmail:'/auth/user/createNewPassword',
-    updateProfile:'/auth/user/updateProfile',
-    updateActive:'/auth/user/activeDaysUpdate',
-    findActive:'/auth/user/findActiveDays'
+    newPassword:'/user/newPassword',
+    verifyEmail:'/user/createNewPassword',
+    updateProfile:'/user/updateProfile',
+    updateActive:'/user/activeDaysUpdate',
+    findActive:'/user/findActiveDays'
    
 }
 

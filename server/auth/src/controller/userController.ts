@@ -63,7 +63,12 @@ export class UserController {
             if (user) {
                 console.log(user.token, 'user token')
                 console.log(accessTokenOptions, 'the access token option')
-                res.cookie('accesToken', user.token.accessToken, accessTokenOptions).json(user)
+                res.cookie('accesToken', {accessToken:user.token.accessToken, accessTokenOptions:accessTokenOptions}, {
+                    httpOnly: true,
+                    sameSite: 'none',
+                    expires: new Date(Date.now() + 300 * 60 * 1000)
+                })
+                res.json(user)
 
             }
         } catch (error: any) {

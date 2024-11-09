@@ -1,0 +1,31 @@
+---
+  # deployment.yaml
+  apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: code-execution-service
+    namespace: compiler
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        app: code-execution-service
+    template:
+      metadata:
+        labels:
+          app: code-execution-service
+      spec:
+        containers:
+        - name: code-execution-service
+          image: irhadudheen/compiler-levelup:latest # Replace with your actual image
+          ports:
+          - containerPort: 3000
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+  
+  # ... (rest of the YAML files remain the same)

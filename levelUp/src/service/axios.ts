@@ -3,7 +3,8 @@ import axios from 'axios'
 const Api = axios.create({
     baseURL:'molla.molla.cfd',
     headers:{
-        "Content-Type": 'application/json'
+        "Content-Type": 'application/json',
+        "withCredentials":true
    }
 })
 Api.interceptors.request.use(

@@ -1,0 +1,44 @@
+FROM ubuntu:20.04
+
+# Set non-interactive mode for apt-get
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Install dependencies for Python and Node.js
+RUN apt-get update && apt-get install -y \
+    python3 \
+    python3-pip \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js
+RUN curl -fsSL https://deb.nodesource.com/setup_14.x | bash - \
+    && apt-get install -y nodejs \
+    && rm -rf /var/lib/apt/lists/*
+
+# Set up Python environment
+RUN python3 -m pip install --no-cache-dir --upgrade pip
+
+# Set the working directory inside the container
+WORKDIR /app
+
+# Copy the run_code.sh script into the container
+COPY run_code.sh /app/
+
+# Ensure run_code.sh is executable
+RUN chmod +x /app/run_code.sh
+
+# Create a directory for user code
+RUN mkdir /user_code
+
+# Create a non-root user
+RUN useradd -m appuser
+RUN chown appuser:appuser /app /user_code
+
+# Switch to non-root user
+USER appuser
+
+# Set the entrypoint to the run_code.sh script
+ENTRYPOINT ["/app/run_code.sh"]
+
+# Set default command (will be overridden by Kubernetes)
+CMD ["js", "/user_code/code.js"]
