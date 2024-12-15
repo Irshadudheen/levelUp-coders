@@ -4,11 +4,11 @@ import { createProxyMiddleware } from 'http-proxy-middleware'
 const app = express()
 
 const service = {
-    auth:'http://localhost:4000',
-    subject:'http://localhost:4002',
+    auth:'https://levelup-coders.onrender.com',
+    subject:'https://levelup-coders-1.onrender.com',
     meeting:'http://localhost:4005',
     compiler:'http://localhost:3000',
-    payment:'http://localhost:3001'
+    payment:'https://levelup-payment.onrender.com'
 
 }
 app.use('/payment',createProxyMiddleware({target:service.payment,changeOrigin:true}))
