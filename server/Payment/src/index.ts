@@ -14,7 +14,7 @@ app.use(urlencoded({ extended: true }));
 const start = async () => {
   try {
     await connectDb();
-    // consumeUserData();
+    consumeUserData();
   } catch (error) {
     console.error("Error starting services:", error);
   }
