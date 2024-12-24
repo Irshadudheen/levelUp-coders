@@ -46,7 +46,7 @@ const adminRouterInstance = express.Router()
 UserRoute(userRouter)
 adminRouter(adminRouterInstance)
 
-app.use(cors({credentials:true,origin:'http://localhost:5173'}));
+app.use(cors({credentials:true,origin:'https://playlevelup.vercel.app'}));
 app.use(cookieParser())
 app.use(json())
 app.use(urlencoded({ extended: true }))
